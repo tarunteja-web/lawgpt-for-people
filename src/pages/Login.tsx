@@ -30,10 +30,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-white/10 backdrop-blur-md border-gray-700 text-white">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-white border border-gray-200 shadow-lg">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">
+          <CardTitle className="text-2xl font-bold text-black">
             {isLogin ? 'Welcome Back' : 'Join LawGPT'}
           </CardTitle>
         </CardHeader>
@@ -41,68 +41,68 @@ const Login = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div>
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name" className="text-black">Name</Label>
                 <Input
                   id="name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="bg-white/10 border-gray-600 text-white"
+                  className="bg-white border-gray-300 text-black focus:border-gray-400"
                   required
                 />
               </div>
             )}
             
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-black">Email</Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="bg-white/10 border-gray-600 text-white"
+                className="bg-white border-gray-300 text-black focus:border-gray-400"
                 required
               />
             </div>
             
             <div>
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-black">Password</Label>
               <Input
                 id="password"
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
-                className="bg-white/10 border-gray-600 text-white"
+                className="bg-white border-gray-300 text-black focus:border-gray-400"
                 required
               />
             </div>
             
-            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+            <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
               {isLogin ? 'Sign In' : 'Sign Up'}
             </Button>
           </form>
           
           <div className="text-center">
-            <p className="text-gray-400 mb-4">Or sign up with</p>
+            <p className="text-gray-500 mb-4">Or sign up with</p>
             <div className="flex justify-center space-x-4">
               <Button
                 variant="outline"
                 onClick={() => handleSocialLogin('Google')}
-                className="bg-white/10 border-gray-600 text-white hover:bg-white/20"
+                className="bg-white border-gray-300 text-black hover:bg-gray-50"
               >
                 Google
               </Button>
               <Button
                 variant="outline"
                 onClick={() => handleSocialLogin('Facebook')}
-                className="bg-white/10 border-gray-600 text-white hover:bg-white/20"
+                className="bg-white border-gray-300 text-black hover:bg-gray-50"
               >
                 Facebook
               </Button>
               <Button
                 variant="outline"
                 onClick={() => handleSocialLogin('X')}
-                className="bg-white/10 border-gray-600 text-white hover:bg-white/20"
+                className="bg-white border-gray-300 text-black hover:bg-gray-50"
               >
                 X
               </Button>
@@ -113,7 +113,7 @@ const Login = () => {
             <Button
               variant="link"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-blue-400 hover:text-blue-300"
+              className="text-gray-600 hover:text-black"
             >
               {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </Button>
