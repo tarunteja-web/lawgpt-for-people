@@ -20,49 +20,46 @@ serve(async (req) => {
 
     console.log('Received chat request:', { message, legalIssue, language });
 
-    // Check if this is the first user message (after the initial AI greeting)
-    const isFirstUserMessage = !messageHistory || messageHistory.length <= 2;
+    // Check if this is early in the conversation (first few exchanges)
+    const userMessages = messageHistory?.filter((msg: any) => msg.isUser) || [];
+    const isEarlyConversation = userMessages.length <= 3;
     
-    // Enhanced system prompt for concise legal guidance with automatic questioning
-    const systemPrompt = `You are LawGPT, a concise legal AI assistant. Give SHORT, DIRECT answers.
+    // Enhanced system prompt for intelligent follow-up questioning
+    const systemPrompt = `You are LawGPT, a skilled legal AI assistant specializing in ${legalIssue} cases. Your goal is to gather essential information through intelligent follow-up questions.
 
     Current Context:
     - Legal Issue: ${legalIssue}
     - Language: ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
-    - First user interaction: ${isFirstUserMessage}
+    - User Messages So Far: ${userMessages.length}
     
     Instructions:
-    1. Keep responses under 150 words
-    2. Get straight to the point - no lengthy introductions
-    3. Provide only essential legal information relevant to ${legalIssue}
-    4. Use bullet points for multiple items
-    5. Respond in ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
-    6. Include brief disclaimer: "Consult a qualified attorney for specific advice"
-    7. Be direct and actionable
-
-    ${isFirstUserMessage ? `
-    SPECIAL INSTRUCTION: This is the user's first message. Before answering their question, ask these essential questions to help with their ${legalIssue} case:
+    1. Keep responses under 150 words and conversational
+    2. Respond in ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
+    3. Ask ONE specific follow-up question based on what the user just shared
+    4. Show empathy and understanding
+    5. Focus on gathering key details about their ${legalIssue} situation
     
-    📋 **Let me gather some details to help you better:**
+    ${isEarlyConversation ? `
+    EARLY CONVERSATION STRATEGY:
+    - Ask specific questions based on what they've shared
+    - If they mention a problem, ask about timeline, location, or parties involved
+    - If they give basic info, dig deeper into the most important aspect
+    - If they seem unsure, help them clarify their situation
+    - Prioritize: What happened? When? Who was involved? What outcome do they want?
+    ` : `
+    ONGOING CONVERSATION STRATEGY:
+    - Build on information already gathered
+    - Ask about documentation, evidence, or steps taken
+    - Clarify any unclear points from previous responses
+    - Focus on actionable legal advice and next steps
+    `}
     
-    **Personal Information:**
-    • What is your full name?
-    • What is your age?
-    • What is your current location/city?
-    
-    **Your ${legalIssue} Case Details:**
-    • What specific incident or situation occurred?
-    • When did this happen (exact date/timeframe)?
-    • Who are the other parties involved?
-    • What documents do you have related to this matter?
-    • Have you taken any legal action yet?
-    • What outcome are you seeking?
-    • What is your budget for legal assistance?
-    
-    After asking these questions, provide a brief answer to their current question.
-    ` : ''}
-    
-    Focus: Main legal points, key steps, and essential requirements only.`;
+    IMPORTANT: 
+    - Always ask exactly ONE follow-up question
+    - Make questions specific to their situation
+    - Don't repeat questions already asked
+    - Be helpful and provide brief relevant advice before asking
+    - Include disclaimer: "For specific legal advice, consult a qualified attorney"`;
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -76,10 +73,15 @@ serve(async (req) => {
         model: 'anthropic/claude-3.5-sonnet',
         messages: [
           { role: 'system', content: systemPrompt },
+          // Include recent conversation history for context
+          ...messageHistory.slice(-6).map((msg: any) => ({
+            role: msg.isUser ? 'user' : 'assistant',
+            content: msg.text
+          })),
           { role: 'user', content: message }
         ],
-        temperature: 0.5,
-        max_tokens: 300, // Increased for questions + brief answer
+        temperature: 0.7,
+        max_tokens: 250,
       }),
     });
 
@@ -106,7 +108,7 @@ serve(async (req) => {
     console.error('Error in chat-ai function:', error);
     
     // Provide a helpful fallback response
-    const fallbackResponse = `Technical issue. For ${legalIssue}, consult a qualified attorney. Try again shortly.`;
+    const fallbackResponse = `I understand you need help with ${legalIssue}. Could you tell me more about your specific situation? For instance, what exactly happened and when did it occur? For specific legal advice, consult a qualified attorney.`;
     
     return new Response(JSON.stringify({ 
       response: fallbackResponse,
