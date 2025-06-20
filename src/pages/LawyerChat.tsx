@@ -106,6 +106,11 @@ const LawyerChat = () => {
   const handleLawyerActionClick = (action: string) => {
     if (action === 'call') {
       setShowCallOptions(true);
+    } else if (action === 'videocall') {
+      // Handle video call action - could navigate to video call page or show video call options
+      console.log('Starting video call...');
+      // For now, just log - you could navigate to a video call page or show a video call modal
+      alert('Starting video call with ' + lawyer.name);
     } else {
       handleActionClick(action);
     }

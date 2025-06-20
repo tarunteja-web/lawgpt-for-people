@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Shield, ShieldOff, FileText, Phone, CheckCircle, BookOpen } from 'lucide-react';
+import { Shield, ShieldOff, FileText, Phone, Video, BookOpen } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ActionButtonsProps {
@@ -12,7 +12,7 @@ interface ActionButtonsProps {
     exitAnonymous: string;
     document: string;
     call: string;
-    allSet: string;
+    videoCall: string;
     caseStudy: string;
   };
   onToggleAnonymous: () => void;
@@ -39,7 +39,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     { key: 'document', icon: FileText, text: translations.document, onClick: () => onActionClick('document'), variant: 'outline' as const },
     { key: 'casestudy', icon: BookOpen, text: translations.caseStudy, onClick: () => onActionClick('casestudy'), variant: 'outline' as const },
     { key: 'call', icon: Phone, text: translations.call, onClick: () => onActionClick('call'), variant: 'outline' as const },
-    { key: 'allset', icon: CheckCircle, text: translations.allSet, onClick: () => onActionClick('allset'), variant: 'outline' as const }
+    { key: 'videocall', icon: Video, text: translations.videoCall || 'Video Call', onClick: () => onActionClick('videocall'), variant: 'outline' as const }
   ];
 
   return (
