@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Message } from '@/types/chat';
@@ -111,19 +112,33 @@ const LawyerChat = () => {
   };
 
   return (
-    <div className={`min-h-screen flex ${
+    <div className={`min-h-screen w-full flex ${
       isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
     }`}>
-      {/* Sidebar */}
-      <LawyerSidebar
-        lawyer={lawyer}
-        isSidebarOpen={isSidebarOpen}
-        isDarkMode={isDarkMode}
-        onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-      />
+      {/* Sidebar - positioned absolutely to not affect main layout */}
+      <div className={`fixed top-0 left-0 h-full z-30 transition-transform duration-300 ${
+        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <LawyerSidebar
+          lawyer={lawyer}
+          isSidebarOpen={isSidebarOpen}
+          isDarkMode={isDarkMode}
+          onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+        />
+      </div>
 
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      {/* Overlay for mobile when sidebar is open */}
+      {isMobile && isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-20"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main Chat Area - always takes full width */}
+      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
+        !isMobile && isSidebarOpen ? 'ml-80' : 'ml-0'
+      }`}>
         {/* Header */}
         <LawyerChatHeader
           lawyer={lawyer}
@@ -135,14 +150,16 @@ const LawyerChat = () => {
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
         />
 
-        {/* Messages */}
-        <MessageList
-          messages={messages}
-          isDarkMode={isDarkMode}
-          isLoading={isLoading}
-        />
+        {/* Messages - flex-1 to take available space */}
+        <div className="flex-1">
+          <MessageList
+            messages={messages}
+            isDarkMode={isDarkMode}
+            isLoading={isLoading}
+          />
+        </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons - fixed position */}
         <ActionButtons
           isAnonymous={isAnonymous}
           isDarkMode={isDarkMode}
@@ -151,7 +168,7 @@ const LawyerChat = () => {
           onActionClick={handleLawyerActionClick}
         />
 
-        {/* Input Area */}
+        {/* Input Area - fixed at bottom */}
         <ChatInput
           inputText={inputText}
           isListening={isListening}
