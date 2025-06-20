@@ -1,10 +1,11 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CreditCard, Smartphone, CheckCircle, Shield, Clock, Award } from 'lucide-react';
+import { CreditCard, Smartphone, CheckCircle } from 'lucide-react';
 
 interface PaymentMethodsProps {
   onPaymentSuccess: () => void;
@@ -107,72 +108,6 @@ const PaymentMethods = ({ onPaymentSuccess }: PaymentMethodsProps) => {
               )}
             </div>
           </button>
-        </CardContent>
-      </Card>
-
-      {/* Payment Information Section */}
-      <div className="grid md:grid-cols-3 gap-4">
-        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              <Shield className="w-4 h-4 text-green-600" />
-            </div>
-            <h3 className="font-semibold text-green-800">100% Secure</h3>
-          </div>
-          <p className="text-sm text-green-700">
-            Your payment is protected with bank-level security and encryption.
-          </p>
-        </div>
-
-        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              <Clock className="w-4 h-4 text-blue-600" />
-            </div>
-            <h3 className="font-semibold text-blue-800">Instant Booking</h3>
-          </div>
-          <p className="text-sm text-blue-700">
-            Your consultation will be confirmed immediately after payment.
-          </p>
-        </div>
-
-        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-              <Award className="w-4 h-4 text-purple-600" />
-            </div>
-            <h3 className="font-semibold text-purple-800">Quality Assured</h3>
-          </div>
-          <p className="text-sm text-purple-700">
-            All our lawyers are verified professionals with proven expertise.
-          </p>
-        </div>
-      </div>
-
-      {/* Payment Process Information */}
-      <Card className="bg-gray-50 border border-gray-200">
-        <CardContent className="p-4">
-          <h3 className="font-semibold text-gray-900 mb-3">What happens after payment?</h3>
-          <div className="space-y-2">
-            <div className="flex items-center gap-3 text-sm text-gray-700">
-              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs font-semibold text-blue-600">
-                1
-              </div>
-              <span>Instant payment confirmation and receipt via email</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-gray-700">
-              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs font-semibold text-blue-600">
-                2
-              </div>
-              <span>Lawyer contact details and consultation link shared</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-gray-700">
-              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs font-semibold text-blue-600">
-                3
-              </div>
-              <span>Direct access to chat with your chosen lawyer</span>
-            </div>
-          </div>
         </CardContent>
       </Card>
 
