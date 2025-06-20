@@ -61,12 +61,12 @@ const Marketplace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
       <div className="container mx-auto px-4 py-6">
         <MarketplaceHeader selectedLegalIssue={selectedLegalIssue} />
 
         {/* Results Header */}
-        <Card className="mb-6">
+        <Card className="mb-6 bg-gradient-to-r from-white to-gray-50 border border-gray-200 shadow-lg">
           <CardContent className="p-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ const Marketplace = () => {
                 <SortAsc size={16} className="text-gray-600" />
                 <span className="text-sm text-gray-600">Sort by:</span>
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-40">
+                  <SelectTrigger className="w-40 bg-gradient-to-r from-gray-50 to-white border-gray-300">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -97,7 +97,7 @@ const Marketplace = () => {
 
         {/* No lawyers found message */}
         {sortedLawyers.length === 0 && (
-          <Card className="mb-6">
+          <Card className="mb-6 bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300">
             <CardContent className="p-8 text-center">
               <Search size={48} className="text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
