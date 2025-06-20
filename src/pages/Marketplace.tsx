@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -43,7 +42,7 @@ const Marketplace = () => {
       specialization: 'Property Law',
       experience: '12 years',
       initials: 'PS',
-      profileImage: 'https://images.unsplash.com/photo-1594736797933-d0a9ba4b2b13?w=150&h=150&fit=crop&crop=face'
+      profileImage: 'https://images.unsplash.com/photo-1594736022-d5d88e9218df?w=150&h=150&fit=crop&crop=face'
     },
     {
       id: '3',
@@ -145,7 +144,7 @@ const Marketplace = () => {
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-center">
                     <p className="text-sm text-gray-600 mb-1">Consultation Fee</p>
-                    <p className="text-3xl font-bold text-green-600">₹{lawyer.fee}</p>
+                    <p className="text-3xl font-bold text-black">₹{lawyer.fee}</p>
                     <p className="text-xs text-gray-500">per session</p>
                   </div>
                 </div>
