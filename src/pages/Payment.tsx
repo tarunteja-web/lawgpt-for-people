@@ -37,9 +37,9 @@ const Payment = () => {
           </div>
 
           {/* Payment Layout */}
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-2 gap-8">
             {/* Payment Methods - Left Side */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               <PaymentMethods onPaymentSuccess={handlePaymentSuccess} />
             </div>
 
