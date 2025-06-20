@@ -68,6 +68,166 @@ export type Database = {
         }
         Relationships: []
       }
+      consultation_documents: {
+        Row: {
+          consultation_id: string
+          created_at: string
+          file_name: string
+          file_size: number | null
+          file_type: string | null
+          id: string
+          is_confidential: boolean
+          storage_path: string
+          uploaded_by: string
+        }
+        Insert: {
+          consultation_id: string
+          created_at?: string
+          file_name: string
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          is_confidential?: boolean
+          storage_path: string
+          uploaded_by: string
+        }
+        Update: {
+          consultation_id?: string
+          created_at?: string
+          file_name?: string
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          is_confidential?: boolean
+          storage_path?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_documents_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "legal_consultations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consultation_messages: {
+        Row: {
+          consultation_id: string
+          content: string
+          created_at: string
+          id: string
+          is_read: boolean
+          message_type: string
+          sender_id: string
+        }
+        Insert: {
+          consultation_id: string
+          content: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message_type?: string
+          sender_id: string
+        }
+        Update: {
+          consultation_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message_type?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_messages_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "legal_consultations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lawyer_status: {
+        Row: {
+          current_clients: number
+          hourly_rate: number | null
+          id: string
+          is_available: boolean
+          is_online: boolean
+          last_seen: string
+          lawyer_id: string
+          max_clients: number
+          specializations: string[]
+          updated_at: string
+        }
+        Insert: {
+          current_clients?: number
+          hourly_rate?: number | null
+          id?: string
+          is_available?: boolean
+          is_online?: boolean
+          last_seen?: string
+          lawyer_id: string
+          max_clients?: number
+          specializations?: string[]
+          updated_at?: string
+        }
+        Update: {
+          current_clients?: number
+          hourly_rate?: number | null
+          id?: string
+          is_available?: boolean
+          is_online?: boolean
+          last_seen?: string
+          lawyer_id?: string
+          max_clients?: number
+          specializations?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      legal_consultations: {
+        Row: {
+          client_id: string
+          created_at: string
+          description: string | null
+          id: string
+          lawyer_id: string | null
+          legal_area: string
+          priority: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          lawyer_id?: string | null
+          legal_area: string
+          priority?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          lawyer_id?: string | null
+          legal_area?: string
+          priority?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -88,6 +248,47 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      user_notifications: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: string
+          is_read: boolean
+          related_consultation_id: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          related_consultation_id?: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          related_consultation_id?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_notifications_related_consultation_id_fkey"
+            columns: ["related_consultation_id"]
+            isOneToOne: false
+            referencedRelation: "legal_consultations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
