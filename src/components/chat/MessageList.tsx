@@ -11,9 +11,10 @@ interface Message {
 
 interface MessageListProps {
   messages: Message[];
+  isDarkMode: boolean;
 }
 
-const MessageList: React.FC<MessageListProps> = ({ messages }) => {
+const MessageList: React.FC<MessageListProps> = ({ messages, isDarkMode }) => {
   const isMobile = useIsMobile();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -29,12 +30,18 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
           className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'}`}
         >
           {!message.isUser && (
-            <div className={`bg-gray-100 rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'}`}>
-              <p className="text-sm text-gray-700 leading-relaxed">{message.text}</p>
+            <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
+              isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
+            }`}>
+              <p className={`text-sm leading-relaxed ${
+                isDarkMode ? 'text-gray-200' : 'text-gray-700'
+              }`}>{message.text}</p>
             </div>
           )}
           {message.isUser && (
-            <div className={`bg-black rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'}`}>
+            <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
+              isDarkMode ? 'bg-blue-600' : 'bg-black'
+            }`}>
               <p className="text-sm text-white leading-relaxed">{message.text}</p>
             </div>
           )}

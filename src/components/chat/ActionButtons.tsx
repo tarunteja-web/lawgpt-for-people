@@ -6,6 +6,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ActionButtonsProps {
   isAnonymous: boolean;
+  isDarkMode: boolean;
   translations: {
     anonymous: string;
     exitAnonymous: string;
@@ -19,6 +20,7 @@ interface ActionButtonsProps {
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   isAnonymous,
+  isDarkMode,
   translations,
   onToggleAnonymous,
   onActionClick
@@ -45,9 +47,11 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           key={button.key}
           variant={button.variant}
           onClick={button.onClick}
-          className={`flex items-center gap-2 rounded-full border border-gray-300 bg-white text-black hover:bg-gray-50 ${
-            isMobile ? 'px-3 py-2 text-xs' : 'px-6 py-2 text-sm'
-          }`}
+          className={`flex items-center gap-2 rounded-full border ${
+            isDarkMode 
+              ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700' 
+              : 'border-gray-300 bg-white text-black hover:bg-gray-50'
+          } ${isMobile ? 'px-3 py-2 text-xs' : 'px-6 py-2 text-sm'}`}
         >
           <button.icon className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
           <span className={isMobile ? 'text-xs' : 'text-sm'}>{button.text}</span>

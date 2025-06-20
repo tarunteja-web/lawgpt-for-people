@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChatHeader from '@/components/chat/ChatHeader';
@@ -151,7 +150,9 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col">
+    <div className={`min-h-screen flex flex-col ${
+      isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
+    }`}>
       <ChatHeader
         isAnonymous={isAnonymous}
         language={language}
@@ -160,10 +161,11 @@ const Chat = () => {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
 
-      <MessageList messages={messages} />
+      <MessageList messages={messages} isDarkMode={isDarkMode} />
 
       <ActionButtons
         isAnonymous={isAnonymous}
+        isDarkMode={isDarkMode}
         translations={t}
         onToggleAnonymous={toggleAnonymous}
         onActionClick={handleActionClick}
@@ -172,6 +174,7 @@ const Chat = () => {
       <ChatInput
         inputText={inputText}
         isListening={isListening}
+        isDarkMode={isDarkMode}
         translations={t}
         onInputChange={setInputText}
         onSendMessage={handleSendMessage}
