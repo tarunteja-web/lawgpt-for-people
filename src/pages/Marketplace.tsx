@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -23,6 +23,20 @@ const Marketplace = () => {
   const navigate = useNavigate();
   const [selectedSpecialization, setSelectedSpecialization] = useState<string>('All');
   
+  // Get selected legal issue from localStorage and map to specialization
+  const selectedLegalIssue = localStorage.getItem('selectedLegalIssue') || '';
+  
+  const legalIssueToSpecialization: { [key: string]: string } = {
+    'Divorce': 'Family Law',
+    'Property Disputes': 'Property Law',
+    'Criminal Defense': 'Criminal Law',
+    'Business Law': 'Corporate Law',
+    'Employment Issues': 'Employment Law',
+    'Personal Injury': 'Personal Injury Law',
+    'Family Law': 'Family Law',
+    'Contract Disputes': 'Civil Law'
+  };
+
   const lawyers: Lawyer[] = [
     {
       id: '1',
@@ -89,8 +103,38 @@ const Marketplace = () => {
       experience: '8 years',
       initials: 'MP',
       profileImage: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face'
+    },
+    {
+      id: '7',
+      name: 'Adv. Kumar Singh',
+      rating: 4.7,
+      fee: 379,
+      language: 'Telugu',
+      specialization: 'Employment Law',
+      experience: '14 years',
+      initials: 'KS',
+      profileImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
+    },
+    {
+      id: '8',
+      name: 'Adv. Sunita Rao',
+      rating: 4.6,
+      fee: 359,
+      language: 'Telugu',
+      specialization: 'Personal Injury Law',
+      experience: '11 years',
+      initials: 'SR',
+      profileImage: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&h=150&fit=crop&crop=face'
     }
   ];
+
+  // Set initial filter based on selected legal issue
+  useEffect(() => {
+    const matchingSpecialization = legalIssueToSpecialization[selectedLegalIssue];
+    if (matchingSpecialization) {
+      setSelectedSpecialization(matchingSpecialization);
+    }
+  }, [selectedLegalIssue]);
 
   const specializations = ['All', ...Array.from(new Set(lawyers.map(lawyer => lawyer.specialization)))];
 
@@ -124,10 +168,13 @@ const Marketplace = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-black mb-4">
-            Connect with Expert Lawyers
+            {selectedLegalIssue ? `${selectedLegalIssue} Lawyers` : 'Connect with Expert Lawyers'}
           </h1>
           <p className="text-lg text-gray-600">
-            Choose from our verified Telugu-speaking legal experts
+            {selectedLegalIssue 
+              ? `Specialized ${selectedLegalIssue.toLowerCase()} experts in Telugu`
+              : 'Choose from our verified Telugu-speaking legal experts'
+            }
           </p>
         </div>
 
