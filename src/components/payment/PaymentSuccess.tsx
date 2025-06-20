@@ -1,30 +1,25 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, MessageSquare, Calendar, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-
 interface PaymentSuccessProps {
   lawyer: {
     fee: string;
     name?: string;
   };
 }
-
-const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
+const PaymentSuccess = ({
+  lawyer
+}: PaymentSuccessProps) => {
   const navigate = useNavigate();
-
   const proceedToLawyerChat = () => {
     navigate('/lawyer-chat');
   };
-
   const goToMarketplace = () => {
     navigate('/marketplace');
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4">
+  return <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl bg-white border border-gray-200 shadow-xl">
         <CardContent className="p-8 space-y-8">
           {/* Success Header with gradient background */}
@@ -53,7 +48,7 @@ const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
             </h2>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center shadow-sm">
+                <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center shadow-sm bg-zinc-950">
                   <MessageSquare className="h-4 w-4 text-blue-600" />
                 </div>
                 <div>
@@ -86,21 +81,12 @@ const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
 
           {/* Action Buttons with gradients */}
           <div className="space-y-3">
-            <Button 
-              onClick={proceedToLawyerChat}
-              className="w-full bg-gradient-to-r from-black to-gray-800 hover:from-gray-800 hover:to-black text-white py-3 text-lg font-medium shadow-lg transition-all duration-300 transform hover:scale-105"
-              size="lg"
-            >
+            <Button onClick={proceedToLawyerChat} className="w-full bg-gradient-to-r from-black to-gray-800 hover:from-gray-800 hover:to-black text-white py-3 text-lg font-medium shadow-lg transition-all duration-300 transform hover:scale-105" size="lg">
               <MessageSquare className="h-5 w-5 mr-2" />
               Start Consultation Now
             </Button>
             
-            <Button 
-              onClick={goToMarketplace}
-              variant="outline"
-              className="w-full py-3 text-gray-700 border-2 border-gray-300 hover:bg-gradient-to-r hover:from-gray-50 hover:to-white shadow-sm transition-all duration-300"
-              size="lg"
-            >
+            <Button onClick={goToMarketplace} variant="outline" className="w-full py-3 text-gray-700 border-2 border-gray-300 hover:bg-gradient-to-r hover:from-gray-50 hover:to-white shadow-sm transition-all duration-300" size="lg">
               Back to Marketplace
             </Button>
           </div>
@@ -112,8 +98,6 @@ const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default PaymentSuccess;
