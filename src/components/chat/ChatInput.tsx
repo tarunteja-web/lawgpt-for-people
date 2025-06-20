@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Upload } from 'lucide-react';
+import { Mic, MicOff, Send } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ChatInputProps {
@@ -28,35 +28,47 @@ const ChatInput: React.FC<ChatInputProps> = ({
   const isMobile = useIsMobile();
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
+    if (e.key === 'Enter') {
       onSendMessage();
     }
   };
 
   return (
-    <div className="bg-gray-900 border-t border-gray-800 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-end space-x-4">
-          <div className="flex-1 relative">
-            <Input
-              value={inputText}
-              onChange={(e) => onInputChange(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Message LawGPT..."
-              className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 rounded-lg px-4 py-3 pr-12 min-h-[48px] resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              style={{ outline: 'none', boxShadow: 'none' }}
-            />
-            <Button
-              variant="ghost"
-              size="sm"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white p-2"
-            >
-              <Upload className="h-4 w-4" />
-            </Button>
+    <div className={`bg-white border-t border-gray-200 max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'}`}>
+      <div className={`flex items-center bg-gray-50 rounded-full ${isMobile ? 'px-3 py-2 space-x-2' : 'px-4 py-3 space-x-3'}`}>
+        <Input
+          value={inputText}
+          onChange={(e) => onInputChange(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder={translations.typeMessage}
+          className="flex-1 border-0 bg-transparent focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-black placeholder-gray-500"
+        />
+        
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onToggleListening}
+          className={`${isListening ? 'text-red-500' : 'text-gray-500'} hover:bg-transparent`}
+        >
+          {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+        </Button>
+        
+        <Button 
+          onClick={onSendMessage} 
+          size="sm"
+          className={`bg-black text-white rounded-full hover:bg-gray-800 ${isMobile ? 'p-1.5' : 'p-2'}`}
+        >
+          <Send className="h-4 w-4" />
+        </Button>
+      </div>
+      
+      {isListening && (
+        <div className="mt-2 text-center">
+          <div className="animate-pulse text-red-500 font-medium">
+            🎙 {translations.listening}
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

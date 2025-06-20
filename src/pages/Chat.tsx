@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChatHeader from '@/components/chat/ChatHeader';
@@ -68,7 +69,7 @@ const Chat = () => {
   const t = translations[language as keyof typeof translations];
 
   useEffect(() => {
-    const greeting = `Hey Tarun! 🚀\n\nReady to innovate something wild today? Let's shake up the status quo.`;
+    const greeting = `Hello! I'm here to help you with your ${selectedIssue} case. I'll need to ask you a few questions to better understand your situation.`;
     
     const initialMessage: Message = {
       id: '1',
@@ -146,14 +147,11 @@ const Chat = () => {
       case 'allset':
         navigate('/marketplace');
         break;
-      default:
-        console.log(`Action clicked: ${action}`);
-        break;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+    <div className="min-h-screen bg-white text-black flex flex-col">
       <ChatHeader
         isAnonymous={isAnonymous}
         language={language}
