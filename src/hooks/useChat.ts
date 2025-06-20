@@ -121,7 +121,7 @@ export const useChat = () => {
         navigate('/case-study');
         break;
       case 'call':
-        console.log('Initiating call...');
+        navigate('/call');
         break;
       case 'allset':
         navigate('/marketplace');

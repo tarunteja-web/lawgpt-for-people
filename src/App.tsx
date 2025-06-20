@@ -8,6 +8,7 @@ import Launch from "./pages/Launch";
 import Login from "./pages/Login";
 import Welcome from "./pages/Welcome";
 import Chat from "./pages/Chat";
+import Call from "./pages/Call";
 import Marketplace from "./pages/Marketplace";
 import Payment from "./pages/Payment";
 import LawyerChat from "./pages/LawyerChat";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/call" element={<Call />} />
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/lawyer-chat" element={<LawyerChat />} />
