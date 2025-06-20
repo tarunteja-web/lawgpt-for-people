@@ -33,7 +33,7 @@ const PaymentSuccess = ({
             <p className="text-lg text-gray-600 mb-4">
               Your consultation has been confirmed and paid for
             </p>
-            <div className="inline-flex items-center bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg px-4 py-2 shadow-sm">
+            <div className="inline-flex items-center bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg px-4 py-2 shadow-sm bg-zinc-50">
               <span className="text-sm text-blue-700">Amount Paid: </span>
               <span className="text-lg font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent ml-1">
                 ₹{lawyer.fee}
