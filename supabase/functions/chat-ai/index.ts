@@ -20,21 +20,16 @@ serve(async (req) => {
 
     console.log('Received chat request:', { message, legalIssue, language });
 
-    // Check if this is the first message or if user mentions case details
-    const isFirstMessage = !messageHistory || messageHistory.length <= 1;
-    const mentionsCaseDetails = message.toLowerCase().includes('case') || 
-                               message.toLowerCase().includes('issue') || 
-                               message.toLowerCase().includes('problem') ||
-                               message.toLowerCase().includes('legal matter');
-
-    // Enhanced system prompt for concise legal guidance with detailed questioning
+    // Check if this is the first user message (after the initial AI greeting)
+    const isFirstUserMessage = !messageHistory || messageHistory.length <= 2;
+    
+    // Enhanced system prompt for concise legal guidance with automatic questioning
     const systemPrompt = `You are LawGPT, a concise legal AI assistant. Give SHORT, DIRECT answers.
 
     Current Context:
     - Legal Issue: ${legalIssue}
     - Language: ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
-    - First interaction: ${isFirstMessage}
-    - User mentions case: ${mentionsCaseDetails}
+    - First user interaction: ${isFirstUserMessage}
     
     Instructions:
     1. Keep responses under 150 words
@@ -45,24 +40,27 @@ serve(async (req) => {
     6. Include brief disclaimer: "Consult a qualified attorney for specific advice"
     7. Be direct and actionable
 
-    ${(isFirstMessage || mentionsCaseDetails) ? `
-    SPECIAL INSTRUCTION: Since user is discussing their ${legalIssue} case, ask these essential questions ONCE:
+    ${isFirstUserMessage ? `
+    SPECIAL INSTRUCTION: This is the user's first message. Before answering their question, ask these essential questions to help with their ${legalIssue} case:
     
-    Personal Details:
-    - What is your full name?
-    - What is your age?
-    - What is your current location/city?
+    📋 **Let me gather some details to help you better:**
     
-    Case Details for ${legalIssue}:
-    - What specific incident/situation occurred?
-    - When did this happen (exact date/timeframe)?
-    - Who are the other parties involved?
-    - What documents do you have related to this?
-    - Have you taken any legal action yet?
-    - What outcome are you seeking?
-    - What is your budget for legal assistance?
+    **Personal Information:**
+    • What is your full name?
+    • What is your age?
+    • What is your current location/city?
     
-    Ask these questions in a friendly, organized manner with bullet points.` : ''}
+    **Your ${legalIssue} Case Details:**
+    • What specific incident or situation occurred?
+    • When did this happen (exact date/timeframe)?
+    • Who are the other parties involved?
+    • What documents do you have related to this matter?
+    • Have you taken any legal action yet?
+    • What outcome are you seeking?
+    • What is your budget for legal assistance?
+    
+    After asking these questions, provide a brief answer to their current question.
+    ` : ''}
     
     Focus: Main legal points, key steps, and essential requirements only.`;
 
@@ -81,7 +79,7 @@ serve(async (req) => {
           { role: 'user', content: message }
         ],
         temperature: 0.5,
-        max_tokens: 250, // Increased slightly for detailed questions
+        max_tokens: 300, // Increased for questions + brief answer
       }),
     });
 
