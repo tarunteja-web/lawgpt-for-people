@@ -8,6 +8,8 @@ import AdvancedFilters from '@/components/marketplace/AdvancedFilters';
 import LawyerCard from '@/components/marketplace/LawyerCard';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
+import { Users, SortAsc, Search } from 'lucide-react';
 
 const Marketplace = () => {
   const navigate = useNavigate();
@@ -95,8 +97,8 @@ const Marketplace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-6">
         <MarketplaceHeader selectedLegalIssue={selectedLegalIssue} />
         
         <SpecializationFilter
@@ -115,44 +117,63 @@ const Marketplace = () => {
           onClearFilters={handleClearFilters}
         />
 
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-gray-600">
-            Showing {sortedLawyers.length} lawyer{sortedLawyers.length !== 1 ? 's' : ''}
-          </p>
-          
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600">Sort by:</span>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="rating">Rating</SelectItem>
-                <SelectItem value="experience">Experience</SelectItem>
-                <SelectItem value="fee_low">Fee (Low to High)</SelectItem>
-                <SelectItem value="fee_high">Fee (High to Low)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+        {/* Results Header */}
+        <Card className="mb-6">
+          <CardContent className="p-4">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <Users size={16} className="text-gray-600" />
+                <span className="text-sm text-gray-600">
+                  Showing <span className="font-semibold text-black">{sortedLawyers.length}</span> lawyer{sortedLawyers.length !== 1 ? 's' : ''}
+                  {selectedSpecialization !== 'All' && (
+                    <span> for <span className="font-semibold">{selectedSpecialization}</span></span>
+                  )}
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <SortAsc size={16} className="text-gray-600" />
+                <span className="text-sm text-gray-600">Sort by:</span>
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-40">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rating">Highest Rated</SelectItem>
+                    <SelectItem value="experience">Most Experienced</SelectItem>
+                    <SelectItem value="fee_low">Fee: Low to High</SelectItem>
+                    <SelectItem value="fee_high">Fee: High to Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sortedLawyers.map((lawyer) => (
-            <LawyerCard
-              key={lawyer.id}
-              lawyer={lawyer}
-              onBookNow={handleBookNow}
-            />
-          ))}
-        </div>
-
-        {sortedLawyers.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg mb-4">No lawyers found matching your criteria</p>
-            <Button onClick={handleClearFilters} variant="outline">
-              Clear all filters
-            </Button>
+        {/* Lawyers Grid */}
+        {sortedLawyers.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedLawyers.map((lawyer) => (
+              <LawyerCard
+                key={lawyer.id}
+                lawyer={lawyer}
+                onBookNow={handleBookNow}
+              />
+            ))}
           </div>
+        ) : (
+          <Card>
+            <CardContent className="p-8 text-center">
+              <Search size={48} className="mx-auto text-gray-400 mb-4" />
+              <h3 className="text-lg font-semibold text-black mb-2">No lawyers found</h3>
+              <p className="text-gray-600 mb-4">
+                No lawyers match your current search criteria. Try adjusting your filters.
+              </p>
+              <Button onClick={handleClearFilters} variant="outline">
+                Clear all filters
+              </Button>
+            </CardContent>
+          </Card>
         )}
       </div>
     </div>

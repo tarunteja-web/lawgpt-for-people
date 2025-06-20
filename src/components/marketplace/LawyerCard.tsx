@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star, Bell, MapPin, GraduationCap, Scale } from 'lucide-react';
+import { Star, MapPin, GraduationCap, Scale, Phone, Clock, Award } from 'lucide-react';
 import type { Lawyer } from '@/data/lawyers';
 
 interface LawyerCardProps {
@@ -15,16 +15,16 @@ interface LawyerCardProps {
 const LawyerCard = ({ lawyer, onBookNow }: LawyerCardProps) => {
   const renderStars = (rating: number) => {
     return (
-      <div className="flex items-center">
+      <div className="flex items-center gap-1">
         {[...Array(5)].map((_, i) => (
           <Star
             key={i}
-            className={`h-4 w-4 ${
+            className={`h-3 w-3 ${
               i < Math.floor(rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'
             }`}
           />
         ))}
-        <span className="ml-1 text-sm text-gray-600">{rating}</span>
+        <span className="ml-1 text-xs font-medium text-gray-700">{rating}</span>
       </div>
     );
   };
@@ -45,9 +45,9 @@ const LawyerCard = ({ lawyer, onBookNow }: LawyerCardProps) => {
   const getAvailabilityText = (availability: string) => {
     switch (availability) {
       case 'available':
-        return 'Available';
+        return 'Available Now';
       case 'busy':
-        return 'Busy';
+        return 'In Session';
       case 'offline':
         return 'Offline';
       default:
@@ -56,84 +56,118 @@ const LawyerCard = ({ lawyer, onBookNow }: LawyerCardProps) => {
   };
 
   return (
-    <Card className="bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-      <CardHeader className="text-center">
-        <div className="flex flex-col items-center mb-4">
-          <div className="relative">
-            <Avatar className="h-20 w-20 mb-3">
-              <AvatarImage src={lawyer.profileImage} alt={lawyer.name} />
-              <AvatarFallback className="bg-gray-600 text-white text-lg">
-                {lawyer.initials}
-              </AvatarFallback>
-            </Avatar>
-            <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full ${getAvailabilityColor(lawyer.availability)} border-2 border-white`}></div>
-          </div>
-          <div className="text-center">
-            <CardTitle className="text-lg text-black mb-1">{lawyer.name}</CardTitle>
-            {renderStars(lawyer.rating)}
-          </div>
-        </div>
-        <div className="flex flex-wrap justify-center gap-2">
-          <Badge variant="secondary" className="bg-gray-100 text-gray-800 text-xs">
-            {getAvailabilityText(lawyer.availability)}
-          </Badge>
-          <Badge variant="outline" className="text-xs">
-            {lawyer.language}
-          </Badge>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="flex items-center space-x-2">
-          <MapPin className="h-4 w-4 text-gray-500" />
-          <div>
-            <p className="text-sm text-gray-600">Location</p>
-            <p className="font-medium text-black text-sm">{lawyer.location}</p>
+    <Card className="bg-white border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+      <CardContent className="p-0">
+        {/* Header Section */}
+        <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 border-b">
+          <div className="flex items-start gap-3">
+            <div className="relative">
+              <Avatar className="h-14 w-14">
+                <AvatarImage src={lawyer.profileImage} alt={lawyer.name} />
+                <AvatarFallback className="bg-gray-600 text-white text-sm font-semibold">
+                  {lawyer.initials}
+                </AvatarFallback>
+              </Avatar>
+              <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full ${getAvailabilityColor(lawyer.availability)} border-2 border-white`}></div>
+            </div>
+            
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-black text-lg leading-tight truncate">{lawyer.name}</h3>
+              <div className="flex items-center gap-2 mt-1">
+                {renderStars(lawyer.rating)}
+                <Badge variant="outline" className="text-xs px-2 py-0.5">
+                  {lawyer.language}
+                </Badge>
+              </div>
+              <div className="flex items-center gap-1 mt-1">
+                <Clock size={12} className="text-gray-500" />
+                <span className="text-xs text-gray-600">{getAvailabilityText(lawyer.availability)}</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
-          <Scale className="h-4 w-4 text-gray-500" />
-          <div>
-            <p className="text-sm text-gray-600">Specialization</p>
-            <p className="font-medium text-black text-sm">{lawyer.specialization}</p>
-          </div>
-        </div>
-        
-        <div className="flex items-center space-x-2">
-          <GraduationCap className="h-4 w-4 text-gray-500" />
-          <div>
-            <p className="text-sm text-gray-600">Experience</p>
-            <p className="font-medium text-black text-sm">{lawyer.experience}</p>
-          </div>
-        </div>
+        {/* Content Section */}
+        <div className="p-4 space-y-3">
+          {/* Location & Specialization */}
+          <div className="grid grid-cols-1 gap-2">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-gray-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <p className="text-xs text-gray-500">Location</p>
+                <p className="font-medium text-black text-sm truncate">{lawyer.location}</p>
+              </div>
+            </div>
 
-        <div>
-          <p className="text-xs text-gray-600">{lawyer.qualifications}</p>
-          <p className="text-xs text-gray-500">Bar No: {lawyer.barCouncilNo}</p>
-        </div>
-        
-        <div className="bg-gray-50 p-3 rounded-lg">
-          <div className="text-center">
-            <p className="text-sm text-gray-600 mb-1">Consultation Fee</p>
-            <p className="text-2xl font-bold text-black">₹{lawyer.fee}</p>
-            <p className="text-xs text-gray-500">per session</p>
+            <div className="flex items-center gap-2">
+              <Scale className="h-4 w-4 text-gray-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <p className="text-xs text-gray-500">Specialization</p>
+                <p className="font-medium text-black text-sm truncate">{lawyer.specialization}</p>
+              </div>
+            </div>
           </div>
+
+          {/* Experience & Qualifications */}
+          <div className="bg-gray-50 rounded-lg p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <GraduationCap className="h-4 w-4 text-gray-600" />
+              <span className="text-sm font-medium text-gray-700">Experience</span>
+            </div>
+            <p className="text-sm font-semibold text-black mb-1">{lawyer.experience}</p>
+            <p className="text-xs text-gray-600 line-clamp-2">{lawyer.qualifications}</p>
+            <p className="text-xs text-gray-500 mt-1">Bar No: {lawyer.barCouncilNo}</p>
+          </div>
+
+          {/* Courts */}
+          {lawyer.courts && lawyer.courts.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Award className="h-4 w-4 text-gray-500" />
+                <span className="text-xs text-gray-500">Practice Courts</span>
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {lawyer.courts.slice(0, 2).map((court, index) => (
+                  <Badge key={index} variant="secondary" className="text-xs px-2 py-0.5 bg-gray-100">
+                    {court}
+                  </Badge>
+                ))}
+                {lawyer.courts.length > 2 && (
+                  <Badge variant="secondary" className="text-xs px-2 py-0.5 bg-gray-100">
+                    +{lawyer.courts.length - 2} more
+                  </Badge>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Fee Section */}
+          <div className="bg-black text-white rounded-lg p-3">
+            <div className="text-center">
+              <p className="text-xs text-gray-300 mb-1">Consultation Fee</p>
+              <div className="flex items-baseline justify-center gap-1">
+                <span className="text-2xl font-bold">₹{lawyer.fee}</span>
+                <span className="text-xs text-gray-300">per session</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Button */}
+          <Button
+            onClick={() => onBookNow(lawyer)}
+            disabled={lawyer.availability === 'offline'}
+            className={`w-full flex items-center justify-center gap-2 ${
+              lawyer.availability === 'offline' 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-black hover:bg-gray-800'
+            } text-white py-3`}
+          >
+            <Phone className="h-4 w-4" />
+            <span className="font-medium">
+              {lawyer.availability === 'offline' ? 'Currently Offline' : 'Book Consultation'}
+            </span>
+          </Button>
         </div>
-        
-        <Button
-          onClick={() => onBookNow(lawyer)}
-          disabled={lawyer.availability === 'offline'}
-          className={`w-full flex items-center justify-center space-x-2 ${
-            lawyer.availability === 'offline' 
-              ? 'bg-gray-400 cursor-not-allowed' 
-              : 'bg-black hover:bg-gray-800'
-          } text-white`}
-        >
-          <Bell className="h-4 w-4" />
-          <span>
-            {lawyer.availability === 'offline' ? 'Currently Offline' : 'Book Consultation'}
-          </span>
-        </Button>
       </CardContent>
     </Card>
   );

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Scale } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface MarketplaceHeaderProps {
@@ -16,26 +16,42 @@ const MarketplaceHeader = ({ selectedLegalIssue }: MarketplaceHeaderProps) => {
   };
 
   return (
-    <div className="text-center mb-8">
-      <div className="flex items-center justify-center mb-4">
+    <div className="relative mb-6 md:mb-8">
+      <div className="flex items-center justify-between mb-4">
         <Button
           variant="outline"
           onClick={handleBackToChat}
-          className="absolute left-4 flex items-center gap-2"
+          className="flex items-center gap-2 text-sm"
+          size="sm"
         >
           <ArrowLeft size={16} />
-          Back to Chat
+          <span className="hidden sm:inline">Back to Chat</span>
         </Button>
+        
+        <div className="flex items-center gap-2 text-gray-600">
+          <Scale size={20} />
+          <span className="text-sm font-medium">Expert Lawyers</span>
+        </div>
       </div>
-      <h1 className="text-4xl font-bold text-black mb-4">
-        {selectedLegalIssue ? `${selectedLegalIssue} Lawyers` : 'Connect with Expert Lawyers'}
-      </h1>
-      <p className="text-lg text-gray-600">
-        {selectedLegalIssue 
-          ? `Specialized ${selectedLegalIssue.toLowerCase()} experts in Telugu`
-          : 'Choose from our verified Telugu-speaking legal experts'
-        }
-      </p>
+      
+      <div className="text-center space-y-2">
+        <h1 className="text-2xl md:text-4xl font-bold text-black leading-tight">
+          {selectedLegalIssue ? (
+            <>
+              <span className="block md:inline">{selectedLegalIssue}</span>
+              <span className="block md:inline md:ml-2">Legal Experts</span>
+            </>
+          ) : (
+            'Connect with Expert Lawyers'
+          )}
+        </h1>
+        <p className="text-sm md:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+          {selectedLegalIssue 
+            ? `Find specialized ${selectedLegalIssue.toLowerCase()} lawyers in Andhra Pradesh & Telangana`
+            : 'Choose from our verified Telugu-speaking legal experts across AP & Telangana'
+          }
+        </p>
+      </div>
     </div>
   );
 };
