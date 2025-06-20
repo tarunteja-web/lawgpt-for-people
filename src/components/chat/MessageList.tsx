@@ -17,32 +17,26 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isDarkMode }) => {
   }, [messages]);
 
   return (
-    <div className={`flex-1 overflow-y-auto ${
-      isMobile ? 'px-3 py-2' : 'px-6 py-4'
-    } max-w-4xl mx-auto w-full`}>
+    <div className={`flex-1 overflow-y-auto max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'}`}>
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`flex ${isMobile ? 'mb-4' : 'mb-6'} ${
-            message.isUser ? 'justify-end' : 'justify-start'
-          }`}
+          className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'}`}
         >
           {!message.isUser && (
-            <div className={`rounded-2xl ${isMobile ? 'p-3' : 'p-4'} ${
-              isMobile ? 'max-w-[80%]' : 'max-w-md'
-            } ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-              <p className={`${isMobile ? 'text-xs' : 'text-sm'} leading-relaxed ${
+            <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
+              isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
+            }`}>
+              <p className={`text-sm leading-relaxed ${
                 isDarkMode ? 'text-gray-200' : 'text-gray-700'
               }`}>{message.text}</p>
             </div>
           )}
           {message.isUser && (
-            <div className={`rounded-2xl ${isMobile ? 'p-3' : 'p-4'} ${
-              isMobile ? 'max-w-[80%]' : 'max-w-md'
-            } ${isDarkMode ? 'bg-blue-600' : 'bg-black'}`}>
-              <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-white leading-relaxed`}>
-                {message.text}
-              </p>
+            <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
+              isDarkMode ? 'bg-blue-600' : 'bg-black'
+            }`}>
+              <p className="text-sm text-white leading-relaxed">{message.text}</p>
             </div>
           )}
         </div>
