@@ -2,26 +2,28 @@
 import React, { useRef, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Message } from '@/types/chat';
+import TypingIndicator from './TypingIndicator';
 
 interface MessageListProps {
   messages: Message[];
   isDarkMode: boolean;
+  isLoading?: boolean;
 }
 
-const MessageList: React.FC<MessageListProps> = ({ messages, isDarkMode }) => {
+const MessageList: React.FC<MessageListProps> = ({ messages, isDarkMode, isLoading = false }) => {
   const isMobile = useIsMobile();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isLoading]);
 
   return (
     <div className={`flex-1 overflow-y-auto max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'}`}>
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'}`}
+          className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
         >
           {!message.isUser && (
             <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
@@ -41,6 +43,9 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isDarkMode }) => {
           )}
         </div>
       ))}
+      
+      {isLoading && <TypingIndicator isDarkMode={isDarkMode} />}
+      
       <div ref={messagesEndRef} />
     </div>
   );

@@ -39,7 +39,11 @@ const Chat = () => {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
 
-      <MessageList messages={messages} isDarkMode={isDarkMode} />
+      <MessageList 
+        messages={messages} 
+        isDarkMode={isDarkMode} 
+        isLoading={isLoading}
+      />
 
       <ActionButtons
         isAnonymous={isAnonymous}
