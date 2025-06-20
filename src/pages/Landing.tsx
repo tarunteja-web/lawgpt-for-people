@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Scale, MessageCircle, Users, Shield, Globe, Moon, Sun } from 'lucide-react';
+import { ArrowRight, Scale, MessageCircle, Users, Shield, Globe, Moon, Sun, Play, Star, CheckCircle, Sparkles } from 'lucide-react';
 import { getTranslations } from '@/utils/translations';
 
 const Landing = () => {
@@ -11,7 +11,7 @@ const Landing = () => {
   const [language, setLanguage] = useState(() => {
     return localStorage.getItem('selectedLanguage') || 'en';
   });
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode for Grok style
   
   const t = getTranslations(language);
 
@@ -30,23 +30,48 @@ const Landing = () => {
     {
       icon: Scale,
       title: "Expert Legal Guidance",
-      description: "Get instant access to legal expertise powered by AI"
+      description: "Get instant access to legal expertise powered by advanced AI technology"
     },
     {
       icon: MessageCircle,
       title: "24/7 Legal Chat",
-      description: "Ask legal questions anytime, anywhere"
+      description: "Ask legal questions anytime, anywhere with immediate responses"
     },
     {
       icon: Users,
       title: "Connect with Lawyers",
-      description: "Direct access to qualified legal professionals"
+      description: "Direct access to qualified legal professionals when you need human expertise"
     },
     {
       icon: Shield,
       title: "Secure & Confidential",
-      description: "Your legal matters are protected and private"
+      description: "Your legal matters are protected with bank-level security and privacy"
     }
+  ];
+
+  const useCases = [
+    {
+      title: "Business Law",
+      description: "Contract reviews, corporate compliance, and business formation guidance",
+      gradient: "from-blue-600 to-purple-600"
+    },
+    {
+      title: "Personal Legal",
+      description: "Family law, estate planning, and personal injury consultations",
+      gradient: "from-purple-600 to-pink-600"
+    },
+    {
+      title: "Real Estate",
+      description: "Property transactions, lease agreements, and zoning issues",
+      gradient: "from-pink-600 to-red-600"
+    }
+  ];
+
+  const stats = [
+    { number: "50K+", label: "Legal Questions Answered" },
+    { number: "99.9%", label: "Accuracy Rate" },
+    { number: "24/7", label: "Availability" },
+    { number: "1000+", label: "Verified Lawyers" }
   ];
 
   const handleGetStarted = () => {
@@ -58,47 +83,33 @@ const Landing = () => {
   };
 
   const handleSampleQuestion = (question: string) => {
-    // Store the question and navigate to chat
     localStorage.setItem('pendingQuestion', question);
     navigate('/chat');
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
-      isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
-    }`}>
+    <div className="min-h-screen bg-black text-white overflow-hidden">
       {/* Header */}
-      <header className={`border-b p-4 flex items-center justify-between ${
-        isDarkMode ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-white'
-      }`}>
+      <header className="border-b border-gray-800 p-4 flex items-center justify-between relative z-10">
         <div className="flex items-center space-x-4">
-          <h1 className="text-2xl font-bold">LawGPT</h1>
-          <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            {t.legalAIAssistant}
-          </span>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+            LawGPT
+          </h1>
+          <span className="text-sm text-gray-400">Legal AI Assistant</span>
         </div>
         
         <div className="flex items-center space-x-4">
           <Button
             variant="ghost"
-            size="sm"
-            onClick={() => setIsDarkMode(!isDarkMode)}
-            className={isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}
-          >
-            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
-          
-          <Button
-            variant="outline"
             onClick={handleLogin}
-            className={isDarkMode ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700' : 'border-gray-300 bg-white text-black hover:bg-gray-50'}
+            className="text-gray-300 hover:text-white hover:bg-gray-800"
           >
-            {t.signIn}
+            Sign In
           </Button>
           
           <Button
             onClick={handleGetStarted}
-            className="bg-black text-white hover:bg-gray-800"
+            className="bg-white text-black hover:bg-gray-200 font-medium"
           >
             Get Started
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -107,26 +118,31 @@ const Landing = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="px-4 py-16 text-center max-w-6xl mx-auto">
-        <div className="max-w-4xl mx-auto mb-12">
-          <h1 className={`text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r ${
-            isDarkMode 
-              ? 'from-white to-gray-400' 
-              : 'from-black to-gray-600'
-          } bg-clip-text text-transparent`}>
-            Your AI Legal Assistant
+      <section className="relative px-4 py-20 text-center">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 to-black pointer-events-none" />
+        
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="mb-8">
+            <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 rounded-full border border-gray-700 mb-8">
+              <Sparkles className="h-4 w-4 text-blue-400 mr-2" />
+              <span className="text-sm text-gray-300">Powered by Advanced AI</span>
+            </div>
+          </div>
+
+          <h1 className="text-6xl md:text-8xl font-bold mb-8 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight">
+            Get unlimited answers from LawGPT
           </h1>
-          <p className={`text-xl md:text-2xl mb-8 ${
-            isDarkMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            Get instant legal guidance, connect with qualified lawyers, and navigate complex legal matters with confidence.
+          
+          <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Navigate complex legal matters with confidence. Get instant legal guidance, connect with qualified lawyers, and access expert advice 24/7.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <Button
               onClick={handleGetStarted}
               size="lg"
-              className="bg-black text-white hover:bg-gray-800 px-8 py-4 text-lg"
+              className="bg-white text-black hover:bg-gray-200 px-8 py-6 text-lg font-medium rounded-xl"
             >
               Start Legal Chat
               <MessageCircle className="ml-2 h-5 w-5" />
@@ -135,97 +151,139 @@ const Landing = () => {
               onClick={() => navigate('/marketplace')}
               variant="outline"
               size="lg"
-              className={`px-8 py-4 text-lg ${
-                isDarkMode 
-                  ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700' 
-                  : 'border-gray-300 bg-white text-black hover:bg-gray-50'
-              }`}
+              className="border-gray-600 bg-transparent text-white hover:bg-gray-800 px-8 py-6 text-lg rounded-xl"
             >
-              Find Lawyers
-              <Users className="ml-2 h-5 w-5" />
+              <Play className="mr-2 h-5 w-5" />
+              Watch Demo
             </Button>
           </div>
-        </div>
 
-        {/* Sample Questions */}
-        <div className="mb-16">
-          <h2 className={`text-2xl font-semibold mb-6 ${
-            isDarkMode ? 'text-white' : 'text-black'
-          }`}>
-            Try asking about...
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mb-16">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">{stat.number}</div>
+                <div className="text-sm text-gray-400">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Use Cases Section */}
+      <section className="px-4 py-20 bg-gradient-to-b from-black to-gray-900">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-white">
+            Transform legal challenges into visual realities
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-            {sampleQuestions.map((question, index) => (
-              <Card
-                key={index}
-                className={`cursor-pointer transition-all duration-200 hover:scale-105 ${
-                  isDarkMode 
-                    ? 'bg-gray-800 border-gray-600 hover:bg-gray-700' 
-                    : 'bg-white border-gray-200 hover:bg-gray-50'
-                }`}
-                onClick={() => handleSampleQuestion(question)}
-              >
-                <CardContent className="p-4">
-                  <p className={`text-left ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
-                  }`}>
-                    "{question}"
-                  </p>
+          <p className="text-xl text-gray-400 text-center mb-16 max-w-3xl mx-auto">
+            From contract analysis to case research, LawGPT helps you navigate any legal situation with expert guidance.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {useCases.map((useCase, index) => (
+              <Card key={index} className="bg-gray-800/50 border-gray-700 hover:bg-gray-800/70 transition-all duration-300 overflow-hidden group">
+                <CardContent className="p-8">
+                  <div className={`w-full h-32 rounded-lg bg-gradient-to-r ${useCase.gradient} mb-6 opacity-80 group-hover:opacity-100 transition-opacity`} />
+                  <h3 className="text-xl font-semibold text-white mb-3">{useCase.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{useCase.description}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {features.map((feature, index) => (
-            <div key={index} className="text-center">
-              <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
-                isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
-              }`}>
-                <feature.icon className={`h-8 w-8 ${
-                  isDarkMode ? 'text-white' : 'text-black'
-                }`} />
-              </div>
-              <h3 className={`text-lg font-semibold mb-2 ${
-                isDarkMode ? 'text-white' : 'text-black'
-              }`}>
-                {feature.title}
-              </h3>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>
-                {feature.description}
-              </p>
-            </div>
-          ))}
+      {/* Sample Questions */}
+      <section className="px-4 py-20">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-white">
+            Productivity, unplugged.
+          </h2>
+          <p className="text-xl text-gray-400 text-center mb-16 max-w-3xl mx-auto">
+            Try asking about common legal scenarios and get instant, expert guidance.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {sampleQuestions.map((question, index) => (
+              <Card
+                key={index}
+                className="bg-gray-800/30 border-gray-700 hover:bg-gray-800/50 cursor-pointer transition-all duration-300 group"
+                onClick={() => handleSampleQuestion(question)}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-blue-400 mt-2 group-hover:bg-blue-300 transition-colors" />
+                    <p className="text-gray-200 group-hover:text-white transition-colors">
+                      "{question}"
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
+      </section>
 
-        {/* CTA Section */}
-        <Card className={`max-w-2xl mx-auto ${
-          isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-gray-50 border-gray-200'
-        }`}>
-          <CardContent className="p-8 text-center">
-            <h2 className={`text-3xl font-bold mb-4 ${
-              isDarkMode ? 'text-white' : 'text-black'
-            }`}>
-              Ready to get legal help?
+      {/* Features Section */}
+      <section className="px-4 py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="text-center group">
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors">
+                  <feature.icon className="h-8 w-8 text-blue-400" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3 text-white">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-400 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="px-4 py-20">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 rounded-3xl p-12 border border-gray-700">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+              Available anywhere.
             </h2>
-            <p className={`text-lg mb-6 ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-              Join thousands of users who trust LawGPT for their legal needs
+            <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+              Access LawGPT from any device, anywhere in the world. Your legal assistant is always ready to help.
             </p>
             <Button
               onClick={handleGetStarted}
               size="lg"
-              className="bg-black text-white hover:bg-gray-800 px-8 py-4 text-lg"
+              className="bg-white text-black hover:bg-gray-200 px-8 py-6 text-lg font-medium rounded-xl"
             >
               Get Started Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </section>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-800 p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <h3 className="text-xl font-bold text-white">LawGPT</h3>
+              <p className="text-gray-400">Your AI Legal Assistant</p>
+            </div>
+            <div className="flex space-x-6 text-sm text-gray-400">
+              <a href="#" className="hover:text-white transition-colors">Privacy</a>
+              <a href="#" className="hover:text-white transition-colors">Terms</a>
+              <a href="#" className="hover:text-white transition-colors">Support</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
