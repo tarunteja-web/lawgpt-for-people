@@ -20,29 +20,23 @@ serve(async (req) => {
 
     console.log('Received chat request:', { message, legalIssue, language });
 
-    // Enhanced system prompt for better legal guidance
-    const systemPrompt = `You are LawGPT, an expert legal AI assistant specializing in providing comprehensive legal guidance and information. 
+    // Enhanced system prompt for concise legal guidance
+    const systemPrompt = `You are LawGPT, a concise legal AI assistant. Give SHORT, DIRECT answers.
 
     Current Context:
     - Legal Issue: ${legalIssue}
     - Language: ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
     
     Instructions:
-    1. Provide detailed, accurate legal information relevant to the user's specific legal issue
-    2. Respond in ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'} language
-    3. Structure your responses clearly with actionable guidance
-    4. Include relevant legal concepts, procedures, and potential next steps
-    5. Always include a disclaimer that this is informational guidance and users should consult qualified attorneys for specific legal matters
-    6. Be empathetic and professional in your tone
-    7. If the question is not legal-related, gently redirect to legal topics while still being helpful
+    1. Keep responses under 150 words
+    2. Get straight to the point - no lengthy introductions
+    3. Provide only essential legal information relevant to ${legalIssue}
+    4. Use bullet points for multiple items
+    5. Respond in ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
+    6. Include brief disclaimer: "Consult a qualified attorney for specific advice"
+    7. Be direct and actionable
     
-    Focus areas for ${legalIssue}:
-    - Relevant laws and regulations
-    - Common procedures and requirements
-    - Rights and obligations
-    - Potential remedies and solutions
-    - Documentation requirements
-    - Timeline considerations`;
+    Focus: Main legal points, key steps, and essential requirements only.`;
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -58,8 +52,8 @@ serve(async (req) => {
           { role: 'system', content: systemPrompt },
           { role: 'user', content: message }
         ],
-        temperature: 0.7,
-        max_tokens: 800,
+        temperature: 0.5,
+        max_tokens: 200, // Reduced for shorter responses
       }),
     });
 
@@ -86,7 +80,7 @@ serve(async (req) => {
     console.error('Error in chat-ai function:', error);
     
     // Provide a helpful fallback response
-    const fallbackResponse = `I apologize, but I'm experiencing technical difficulties at the moment. For ${legalIssue} related questions, I recommend consulting with a qualified attorney who can provide specific guidance for your situation. Please try again in a moment, or contact legal aid services in your area for immediate assistance.`;
+    const fallbackResponse = `Technical issue. For ${legalIssue}, consult a qualified attorney. Try again shortly.`;
     
     return new Response(JSON.stringify({ 
       response: fallbackResponse,
