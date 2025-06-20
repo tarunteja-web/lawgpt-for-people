@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const PaymentHeader = () => {
@@ -12,18 +12,22 @@ const PaymentHeader = () => {
   };
 
   return (
-    <div className="bg-white border-b border-gray-200 p-4">
-      <div className="flex items-center justify-between max-w-2xl mx-auto">
+    <div className="relative mb-6 md:mb-8">
+      <div className="flex items-center justify-between mb-4 px-4 py-6">
         <Button
           variant="outline"
           onClick={handleBackToMarketplace}
-          className="flex items-center gap-2 bg-black text-white border-black hover:bg-gray-800 hover:text-white"
+          className="flex items-center gap-2 text-sm bg-gradient-to-r from-gray-700 to-gray-800 border-gray-600 hover:from-gray-600 hover:to-gray-700 text-white hover:text-white"
+          size="sm"
         >
           <ArrowLeft size={16} />
-          Back to Marketplace
+          <span className="hidden sm:inline">Back to Marketplace</span>
         </Button>
-        <h1 className="text-xl font-semibold text-gray-900">Payment</h1>
-        <div className="w-[120px]"></div> {/* Spacer for center alignment */}
+        
+        <div className="flex items-center gap-2 text-gray-300 bg-gradient-to-r from-black via-gray-900 to-gray-800 px-4 py-2 rounded-lg shadow-lg">
+          <CreditCard size={20} className="text-white" />
+          <span className="text-sm font-medium text-white">Secure Payment</span>
+        </div>
       </div>
     </div>
   );

@@ -20,16 +20,19 @@ const Payment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col">
       <PaymentHeader />
 
       {/* Main content */}
-      <div className="flex-1 bg-gradient-to-br from-blue-50 to-white p-4">
+      <div className="flex-1 p-4">
         <div className="container mx-auto max-w-2xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white py-8 px-4 rounded-xl shadow-2xl border border-gray-700">
+            <h2 className="text-2xl md:text-3xl font-bold leading-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
               Complete Your Payment
             </h2>
+            <p className="text-sm md:text-lg text-gray-300 max-w-xl mx-auto">
+              Secure payment for your legal consultation
+            </p>
           </div>
 
           <OrderSummary lawyer={lawyer} selectedIssue={selectedIssue} />
