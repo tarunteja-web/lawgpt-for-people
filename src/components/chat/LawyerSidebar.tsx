@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { X, Menu } from 'lucide-react';
+import { X, Menu, MessageCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -20,6 +20,42 @@ const LawyerSidebar: React.FC<LawyerSidebarProps> = ({
 }) => {
   const isMobile = useIsMobile();
 
+  // Mock user data - in real app this would come from user context/auth
+  const user = {
+    name: "John Doe",
+    email: "john.doe@email.com",
+    avatar: "/placeholder.svg",
+    joinedDate: "Jan 2024"
+  };
+
+  // Mock chat history - in real app this would come from API
+  const chatHistory = [
+    {
+      id: 1,
+      lawyerName: "Adv. Priya Sharma",
+      specialization: "Family Law",
+      lastMessage: "Thank you for the consultation. I'll prepare the documents.",
+      date: "2024-06-19",
+      status: "completed"
+    },
+    {
+      id: 2,
+      lawyerName: "Adv. Rajesh Kumar",
+      specialization: "Criminal Law",
+      lastMessage: "We need to gather more evidence for your case.",
+      date: "2024-06-18",
+      status: "ongoing"
+    },
+    {
+      id: 3,
+      lawyerName: "Adv. Meera Patel",
+      specialization: "Corporate Law",
+      lastMessage: "The contract review is complete.",
+      date: "2024-06-15",
+      status: "completed"
+    }
+  ];
+
   return (
     <div className={`${
       isSidebarOpen ? (isMobile ? 'w-full' : 'w-80') : 'w-0'
@@ -31,7 +67,7 @@ const LawyerSidebar: React.FC<LawyerSidebarProps> = ({
         <div className="flex items-center justify-between mb-6">
           <h2 className={`text-lg font-semibold ${
             isDarkMode ? 'text-white' : 'text-black'
-          }`}>Lawyer Profile</h2>
+          }`}>My Profile</h2>
           <Button
             variant="ghost"
             size="sm"
@@ -42,91 +78,100 @@ const LawyerSidebar: React.FC<LawyerSidebarProps> = ({
           </Button>
         </div>
 
-        {/* Lawyer Profile */}
-        <div className={`p-4 rounded-lg border ${
+        {/* User Profile */}
+        <div className={`p-4 rounded-lg border mb-6 ${
           isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'
         }`}>
-          {/* Status Indicator */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              <span className={`text-sm font-medium ${
-                isDarkMode ? 'text-gray-300' : 'text-gray-600'
-              }`}>Active in consultation</span>
-            </div>
-          </div>
-
           {/* Avatar and Basic Info */}
           <div className="flex items-center space-x-4 mb-4">
             <Avatar className="h-16 w-16">
-              <AvatarImage src={lawyer.image} alt={lawyer.name} />
+              <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback className={`text-lg font-bold ${
                 isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-800'
               }`}>
-                {lawyer.name?.charAt(0) || 'L'}
+                {user.name?.charAt(0) || 'U'}
               </AvatarFallback>
             </Avatar>
             <div>
               <h3 className={`font-bold text-lg ${
                 isDarkMode ? 'text-white' : 'text-black'
-              }`}>{lawyer.name}</h3>
+              }`}>{user.name}</h3>
               <p className={`text-sm ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>{lawyer.specialization}</p>
+              }`}>{user.email}</p>
             </div>
           </div>
 
-          {/* Lawyer Details */}
+          {/* User Details */}
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className={`text-sm ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>Experience:</span>
+              }`}>Member since:</span>
               <span className={`text-sm font-medium ${
                 isDarkMode ? 'text-white' : 'text-black'
-              }`}>{lawyer.experience}</span>
+              }`}>{user.joinedDate}</span>
             </div>
             
             <div className="flex justify-between">
               <span className={`text-sm ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>Rating:</span>
+              }`}>Total consultations:</span>
               <span className={`text-sm font-medium ${
                 isDarkMode ? 'text-white' : 'text-black'
-              }`}>{lawyer.rating} ⭐</span>
-            </div>
-            
-            <div className="flex justify-between">
-              <span className={`text-sm ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>Language:</span>
-              <span className={`text-sm font-medium ${
-                isDarkMode ? 'text-white' : 'text-black'
-              }`}>{lawyer.language}</span>
-            </div>
-            
-            <div className="flex justify-between">
-              <span className={`text-sm ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>Fee:</span>
-              <span className={`text-sm font-medium ${
-                isDarkMode ? 'text-white' : 'text-black'
-              }`}>₹{lawyer.fee}</span>
+              }`}>{chatHistory.length}</span>
             </div>
           </div>
+        </div>
 
-          {/* Session Info */}
-          <div className={`mt-4 pt-4 border-t ${
-            isDarkMode ? 'border-gray-700' : 'border-gray-200'
-          }`}>
-            <div className="flex justify-between items-center">
-              <span className={`text-sm ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>Session Time:</span>
-              <span className={`text-sm font-medium text-green-500`}>
-                {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </span>
-            </div>
+        {/* Chat History */}
+        <div className={`rounded-lg border ${
+          isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'
+        }`}>
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 className={`font-semibold ${
+              isDarkMode ? 'text-white' : 'text-black'
+            }`}>Chat History</h3>
+          </div>
+          
+          <div className="max-h-64 overflow-y-auto">
+            {chatHistory.map((chat) => (
+              <div
+                key={chat.id}
+                className={`p-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors`}
+              >
+                <div className="flex items-start space-x-3">
+                  <MessageCircle className={`h-4 w-4 mt-1 ${
+                    chat.status === 'ongoing' ? 'text-green-500' : 'text-gray-400'
+                  }`} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-start">
+                      <h4 className={`text-sm font-medium truncate ${
+                        isDarkMode ? 'text-white' : 'text-black'
+                      }`}>{chat.lawyerName}</h4>
+                      <span className={`text-xs ${
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                      }`}>{chat.date}</span>
+                    </div>
+                    <p className={`text-xs ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>{chat.specialization}</p>
+                    <p className={`text-xs mt-1 truncate ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                    }`}>{chat.lastMessage}</p>
+                    <div className="flex items-center mt-2">
+                      <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
+                        chat.status === 'ongoing' 
+                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                          : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                      }`}>
+                        {chat.status}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
