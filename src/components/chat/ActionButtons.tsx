@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Shield, ShieldOff, FileText, Phone, Video, BookOpen } from 'lucide-react';
+import { Shield, ShieldOff, FileText, Phone, CheckCircle, BookOpen } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ActionButtonsProps {
@@ -12,8 +12,8 @@ interface ActionButtonsProps {
     exitAnonymous: string;
     document: string;
     call: string;
-    videoCall: string;
     caseStudy: string;
+    allSet: string;
   };
   onToggleAnonymous: () => void;
   onActionClick: (action: string) => void;
@@ -39,7 +39,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     { key: 'document', icon: FileText, text: translations.document, onClick: () => onActionClick('document'), variant: 'outline' as const },
     { key: 'casestudy', icon: BookOpen, text: translations.caseStudy, onClick: () => onActionClick('casestudy'), variant: 'outline' as const },
     { key: 'call', icon: Phone, text: translations.call, onClick: () => onActionClick('call'), variant: 'outline' as const },
-    { key: 'videocall', icon: Video, text: translations.videoCall || 'Video Call', onClick: () => onActionClick('videocall'), variant: 'outline' as const }
+    { key: 'allset', icon: CheckCircle, text: translations.allSet || "We're All Set", onClick: () => onActionClick('allset'), variant: 'outline' as const }
   ];
 
   return (
@@ -56,8 +56,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 : 'border-gray-300 bg-white text-black hover:bg-gray-50'
             } px-2 sm:px-4 md:px-6 py-1 sm:py-2 text-xs sm:text-sm`}
           >
-            <button.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="hidden xs:inline sm:inline">{button.text}</span>
+            {!isMobile && <button.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />}
+            <span>{button.text}</span>
           </Button>
         ))}
       </div>
