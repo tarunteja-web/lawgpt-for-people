@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Message } from '@/types/chat';
@@ -5,21 +6,39 @@ import LawyerSidebar from '@/components/chat/LawyerSidebar';
 import LawyerChatHeader from '@/components/chat/LawyerChatHeader';
 import MessageList from '@/components/chat/MessageList';
 import ChatInput from '@/components/chat/ChatInput';
+import ActionButtons from '@/components/chat/ActionButtons';
+import CallOptions from '@/components/chat/CallOptions';
 import { getTranslations } from '@/utils/translations';
+import { useChatActions } from '@/hooks/useChatActions';
 
 const LawyerChat = () => {
   const isMobile = useIsMobile();
   
   const [messages, setMessages] = useState<Message[]>([]);
+  const [savedMessages, setSavedMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [language, setLanguage] = useState('en');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [showCallOptions, setShowCallOptions] = useState(false);
   
   const lawyer = JSON.parse(localStorage.getItem('selectedLawyer') || '{}');
   const translations = getTranslations(language);
+
+  const { toggleAnonymous, handleActionClick } = useChatActions({
+    language,
+    isAnonymous,
+    setIsAnonymous,
+    messages,
+    setMessages,
+    savedMessages,
+    setSavedMessages,
+    isListening,
+    setIsListening
+  });
 
   useEffect(() => {
     // Initial lawyer greeting
@@ -83,6 +102,14 @@ const LawyerChat = () => {
     }
   };
 
+  const handleLawyerActionClick = (action: string) => {
+    if (action === 'call') {
+      setShowCallOptions(true);
+    } else {
+      handleActionClick(action);
+    }
+  };
+
   return (
     <div className={`min-h-screen flex ${
       isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
@@ -115,6 +142,15 @@ const LawyerChat = () => {
           isLoading={isLoading}
         />
 
+        {/* Action Buttons */}
+        <ActionButtons
+          isAnonymous={isAnonymous}
+          isDarkMode={isDarkMode}
+          translations={translations}
+          onToggleAnonymous={toggleAnonymous}
+          onActionClick={handleLawyerActionClick}
+        />
+
         {/* Input Area */}
         <ChatInput
           inputText={inputText}
@@ -131,6 +167,15 @@ const LawyerChat = () => {
           onToggleListening={toggleListening}
         />
       </div>
+
+      {/* Call Options Modal */}
+      {showCallOptions && (
+        <CallOptions
+          isDarkMode={isDarkMode}
+          translations={translations}
+          onClose={() => setShowCallOptions(false)}
+        />
+      )}
     </div>
   );
 };
