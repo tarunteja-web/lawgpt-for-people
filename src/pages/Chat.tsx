@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -74,7 +75,7 @@ const Chat = () => {
 
   useEffect(() => {
     // Initial AI greeting based on selected issue
-    const greeting = `Hello! I'm here to help you with your ${selectedIssue} matter. Let me ask you a few questions to better understand your situation.`;
+    const greeting = `Hello! I'm here to help you with your ${selectedIssue} case. I'll need to ask you a few questions to better understand your situation.`;
     
     const initialMessage: Message = {
       id: '1',
@@ -175,50 +176,24 @@ const Chat = () => {
         icon: isAnonymous ? ShieldOff : Shield, 
         text: isAnonymous ? t.exitAnonymous : t.anonymous,
         onClick: toggleAnonymous,
-        variant: isAnonymous ? 'destructive' as const : 'default' as const
+        variant: isAnonymous ? 'destructive' as const : 'outline' as const
       },
       { key: 'document', icon: FileText, text: t.document, onClick: () => handleActionClick('document'), variant: 'outline' as const },
       { key: 'call', icon: Phone, text: t.call, onClick: () => handleActionClick('call'), variant: 'outline' as const },
       { key: 'allset', icon: CheckCircle, text: t.allSet, onClick: () => handleActionClick('allset'), variant: 'outline' as const }
     ];
 
-    if (isMobile) {
-      return (
-        <div className="flex justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="rounded-full">
-                {t.options}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-full">
-              {buttons.map(button => (
-                <DropdownMenuItem 
-                  key={button.key} 
-                  onClick={button.onClick}
-                  className="flex items-center space-x-2"
-                >
-                  <button.icon className="h-4 w-4" />
-                  <span>{button.text}</span>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    }
-
     return (
-      <div className="flex justify-center space-x-2 flex-wrap">
+      <div className="flex justify-center items-center gap-4 px-4 py-6">
         {buttons.map(button => (
           <Button
             key={button.key}
             variant={button.variant}
             onClick={button.onClick}
-            className="flex items-center space-x-2 rounded-full"
+            className="flex items-center gap-2 rounded-full border border-gray-300 px-6 py-2 bg-white text-black hover:bg-gray-50"
           >
             <button.icon className="h-4 w-4" />
-            <span>{button.text}</span>
+            <span className="text-sm">{button.text}</span>
           </Button>
         ))}
       </div>
@@ -226,90 +201,90 @@ const Chat = () => {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} ${isAnonymous ? 'bg-gradient-to-br from-gray-800 to-gray-900' : ''}`}>
+    <div className="min-h-screen bg-white text-black flex flex-col">
       {/* Header */}
-      <header className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-b p-4 flex items-center justify-between ${isAnonymous ? 'bg-gray-800/90 backdrop-blur' : ''}`}>
+      <header className="bg-white border-b border-gray-200 p-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h1 className="text-xl font-bold">LawGPT</h1>
-          {isAnonymous && <Shield className="h-5 w-5 text-blue-400" />}
+          <h1 className="text-xl font-bold text-black">LawGPT</h1>
+          <span className="text-sm text-gray-500">Legal AI Assistant</span>
+          {isAnonymous && <Shield className="h-5 w-5 text-gray-400" />}
         </div>
         
         <div className="flex items-center space-x-4">
           <Select value={language} onValueChange={setLanguage}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-20 border-gray-300">
               <div className="flex items-center space-x-2">
                 <Globe className="h-4 w-4" />
                 <SelectValue />
               </div>
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="en">English</SelectItem>
-              <SelectItem value="hi">हिंदी</SelectItem>
-              <SelectItem value="te">తెలుగు</SelectItem>
+            <SelectContent className="bg-white border border-gray-300">
+              <SelectItem value="en">EN</SelectItem>
+              <SelectItem value="hi">हि</SelectItem>
+              <SelectItem value="te">తె</SelectItem>
             </SelectContent>
           </Select>
           
-          <Button variant="ghost" size="sm" onClick={() => setIsDarkMode(!isDarkMode)}>
+          <Button variant="ghost" size="sm" onClick={() => setIsDarkMode(!isDarkMode)} className="text-black hover:bg-gray-100">
             {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
           
-          <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+          <Button variant="ghost" size="sm" className="flex items-center space-x-2 text-black hover:bg-gray-100">
             <User className="h-4 w-4" />
-            <span className="hidden md:inline">{userName}</span>
           </Button>
         </div>
       </header>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 max-w-4xl mx-auto w-full">
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+            className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'}`}
           >
-            <Card className={`max-w-md p-4 ${
-              message.isUser 
-                ? 'bg-blue-600 text-white ml-auto' 
-                : isDarkMode 
-                  ? 'bg-gray-800 text-white' 
-                  : 'bg-white'
-            } ${isAnonymous && !message.isUser ? 'bg-gray-700 text-white border-gray-600' : ''}`}>
-              <p className="text-sm">{message.text}</p>
-              <span className="text-xs opacity-70 mt-2 block">
-                {message.timestamp.toLocaleTimeString()}
-              </span>
-            </Card>
+            {!message.isUser && (
+              <div className="bg-gray-100 rounded-2xl p-4 max-w-md">
+                <p className="text-sm text-gray-700 leading-relaxed">{message.text}</p>
+              </div>
+            )}
+            {message.isUser && (
+              <div className="bg-black rounded-2xl p-4 max-w-md">
+                <p className="text-sm text-white leading-relaxed">{message.text}</p>
+              </div>
+            )}
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Action Buttons */}
-      <div className="p-4 border-t">
-        <ActionButtons />
-      </div>
+      <ActionButtons />
 
       {/* Input Area */}
-      <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-t p-4`}>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleListening}
-            className={isListening ? 'text-red-500' : ''}
-          >
-            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-          </Button>
-          
+      <div className="bg-white border-t border-gray-200 p-4 max-w-4xl mx-auto w-full">
+        <div className="flex items-center space-x-3 bg-gray-50 rounded-full px-4 py-3">
           <Input
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             placeholder={t.typeMessage}
-            className="flex-1"
+            className="flex-1 border-0 bg-transparent focus:ring-0 focus:outline-none text-black placeholder-gray-500"
           />
           
-          <Button onClick={handleSendMessage} size="sm">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleListening}
+            className={`${isListening ? 'text-red-500' : 'text-gray-500'} hover:bg-transparent`}
+          >
+            {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+          </Button>
+          
+          <Button 
+            onClick={handleSendMessage} 
+            size="sm"
+            className="bg-black text-white rounded-full p-2 hover:bg-gray-800"
+          >
             <Send className="h-4 w-4" />
           </Button>
         </div>
