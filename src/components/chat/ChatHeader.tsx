@@ -1,8 +1,9 @@
 
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Shield, Globe, User, Moon, Sun } from 'lucide-react';
+import { Shield, Globe, User, Moon, Sun, LogIn, UserPlus } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getTranslations } from '@/utils/translations';
 
@@ -21,12 +22,24 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   onLanguageChange,
   onToggleDarkMode
 }) => {
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const t = getTranslations(language);
+
+  // Check if user is authenticated (simple check for now)
+  const isAuthenticated = localStorage.getItem('userName');
 
   useEffect(() => {
     localStorage.setItem('selectedLanguage', language);
   }, [language]);
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  const handleSignUp = () => {
+    navigate('/login');
+  };
 
   return (
     <header className={`border-b p-4 flex items-center justify-between ${isMobile ? 'px-2' : ''} ${
@@ -67,11 +80,42 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
           {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </Button>
         
-        <Button variant="ghost" size="sm" className={`flex items-center space-x-2 ${
-          isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'
-        }`}>
-          <User className="h-4 w-4" />
-        </Button>
+        {!isAuthenticated ? (
+          // Show auth buttons when not authenticated
+          <div className={`flex items-center ${isMobile ? 'space-x-1' : 'space-x-2'}`}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogin}
+              className={`flex items-center space-x-1 ${
+                isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'
+              }`}
+            >
+              <LogIn className="h-4 w-4" />
+              {!isMobile && <span>{t.signIn}</span>}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSignUp}
+              className={`flex items-center space-x-1 ${
+                isDarkMode 
+                  ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700' 
+                  : 'border-gray-300 bg-white text-black hover:bg-gray-50'
+              }`}
+            >
+              <UserPlus className="h-4 w-4" />
+              {!isMobile && <span>Sign Up</span>}
+            </Button>
+          </div>
+        ) : (
+          // Show user button when authenticated
+          <Button variant="ghost" size="sm" className={`flex items-center space-x-2 ${
+            isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'
+          }`}>
+            <User className="h-4 w-4" />
+          </Button>
+        )}
       </div>
     </header>
   );

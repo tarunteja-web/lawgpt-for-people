@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import ChatHeader from '@/components/chat/ChatHeader';
 import MessageList from '@/components/chat/MessageList';
 import ActionButtons from '@/components/chat/ActionButtons';
@@ -26,6 +26,15 @@ const Chat = () => {
   } = useChat();
 
   const t = getTranslations(language);
+
+  // Handle pending question from landing page
+  useEffect(() => {
+    const pendingQuestion = localStorage.getItem('pendingQuestion');
+    if (pendingQuestion) {
+      setInputText(pendingQuestion);
+      localStorage.removeItem('pendingQuestion');
+    }
+  }, [setInputText]);
 
   return (
     <div className={`min-h-screen flex flex-col ${
