@@ -48,6 +48,7 @@ export const hiTranslations = {
   anonymousMode: 'आप अब गुमनाम मोड में हैं। आपकी पहचान छुपी है।',
   exitingAnonymous: 'गुमनाम मोड से बाहर निकल रहे हैं। आपके पिछले सेशन पर वापस जा रहे हैं।',
   caseStudy: 'केस स्टडी',
+  legalAIAssistant: 'कानूनी AI सहायक',
   
   // Call options
   callTeam: 'हमारी टीम को कॉल करें',
