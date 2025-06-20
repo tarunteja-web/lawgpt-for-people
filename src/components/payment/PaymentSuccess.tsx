@@ -24,21 +24,21 @@ const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-2xl bg-white border border-gray-200 shadow-lg">
         <CardContent className="p-8 space-y-8">
           {/* Success Header */}
           <div className="text-center animate-scale-in">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
-              <CheckCircle className="h-12 w-12 text-green-600" />
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-50 rounded-full mb-6">
+              <CheckCircle className="h-12 w-12 text-blue-600" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Payment Successful!</h1>
             <p className="text-lg text-gray-600 mb-4">
               Your consultation has been confirmed and paid for
             </p>
-            <div className="inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-4 py-2">
-              <span className="text-sm text-green-700">Amount Paid: </span>
-              <span className="text-lg font-bold text-green-800 ml-1">₹{lawyer.fee}</span>
+            <div className="inline-flex items-center bg-blue-50 border border-blue-200 rounded-lg px-4 py-2">
+              <span className="text-sm text-blue-700">Amount Paid: </span>
+              <span className="text-lg font-bold text-blue-800 ml-1">₹{lawyer.fee}</span>
             </div>
           </div>
 
@@ -57,8 +57,8 @@ const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
               </div>
               
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Calendar className="h-4 w-4 text-purple-600" />
+                <div className="flex-shrink-0 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                  <Calendar className="h-4 w-4 text-gray-600" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Schedule Follow-ups</h3>
@@ -67,8 +67,8 @@ const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
               </div>
               
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <Shield className="h-4 w-4 text-green-600" />
+                <div className="flex-shrink-0 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                  <Shield className="h-4 w-4 text-gray-600" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Secure & Confidential</h3>
@@ -100,7 +100,7 @@ const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
           </div>
 
           {/* Support Note */}
-          <div className="text-center text-sm text-gray-500 bg-white p-4 rounded-lg border border-gray-200">
+          <div className="text-center text-sm text-gray-600 bg-white p-4 rounded-lg border border-gray-200">
             <p>Need help? Our support team is available 24/7 to assist you.</p>
             <p className="mt-1">Email: support@legalapp.com | Phone: +91-XXX-XXX-XXXX</p>
           </div>

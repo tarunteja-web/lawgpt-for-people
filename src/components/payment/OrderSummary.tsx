@@ -19,16 +19,16 @@ const OrderSummary = ({ lawyer, selectedIssue }: OrderSummaryProps) => {
   const total = subtotal + processingFee;
 
   return (
-    <Card className="bg-white border-0 shadow-sm">
-      <CardHeader className="pb-4">
+    <Card className="bg-white border border-gray-200 shadow-sm">
+      <CardHeader className="pb-4 border-b border-gray-100">
         <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-2">
           <Scale className="w-5 h-5 text-blue-600" />
           Order Summary
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 p-6">
         {/* Lawyer Info */}
-        <div className="p-4 bg-gray-50 rounded-lg">
+        <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
               <User className="w-5 h-5 text-blue-600" />
@@ -79,28 +79,28 @@ const OrderSummary = ({ lawyer, selectedIssue }: OrderSummaryProps) => {
         <hr className="border-gray-200" />
 
         {/* Total */}
-        <div className="flex justify-between items-center py-2">
+        <div className="flex justify-between items-center py-2 bg-gray-50 px-4 rounded-lg">
           <span className="text-base font-semibold text-gray-900">Total Amount</span>
-          <span className="text-xl font-bold text-green-600">₹{total}</span>
+          <span className="text-xl font-bold text-blue-600">₹{total}</span>
         </div>
 
         {/* Trust Badges */}
         <div className="mt-6 pt-4 border-t border-gray-200">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+            <div className="flex items-center gap-2 text-xs text-gray-600">
+              <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
               <span>100% Secure Payment</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+            <div className="flex items-center gap-2 text-xs text-gray-600">
+              <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
               <span>Instant Confirmation</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+            <div className="flex items-center gap-2 text-xs text-gray-600">
+              <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
               <span>Money Back Guarantee</span>
