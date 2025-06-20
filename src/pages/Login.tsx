@@ -1,19 +1,29 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
+import { getTranslations } from '@/utils/translations';
 
 const Login = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('selectedLanguage') || 'en';
+  });
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: ''
   });
+
+  const t = getTranslations(language);
+
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', language);
+  }, [language]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,14 +44,14 @@ const Login = () => {
       <Card className="w-full max-w-md bg-white border border-gray-200 shadow-lg">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-black">
-            {isLogin ? 'Welcome Back' : 'Join LawGPT'}
+            {isLogin ? t.welcomeBack : t.joinLawGPT}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div>
-                <Label htmlFor="name" className="text-black">Name</Label>
+                <Label htmlFor="name" className="text-black">{t.name}</Label>
                 <Input
                   id="name"
                   type="text"
@@ -54,7 +64,7 @@ const Login = () => {
             )}
             
             <div>
-              <Label htmlFor="email" className="text-black">Email</Label>
+              <Label htmlFor="email" className="text-black">{t.email}</Label>
               <Input
                 id="email"
                 type="email"
@@ -66,7 +76,7 @@ const Login = () => {
             </div>
             
             <div>
-              <Label htmlFor="password" className="text-black">Password</Label>
+              <Label htmlFor="password" className="text-black">{t.password}</Label>
               <Input
                 id="password"
                 type="password"
@@ -78,33 +88,33 @@ const Login = () => {
             </div>
             
             <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
-              {isLogin ? 'Sign In' : 'Sign Up'}
+              {isLogin ? t.signIn : t.signUp}
             </Button>
           </form>
           
           <div className="text-center">
-            <p className="text-gray-500 mb-4">Or sign up with</p>
+            <p className="text-gray-500 mb-4">{t.orSignUpWith}</p>
             <div className="flex justify-center space-x-4">
               <Button
                 variant="outline"
                 onClick={() => handleSocialLogin('Google')}
                 className="bg-white border-gray-300 text-black hover:bg-gray-50"
               >
-                Google
+                {t.google}
               </Button>
               <Button
                 variant="outline"
                 onClick={() => handleSocialLogin('Facebook')}
                 className="bg-white border-gray-300 text-black hover:bg-gray-50"
               >
-                Facebook
+                {t.facebook}
               </Button>
               <Button
                 variant="outline"
                 onClick={() => handleSocialLogin('X')}
                 className="bg-white border-gray-300 text-black hover:bg-gray-50"
               >
-                X
+                {t.x}
               </Button>
             </div>
           </div>
@@ -115,7 +125,7 @@ const Login = () => {
               onClick={() => setIsLogin(!isLogin)}
               className="text-gray-600 hover:text-black"
             >
-              {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+              {isLogin ? t.dontHaveAccount : t.alreadyHaveAccount}
             </Button>
           </div>
         </CardContent>

@@ -1,9 +1,15 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getTranslations } from '@/utils/translations';
 
 const Launch = () => {
   const navigate = useNavigate();
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('selectedLanguage') || 'en';
+  });
+  
+  const t = getTranslations(language);
 
   useEffect(() => {
     // Navigate to login page after animation completes (3 seconds)
@@ -28,7 +34,7 @@ const Launch = () => {
             LawGPT
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 animate-[fadeInUp_3s_ease-out_0.5s_forwards] opacity-0">
-            Your private AI legal assistant
+            {t.welcomeSubtitle}
           </p>
         </div>
       </div>

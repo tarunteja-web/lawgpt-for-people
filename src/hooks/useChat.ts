@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Message } from '@/types/chat';
@@ -9,12 +8,18 @@ export const useChat = () => {
   const [inputText, setInputText] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('selectedLanguage') || 'en';
+  });
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [savedMessages, setSavedMessages] = useState<Message[]>([]);
   
   const userName = localStorage.getItem('userName') || 'User';
   const selectedIssue = localStorage.getItem('selectedLegalIssue') || 'General';
+
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', language);
+  }, [language]);
 
   useEffect(() => {
     const greeting = `Hello! I'm here to help you with your ${selectedIssue} case. I'll need to ask you a few questions to better understand your situation.`;

@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Shield, Globe, User, Moon, Sun } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { getTranslations } from '@/utils/translations';
 
 interface ChatHeaderProps {
   isAnonymous: boolean;
@@ -21,6 +22,11 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   onToggleDarkMode
 }) => {
   const isMobile = useIsMobile();
+  const t = getTranslations(language);
+
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', language);
+  }, [language]);
 
   return (
     <header className={`border-b p-4 flex items-center justify-between ${isMobile ? 'px-2' : ''} ${
@@ -32,7 +38,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
         }`}>LawGPT</h1>
         {!isMobile && <span className={`text-sm ${
           isDarkMode ? 'text-gray-400' : 'text-gray-500'
-        }`}>Legal AI Assistant</span>}
+        }`}>{t.legalAIAssistant}</span>}
         {isAnonymous && <Shield className={`h-5 w-5 ${
           isDarkMode ? 'text-gray-400' : 'text-gray-400'
         }`} />}
