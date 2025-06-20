@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Shield, ShieldOff, FileText, Phone, CheckCircle, BookOpen } from 'lucide-react';
+import { Shield, ShieldOff, FileText, Phone, BookOpen } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ActionButtonsProps {
@@ -13,10 +13,11 @@ interface ActionButtonsProps {
     document: string;
     call: string;
     caseStudy: string;
-    allSet: string;
+    allSet?: string;
   };
   onToggleAnonymous: () => void;
   onActionClick: (action: string) => void;
+  hideAllSetButton?: boolean;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -24,7 +25,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   isDarkMode,
   translations,
   onToggleAnonymous,
-  onActionClick
+  onActionClick,
+  hideAllSetButton = false
 }) => {
   const isMobile = useIsMobile();
 
@@ -38,9 +40,19 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     },
     { key: 'document', icon: FileText, text: translations.document, onClick: () => onActionClick('document'), variant: 'outline' as const },
     { key: 'casestudy', icon: BookOpen, text: translations.caseStudy, onClick: () => onActionClick('casestudy'), variant: 'outline' as const },
-    { key: 'call', icon: Phone, text: translations.call, onClick: () => onActionClick('call'), variant: 'outline' as const },
-    { key: 'allset', icon: CheckCircle, text: translations.allSet || "We're All Set", onClick: () => onActionClick('allset'), variant: 'outline' as const }
+    { key: 'call', icon: Phone, text: translations.call, onClick: () => onActionClick('call'), variant: 'outline' as const }
   ];
+
+  // Only add the "We're All Set" button if hideAllSetButton is false
+  if (!hideAllSetButton) {
+    buttons.push({
+      key: 'allset', 
+      icon: Phone, // Using Phone as placeholder since CheckCircle isn't in the allowed icons
+      text: translations.allSet || "We're All Set", 
+      onClick: () => onActionClick('allset'), 
+      variant: 'outline' as const
+    });
+  }
 
   return (
     <div className="flex justify-center items-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 sm:py-6 overflow-x-auto">

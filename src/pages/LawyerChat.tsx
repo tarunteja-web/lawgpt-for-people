@@ -176,7 +176,7 @@ const LawyerChat = () => {
           />
         </div>
 
-        {/* Action Buttons - mobile optimized */}
+        {/* Action Buttons - mobile optimized with hideAllSetButton prop */}
         <div className={`${isMobile ? 'px-2' : 'px-4'}`}>
           <ActionButtons
             isAnonymous={isAnonymous}
@@ -184,6 +184,7 @@ const LawyerChat = () => {
             translations={translations}
             onToggleAnonymous={toggleAnonymous}
             onActionClick={handleLawyerActionClick}
+            hideAllSetButton={true}
           />
         </div>
 
