@@ -120,21 +120,21 @@ const LawyerCard = ({ lawyer, onBookNow }: LawyerCardProps) => {
           </div>
 
           {/* Courts */}
-          {lawyer.courts && lawyer.courts.length > 0 && (
+          {lawyer.courtsOfPractice && lawyer.courtsOfPractice.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Award className="h-4 w-4 text-gray-500" />
                 <span className="text-xs text-gray-500">Practice Courts</span>
               </div>
               <div className="flex flex-wrap gap-1">
-                {lawyer.courts.slice(0, 2).map((court, index) => (
+                {lawyer.courtsOfPractice.slice(0, 2).map((court, index) => (
                   <Badge key={index} variant="secondary" className="text-xs px-2 py-0.5 bg-gray-100">
                     {court}
                   </Badge>
                 ))}
-                {lawyer.courts.length > 2 && (
+                {lawyer.courtsOfPractice.length > 2 && (
                   <Badge variant="secondary" className="text-xs px-2 py-0.5 bg-gray-100">
-                    +{lawyer.courts.length - 2} more
+                    +{lawyer.courtsOfPractice.length - 2} more
                   </Badge>
                 )}
               </div>
