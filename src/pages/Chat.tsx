@@ -62,6 +62,7 @@ const Chat = () => {
             translations={t}
             onToggleAnonymous={toggleAnonymous}
             onActionClick={handleActionClick}
+            isLawyerChat={false}
           />
 
           <ChatInput

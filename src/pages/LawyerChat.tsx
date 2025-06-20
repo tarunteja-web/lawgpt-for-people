@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Message } from '@/types/chat';
@@ -185,6 +184,7 @@ const LawyerChat = () => {
             onToggleAnonymous={toggleAnonymous}
             onActionClick={handleLawyerActionClick}
             hideAllSetButton={true}
+            isLawyerChat={true}
           />
         </div>
 

@@ -18,6 +18,7 @@ interface ActionButtonsProps {
   onToggleAnonymous: () => void;
   onActionClick: (action: string) => void;
   hideAllSetButton?: boolean;
+  isLawyerChat?: boolean;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -26,7 +27,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   translations,
   onToggleAnonymous,
   onActionClick,
-  hideAllSetButton = false
+  hideAllSetButton = false,
+  isLawyerChat = false
 }) => {
   const isMobile = useIsMobile();
 
@@ -68,7 +70,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 : 'border-gray-300 bg-white text-black hover:bg-gray-50'
             } px-2 sm:px-4 md:px-6 py-1 sm:py-2 text-xs sm:text-sm`}
           >
-            {!isMobile && <button.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />}
+            {/* Show icons on mobile for regular chat, hide for lawyer chat */}
+            {(isMobile && !isLawyerChat) || !isMobile ? (
+              <button.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+            ) : null}
             <span>{button.text}</span>
           </Button>
         ))}
