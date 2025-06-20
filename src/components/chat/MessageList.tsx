@@ -22,24 +22,29 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
   }, [messages]);
 
   return (
-    <div className={`flex-1 overflow-y-auto max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'}`}>
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'}`}
-        >
-          {!message.isUser && (
-            <div className={`bg-gray-100 rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'}`}>
-              <p className="text-sm text-gray-700 leading-relaxed">{message.text}</p>
-            </div>
-          )}
-          {message.isUser && (
-            <div className={`bg-black rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'}`}>
-              <p className="text-sm text-white leading-relaxed">{message.text}</p>
-            </div>
-          )}
-        </div>
-      ))}
+    <div className={`flex-1 overflow-y-auto bg-gray-900 ${isMobile ? 'p-4' : 'p-8'}`}>
+      <div className="max-w-4xl mx-auto">
+        {messages.map((message) => (
+          <div key={message.id} className="mb-8">
+            {!message.isUser ? (
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center flex-shrink-0">
+                  <span className="text-white text-sm">AI</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-white text-base leading-relaxed">{message.text}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-end">
+                <div className="bg-gray-800 rounded-lg px-4 py-3 max-w-xs">
+                  <p className="text-white text-sm">{message.text}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
       <div ref={messagesEndRef} />
     </div>
   );
