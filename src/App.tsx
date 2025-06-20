@@ -12,6 +12,7 @@ import Marketplace from "./pages/Marketplace";
 import Payment from "./pages/Payment";
 import LawyerChat from "./pages/LawyerChat";
 import DocumentPreview from "./pages/DocumentPreview";
+import CaseStudy from "./pages/CaseStudy";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 

@@ -48,7 +48,7 @@ const Chat = () => {
       options: 'विकल्प',
       listening: 'सुन रहे हैं...',
       typeMessage: 'अपना संदेश टाइप करें...',
-      anonymousMode: 'आप अब गुमनाम मोड में हैं। आपकी पहचान छुपी हुई है।',
+      anonymousMode: 'आप अब गुमनाम मोड में हैं। आपकी पहचान छुपी है।',
       exitingAnonymous: 'गुमनाम मोड से बाहर निकल रहे हैं। आपके पिछले सेशन पर वापस जा रहे हैं।'
     },
     te: {
@@ -141,25 +141,7 @@ const Chat = () => {
         navigate('/document-preview');
         break;
       case 'casestudy':
-        // Create input element for file upload
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.pdf,.doc,.docx,.txt';
-        input.onchange = (e) => {
-          const file = (e.target as HTMLInputElement).files?.[0];
-          if (file) {
-            console.log('Case study uploaded:', file.name);
-            // Add a message to show the file was uploaded
-            const uploadMessage = {
-              id: Date.now().toString(),
-              text: `Case study document "${file.name}" has been uploaded successfully. I'll analyze this document to help with your case.`,
-              isUser: false,
-              timestamp: new Date()
-            };
-            setMessages(prev => [...prev, uploadMessage]);
-          }
-        };
-        input.click();
+        navigate('/case-study');
         break;
       case 'call':
         console.log('Initiating call...');
