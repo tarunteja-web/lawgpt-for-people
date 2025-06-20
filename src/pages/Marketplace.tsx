@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star, Bell } from 'lucide-react';
+import { Star, Bell, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Lawyer {
@@ -16,6 +16,7 @@ interface Lawyer {
   specialization: string;
   experience: string;
   initials: string;
+  profileImage: string;
 }
 
 const Marketplace = () => {
@@ -30,7 +31,8 @@ const Marketplace = () => {
       language: 'Telugu',
       specialization: 'Family Law',
       experience: '15 years',
-      initials: 'RK'
+      initials: 'RK',
+      profileImage: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face'
     },
     {
       id: '2',
@@ -40,7 +42,8 @@ const Marketplace = () => {
       language: 'Telugu',
       specialization: 'Property Law',
       experience: '12 years',
-      initials: 'PS'
+      initials: 'PS',
+      profileImage: 'https://images.unsplash.com/photo-1594736797933-d0a9ba4b2b13?w=150&h=150&fit=crop&crop=face'
     },
     {
       id: '3',
@@ -50,7 +53,8 @@ const Marketplace = () => {
       language: 'Telugu',
       specialization: 'Criminal Law',
       experience: '18 years',
-      initials: 'SR'
+      initials: 'SR',
+      profileImage: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&h=150&fit=crop&crop=face'
     },
     {
       id: '4',
@@ -60,7 +64,8 @@ const Marketplace = () => {
       language: 'Telugu',
       specialization: 'Corporate Law',
       experience: '10 years',
-      initials: 'LD'
+      initials: 'LD',
+      profileImage: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=150&h=150&fit=crop&crop=face'
     },
     {
       id: '5',
@@ -70,7 +75,8 @@ const Marketplace = () => {
       language: 'Telugu',
       specialization: 'Civil Law',
       experience: '20 years',
-      initials: 'VR'
+      initials: 'VR',
+      profileImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
     }
   ];
 
@@ -110,22 +116,20 @@ const Marketplace = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {lawyers.map((lawyer) => (
             <Card key={lawyer.id} className="bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src={`https://api.dicebear.com/6.x/initials/svg?seed=${lawyer.initials}`} />
-                      <AvatarFallback className="bg-gray-600 text-white">
-                        {lawyer.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <CardTitle className="text-lg text-black">{lawyer.name}</CardTitle>
-                      {renderStars(lawyer.rating)}
-                    </div>
+              <CardHeader className="text-center">
+                <div className="flex flex-col items-center mb-4">
+                  <Avatar className="h-20 w-20 mb-3">
+                    <AvatarImage src={lawyer.profileImage} alt={lawyer.name} />
+                    <AvatarFallback className="bg-gray-600 text-white text-lg">
+                      {lawyer.initials}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="text-center">
+                    <CardTitle className="text-lg text-black mb-1">{lawyer.name}</CardTitle>
+                    {renderStars(lawyer.rating)}
                   </div>
-                  <Badge variant="secondary" className="bg-gray-100 text-gray-800">{lawyer.language}</Badge>
                 </div>
+                <Badge variant="secondary" className="bg-gray-100 text-gray-800 self-center">{lawyer.language}</Badge>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -138,20 +142,21 @@ const Marketplace = () => {
                   <p className="font-medium text-black">{lawyer.experience}</p>
                 </div>
                 
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600">Consultation Fee</p>
-                    <p className="text-2xl font-bold text-green-600">₹{lawyer.fee}</p>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600 mb-1">Consultation Fee</p>
+                    <p className="text-3xl font-bold text-green-600">₹{lawyer.fee}</p>
+                    <p className="text-xs text-gray-500">per session</p>
                   </div>
-                  
-                  <Button
-                    onClick={() => handleBookNow(lawyer)}
-                    className="bg-black hover:bg-gray-800 text-white flex items-center space-x-2"
-                  >
-                    <Bell className="h-4 w-4" />
-                    <span>Book Now</span>
-                  </Button>
                 </div>
+                
+                <Button
+                  onClick={() => handleBookNow(lawyer)}
+                  className="w-full bg-black hover:bg-gray-800 text-white flex items-center justify-center space-x-2"
+                >
+                  <Bell className="h-4 w-4" />
+                  <span>Book Consultation</span>
+                </Button>
               </CardContent>
             </Card>
           ))}
