@@ -64,8 +64,8 @@ const CaseStudy = () => {
     }
   ];
 
-  // Mock file system structure
-  const [fileSystem] = useState({
+  // Mock file system structure - fixed to have consistent types
+  const [fileSystem] = useState<Record<string, Record<string, string[]> | string[]>>({
     'Documents': {
       'Legal': ['contract.pdf', 'agreement.docx'],
       'Personal': ['id.pdf', 'resume.pdf'],
@@ -94,8 +94,8 @@ const CaseStudy = () => {
   };
 
   const handleFileSystemSelect = (fileName: string, folderPath: string) => {
-    // Create a mock file object for demo purposes
-    const mockFile = new File([''], fileName, { type: 'application/pdf' });
+    // Create a mock file object for demo purposes - fixed constructor
+    const mockFile = new File(['mock content'], fileName, { type: 'application/pdf' });
     setUploadedFiles(prev => [...prev, mockFile]);
     toast({
       title: "File added from explorer",
@@ -213,7 +213,23 @@ const CaseStudy = () => {
                         <span className="font-semibold text-gray-800">{folderName}</span>
                       </div>
                       <div className="ml-7 space-y-2">
-                        {typeof contents === 'object' ? (
+                        {Array.isArray(contents) ? (
+                          contents.map((file: string) => (
+                            <div key={file} className="flex items-center justify-between p-2 hover:bg-white rounded border">
+                              <div className="flex items-center space-x-2">
+                                <File className="h-4 w-4 text-gray-500" />
+                                <span className="text-sm">{file}</span>
+                              </div>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleFileSystemSelect(file, folderName)}
+                              >
+                                <Plus className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          ))
+                        ) : (
                           Object.entries(contents).map(([subFolder, files]) => (
                             <div key={subFolder} className="space-y-1">
                               <div className="flex items-center space-x-2">
@@ -237,22 +253,6 @@ const CaseStudy = () => {
                                   </div>
                                 ))}
                               </div>
-                            </div>
-                          ))
-                        ) : (
-                          contents.map((file: string) => (
-                            <div key={file} className="flex items-center justify-between p-2 hover:bg-white rounded border">
-                              <div className="flex items-center space-x-2">
-                                <File className="h-4 w-4 text-gray-500" />
-                                <span className="text-sm">{file}</span>
-                              </div>
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => handleFileSystemSelect(file, folderName)}
-                              >
-                                <Plus className="h-3 w-3" />
-                              </Button>
                             </div>
                           ))
                         )}
