@@ -9,6 +9,7 @@ import { getTranslations } from '@/utils/translations';
 const Call = () => {
   const navigate = useNavigate();
   const language = localStorage.getItem('selectedLanguage') || 'en';
+  const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
   const t = getTranslations(language);
 
   const handleCallTeam = () => {
@@ -31,20 +32,28 @@ const Call = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className={`min-h-screen flex flex-col ${
+      isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
+    }`}>
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 p-4 sticky top-0 z-10">
+      <div className={`border-b p-4 sticky top-0 z-10 ${
+        isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+      }`}>
         <div className="flex items-center gap-4 max-w-4xl mx-auto">
           <Button
             onClick={handleBackToChat}
             variant="ghost"
             size="sm"
-            className="flex items-center gap-2 hover:bg-gray-100"
+            className={`flex items-center gap-2 ${
+              isDarkMode ? 'hover:bg-gray-700 text-white' : 'hover:bg-gray-100 text-black'
+            }`}
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Chat
           </Button>
-          <h1 className="text-xl font-bold text-gray-900">Get Legal Help Now</h1>
+          <h1 className={`text-xl font-bold ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Get Legal Help Now</h1>
         </div>
       </div>
 
@@ -53,35 +62,45 @@ const Call = () => {
         <div className="container mx-auto max-w-4xl">
           {/* Hero Section */}
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className={`text-4xl font-bold mb-4 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               How Would You Like to Connect?
             </h2>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className={`text-xl mb-8 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Choose your preferred method to get immediate legal assistance
             </p>
             
             {/* Stats */}
             <div className="flex justify-center gap-8 mb-8">
               <div className="text-center">
-                <div className="flex items-center justify-center gap-1 text-blue-600 mb-1">
+                <div className="flex items-center justify-center gap-1 text-blue-500 mb-1">
                   <Clock className="h-4 w-4" />
                   <span className="font-semibold">24/7</span>
                 </div>
-                <p className="text-sm text-gray-600">Available</p>
+                <p className={`text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>Available</p>
               </div>
               <div className="text-center">
-                <div className="flex items-center justify-center gap-1 text-green-600 mb-1">
+                <div className="flex items-center justify-center gap-1 text-green-500 mb-1">
                   <Users className="h-4 w-4" />
                   <span className="font-semibold">500+</span>
                 </div>
-                <p className="text-sm text-gray-600">Legal Experts</p>
+                <p className={`text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>Legal Experts</p>
               </div>
               <div className="text-center">
-                <div className="flex items-center justify-center gap-1 text-yellow-600 mb-1">
+                <div className="flex items-center justify-center gap-1 text-yellow-500 mb-1">
                   <Star className="h-4 w-4" />
                   <span className="font-semibold">4.9/5</span>
                 </div>
-                <p className="text-sm text-gray-600">Client Rating</p>
+                <p className={`text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>Client Rating</p>
               </div>
             </div>
           </div>
@@ -89,18 +108,26 @@ const Call = () => {
           {/* Contact Options */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             {/* Call Team Card */}
-            <Card className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 border-0">
+            <Card className={`shadow-lg hover:shadow-xl transition-all duration-300 border-0 ${
+              isDarkMode ? 'bg-gray-800' : 'bg-white'
+            }`}>
               <CardHeader className="text-center pb-4">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Phone className="h-8 w-8 text-blue-600" />
                 </div>
-                <CardTitle className="text-2xl font-bold text-gray-900">Call Our Team</CardTitle>
+                <CardTitle className={`text-2xl font-bold ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>Call Our Team</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-gray-600 mb-6">
+                <p className={`mb-6 ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>
                   Speak directly with our experienced legal professionals. Get immediate answers to your questions.
                 </p>
-                <ul className="text-sm text-gray-500 mb-6 space-y-2">
+                <ul className={`text-sm mb-6 space-y-2 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
                   <li>• Immediate consultation</li>
                   <li>• Expert legal advice</li>
                   <li>• Case evaluation</li>
@@ -116,18 +143,26 @@ const Call = () => {
             </Card>
 
             {/* Chat Team Card */}
-            <Card className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 border-0">
+            <Card className={`shadow-lg hover:shadow-xl transition-all duration-300 border-0 ${
+              isDarkMode ? 'bg-gray-800' : 'bg-white'
+            }`}>
               <CardHeader className="text-center pb-4">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <MessageCircle className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle className="text-2xl font-bold text-gray-900">Live Chat</CardTitle>
+                <CardTitle className={`text-2xl font-bold ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>Live Chat</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-gray-600 mb-6">
+                <p className={`mb-6 ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>
                   Start an instant chat conversation with our support team. Quick responses guaranteed.
                 </p>
-                <ul className="text-sm text-gray-500 mb-6 space-y-2">
+                <ul className={`text-sm mb-6 space-y-2 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
                   <li>• Instant messaging</li>
                   <li>• Document sharing</li>
                   <li>• Chat history saved</li>
@@ -144,13 +179,17 @@ const Call = () => {
           </div>
 
           {/* Emergency Section */}
-          <Card className="bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-200 shadow-lg">
+          <Card className={`border-2 border-red-500 shadow-lg ${
+            isDarkMode ? 'bg-gray-800' : 'bg-red-50'
+          }`}>
             <CardContent className="p-8 text-center">
               <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Shield className="h-10 w-10 text-red-600" />
               </div>
-              <h3 className="text-2xl font-bold text-red-800 mb-4">Emergency Legal Assistance</h3>
-              <p className="text-red-700 mb-6 text-lg">
+              <h3 className="text-2xl font-bold text-red-600 mb-4">Emergency Legal Assistance</h3>
+              <p className={`text-lg mb-6 ${
+                isDarkMode ? 'text-gray-300' : 'text-red-700'
+              }`}>
                 If you're facing an immediate legal emergency or safety concern, contact emergency services right away.
               </p>
               <Button
@@ -165,7 +204,9 @@ const Call = () => {
 
           {/* Additional Info */}
           <div className="text-center mt-12">
-            <p className="text-gray-500 text-sm">
+            <p className={`text-sm ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               All consultations are confidential and protected by attorney-client privilege
             </p>
           </div>
