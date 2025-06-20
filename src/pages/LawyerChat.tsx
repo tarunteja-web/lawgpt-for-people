@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Message } from '@/types/chat';
@@ -6,7 +5,7 @@ import LawyerSidebar from '@/components/chat/LawyerSidebar';
 import LawyerChatHeader from '@/components/chat/LawyerChatHeader';
 import MessageList from '@/components/chat/MessageList';
 import ChatInput from '@/components/chat/ChatInput';
-import { useTranslations } from '@/utils/translations';
+import { getTranslations } from '@/utils/translations';
 
 const LawyerChat = () => {
   const isMobile = useIsMobile();
@@ -20,7 +19,7 @@ const LawyerChat = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
   
   const lawyer = JSON.parse(localStorage.getItem('selectedLawyer') || '{}');
-  const translations = useTranslations(language);
+  const translations = getTranslations(language);
 
   useEffect(() => {
     // Initial lawyer greeting
