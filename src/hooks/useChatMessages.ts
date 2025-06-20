@@ -10,8 +10,6 @@ interface UseChatMessagesProps {
   selectedIssue: string;
   currentSessionId: string | null;
   setIsLoading: (loading: boolean) => void;
-  getNextQuestion: () => string | null;
-  isInQuestioningPhase: () => boolean;
 }
 
 export const useChatMessages = ({
@@ -20,9 +18,7 @@ export const useChatMessages = ({
   language,
   selectedIssue,
   currentSessionId,
-  setIsLoading,
-  getNextQuestion,
-  isInQuestioningPhase
+  setIsLoading
 }: UseChatMessagesProps) => {
   const storeMessage = async (message: Message, sessionId: string) => {
     try {
@@ -86,20 +82,7 @@ export const useChatMessages = ({
     setIsLoading(true);
 
     try {
-      let aiResponse;
-      
-      // Check if we're still in questioning phase
-      if (isInQuestioningPhase()) {
-        const nextQuestion = getNextQuestion();
-        if (nextQuestion) {
-          aiResponse = `Thank you for that information. Next question:\n\n${nextQuestion}`;
-        } else {
-          aiResponse = "Thank you for providing all the information. Now I can help you with your legal matter. What specific question do you have about your case?";
-        }
-      } else {
-        // Normal AI response for legal questions
-        aiResponse = await generateAIResponse(inputText);
-      }
+      const aiResponse = await generateAIResponse(inputText);
       
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),

@@ -26,7 +26,7 @@ export const useChat = () => {
     setCurrentSessionId
   } = useChatState();
 
-  const { selectedIssue, getNextQuestion, isInQuestioningPhase } = useChatSession({
+  const { selectedIssue } = useChatSession({
     language,
     isAnonymous,
     setMessages,
@@ -39,9 +39,7 @@ export const useChat = () => {
     language,
     selectedIssue,
     currentSessionId,
-    setIsLoading,
-    getNextQuestion,
-    isInQuestioningPhase
+    setIsLoading
   });
 
   const {
