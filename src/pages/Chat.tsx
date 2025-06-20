@@ -176,11 +176,11 @@ const Chat = () => {
         icon: isAnonymous ? ShieldOff : Shield, 
         text: isAnonymous ? t.exitAnonymous : t.anonymous,
         onClick: toggleAnonymous,
-        variant: isAnonymous ? 'destructive' : 'default'
+        variant: isAnonymous ? 'destructive' as const : 'default' as const
       },
-      { key: 'document', icon: FileText, text: t.document, onClick: () => handleActionClick('document') },
-      { key: 'call', icon: Phone, text: t.call, onClick: () => handleActionClick('call') },
-      { key: 'allset', icon: CheckCircle, text: t.allSet, onClick: () => handleActionClick('allset') }
+      { key: 'document', icon: FileText, text: t.document, onClick: () => handleActionClick('document'), variant: 'outline' as const },
+      { key: 'call', icon: Phone, text: t.call, onClick: () => handleActionClick('call'), variant: 'outline' as const },
+      { key: 'allset', icon: CheckCircle, text: t.allSet, onClick: () => handleActionClick('allset'), variant: 'outline' as const }
     ];
 
     if (isMobile) {
@@ -212,7 +212,7 @@ const Chat = () => {
         {buttons.map(button => (
           <Button
             key={button.key}
-            variant={button.variant || 'outline'}
+            variant={button.variant}
             onClick={button.onClick}
             className="flex items-center space-x-2"
           >
