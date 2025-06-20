@@ -14,6 +14,7 @@ const Chat = () => {
     setInputText,
     isAnonymous,
     isListening,
+    isLoading,
     language,
     setLanguage,
     isDarkMode,
@@ -51,6 +52,7 @@ const Chat = () => {
       <ChatInput
         inputText={inputText}
         isListening={isListening}
+        isLoading={isLoading}
         isDarkMode={isDarkMode}
         translations={t}
         onInputChange={setInputText}

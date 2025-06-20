@@ -2,12 +2,13 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Mic, MicOff, Send } from 'lucide-react';
+import { Mic, MicOff, Send, Loader2 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ChatInputProps {
   inputText: string;
   isListening: boolean;
+  isLoading?: boolean;
   isDarkMode: boolean;
   translations: {
     typeMessage: string;
@@ -21,6 +22,7 @@ interface ChatInputProps {
 const ChatInput: React.FC<ChatInputProps> = ({
   inputText,
   isListening,
+  isLoading = false,
   isDarkMode,
   translations,
   onInputChange,
@@ -30,7 +32,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   const isMobile = useIsMobile();
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !isLoading) {
       onSendMessage();
     }
   };
@@ -47,6 +49,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           onChange={(e) => onInputChange(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder={translations.typeMessage}
+          disabled={isLoading}
           className={`flex-1 border-0 bg-transparent focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ${
             isDarkMode ? 'text-white placeholder-gray-400' : 'text-black placeholder-gray-500'
           }`}
@@ -56,6 +59,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           variant="ghost"
           size="sm"
           onClick={onToggleListening}
+          disabled={isLoading}
           className={`${isListening ? 'text-red-500' : isDarkMode ? 'text-gray-400' : 'text-gray-500'} hover:bg-transparent`}
         >
           {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
@@ -64,11 +68,16 @@ const ChatInput: React.FC<ChatInputProps> = ({
         <Button 
           onClick={onSendMessage} 
           size="sm"
+          disabled={isLoading || !inputText.trim()}
           className={`rounded-full text-white ${
             isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-black hover:bg-gray-800'
-          } ${isMobile ? 'p-1.5' : 'p-2'}`}
+          } ${isMobile ? 'p-1.5' : 'p-2'} disabled:opacity-50`}
         >
-          <Send className="h-4 w-4" />
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Send className="h-4 w-4" />
+          )}
         </Button>
       </div>
       
