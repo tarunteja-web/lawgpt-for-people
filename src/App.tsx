@@ -11,6 +11,7 @@ import Chat from "./pages/Chat";
 import Marketplace from "./pages/Marketplace";
 import Payment from "./pages/Payment";
 import LawyerChat from "./pages/LawyerChat";
+import DocumentPreview from "./pages/DocumentPreview";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/lawyer-chat" element={<LawyerChat />} />
+          <Route path="/document-preview" element={<DocumentPreview />} />
           <Route path="/original" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
