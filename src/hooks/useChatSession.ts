@@ -26,11 +26,26 @@ export const useChatSession = ({
   useEffect(() => {
     const initializeSession = async () => {
       const t = getTranslations(language);
-      const greeting = t.initialGreeting.replace('{issue}', selectedIssue);
+      
+      // Enhanced greeting with sector selection
+      const sectorSelectionMessage = `${t.initialGreeting}
+
+To provide you with the most relevant assistance, please let me know which legal sector you'd like to discuss:
+
+🏠 **Family Law** - Divorce, custody, adoption
+⚖️ **Criminal Defense** - Criminal charges, legal defense
+🏢 **Business Law** - Contracts, compliance, corporate matters
+💼 **Employment Issues** - Workplace disputes, wrongful termination
+🏥 **Personal Injury** - Accidents, medical malpractice
+🏘️ **Property Disputes** - Real estate, landlord-tenant issues
+📄 **Contract Disputes** - Agreement violations, negotiations
+🌟 **Other** - Any other legal matter
+
+Please type the area you're interested in, or simply describe your legal situation and I'll help guide you to the right information.`;
       
       const initialMessage: Message = {
         id: '1',
-        text: greeting,
+        text: sectorSelectionMessage,
         isUser: false,
         timestamp: new Date()
       };
@@ -64,7 +79,7 @@ export const useChatSession = ({
             .insert({
               session_id: data.id,
               sender: 'ai',
-              content: greeting
+              content: sectorSelectionMessage
             });
         }
       } catch (error) {

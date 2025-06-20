@@ -48,7 +48,6 @@ export const enTranslations = {
   anonymousMode: 'You are now in Anonymous Mode. Your identity is hidden.',
   exitingAnonymous: 'Exiting Anonymous Mode. Returning to your previous session.',
   caseStudy: 'Case Study',
-  legalAIAssistant: 'Legal AI Assistant',
   
   // Call options
   callTeam: 'Call Our Team',
