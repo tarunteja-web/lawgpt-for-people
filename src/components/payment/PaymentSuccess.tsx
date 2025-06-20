@@ -21,10 +21,6 @@ const PaymentSuccess = ({
     navigate('/lawyer-chat');
   };
 
-  const goToMarketplace = () => {
-    navigate('/marketplace');
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl bg-white border border-gray-200 shadow-xl">
@@ -86,8 +82,8 @@ const PaymentSuccess = ({
             </div>
           </div>
 
-          {/* Action Buttons with gradients */}
-          <div className="space-y-3">
+          {/* Action Button with gradient */}
+          <div>
             <Button 
               onClick={proceedToLawyerChat} 
               className="w-full bg-gradient-to-r from-black to-gray-800 hover:from-gray-800 hover:to-black text-white py-3 text-lg font-medium shadow-lg transition-all duration-300 transform hover:scale-105" 
@@ -95,15 +91,6 @@ const PaymentSuccess = ({
             >
               <MessageSquare className="h-5 w-5 mr-2" />
               Start Consultation Now
-            </Button>
-            
-            <Button 
-              onClick={goToMarketplace} 
-              variant="outline" 
-              className="w-full py-3 text-gray-700 border-2 border-gray-300 hover:bg-gradient-to-r hover:from-gray-50 hover:to-white shadow-sm transition-all duration-300" 
-              size="lg"
-            >
-              Back to Marketplace
             </Button>
           </div>
 
