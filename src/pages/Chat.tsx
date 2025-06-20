@@ -187,16 +187,16 @@ const Chat = () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full bg-white text-black border-black hover:bg-black hover:text-white">
               {t.options}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-full">
+          <DropdownMenuContent className="w-full bg-white border-black">
             {buttons.map(button => (
               <DropdownMenuItem 
                 key={button.key} 
                 onClick={button.onClick}
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 text-black hover:bg-black hover:text-white"
               >
                 <button.icon className="h-4 w-4" />
                 <span>{button.text}</span>
@@ -214,7 +214,13 @@ const Chat = () => {
             key={button.key}
             variant={button.variant}
             onClick={button.onClick}
-            className="flex items-center space-x-2"
+            className={`flex items-center space-x-2 ${
+              button.variant === 'destructive' 
+                ? 'bg-black text-white hover:bg-gray-800' 
+                : button.variant === 'default'
+                ? 'bg-black text-white hover:bg-gray-800'
+                : 'bg-white text-black border-black hover:bg-black hover:text-white'
+            }`}
           >
             <button.icon className="h-4 w-4" />
             <span>{button.text}</span>
@@ -225,34 +231,34 @@ const Chat = () => {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} ${isAnonymous ? 'bg-gradient-to-br from-gray-800 to-gray-900' : ''}`}>
+    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'} ${isAnonymous ? 'bg-gradient-to-br from-gray-900 to-black' : ''}`}>
       {/* Header */}
-      <header className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-b p-4 flex items-center justify-between ${isAnonymous ? 'bg-gray-800/90 backdrop-blur' : ''}`}>
+      <header className={`${isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-black'} border-b p-4 flex items-center justify-between ${isAnonymous ? 'bg-black/90 backdrop-blur' : ''}`}>
         <div className="flex items-center space-x-4">
           <h1 className="text-xl font-bold">LawGPT</h1>
-          {isAnonymous && <Shield className="h-5 w-5 text-blue-400" />}
+          {isAnonymous && <Shield className="h-5 w-5 text-white" />}
         </div>
         
         <div className="flex items-center space-x-4">
           <Select value={language} onValueChange={setLanguage}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className={`w-32 ${isDarkMode ? 'bg-black border-gray-800 text-white' : 'bg-white border-black text-black'}`}>
               <div className="flex items-center space-x-2">
                 <Globe className="h-4 w-4" />
                 <SelectValue />
               </div>
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="en">English</SelectItem>
-              <SelectItem value="hi">हिंदी</SelectItem>
-              <SelectItem value="te">తెలుగు</SelectItem>
+            <SelectContent className={isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-black'}>
+              <SelectItem value="en" className={isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}>English</SelectItem>
+              <SelectItem value="hi" className={isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}>हिंदी</SelectItem>
+              <SelectItem value="te" className={isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}>తెలుగు</SelectItem>
             </SelectContent>
           </Select>
           
-          <Button variant="ghost" size="sm" onClick={() => setIsDarkMode(!isDarkMode)}>
+          <Button variant="ghost" size="sm" onClick={() => setIsDarkMode(!isDarkMode)} className={isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}>
             {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
           
-          <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+          <Button variant="ghost" size="sm" className={`flex items-center space-x-2 ${isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}`}>
             <User className="h-4 w-4" />
             <span className="hidden md:inline">{userName}</span>
           </Button>
@@ -268,11 +274,11 @@ const Chat = () => {
           >
             <Card className={`max-w-md p-4 ${
               message.isUser 
-                ? 'bg-blue-600 text-white ml-auto' 
+                ? 'bg-black text-white ml-auto' 
                 : isDarkMode 
-                  ? 'bg-gray-800 text-white' 
-                  : 'bg-white'
-            } ${isAnonymous && !message.isUser ? 'bg-gray-700 text-white border-gray-600' : ''}`}>
+                  ? 'bg-gray-900 text-white border-gray-800' 
+                  : 'bg-white text-black border-black'
+            } ${isAnonymous && !message.isUser ? 'bg-gray-800 text-white border-gray-700' : ''}`}>
               <p className="text-sm">{message.text}</p>
               <span className="text-xs opacity-70 mt-2 block">
                 {message.timestamp.toLocaleTimeString()}
@@ -284,18 +290,18 @@ const Chat = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="p-4 border-t">
+      <div className={`p-4 ${isDarkMode ? 'border-gray-800' : 'border-black'} border-t`}>
         <ActionButtons />
       </div>
 
       {/* Input Area */}
-      <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-t p-4`}>
+      <div className={`${isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-black'} border-t p-4`}>
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={toggleListening}
-            className={isListening ? 'text-red-500' : ''}
+            className={`${isListening ? 'text-red-500' : isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}`}
           >
             {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
           </Button>
@@ -305,10 +311,10 @@ const Chat = () => {
             onChange={(e) => setInputText(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             placeholder={t.typeMessage}
-            className="flex-1"
+            className={`flex-1 ${isDarkMode ? 'bg-black border-gray-800 text-white' : 'bg-white border-black text-black'}`}
           />
           
-          <Button onClick={handleSendMessage} size="sm">
+          <Button onClick={handleSendMessage} size="sm" className="bg-black text-white hover:bg-gray-800">
             <Send className="h-4 w-4" />
           </Button>
         </div>
