@@ -26,7 +26,7 @@ const Payment = () => {
       {/* Main content */}
       <div className="flex-1 p-4">
         <div className="container mx-auto max-w-2xl">
-          <div className="text-center mb-8 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white py-8 px-4 rounded-xl shadow-2xl border border-gray-700">
+          <div className="text-center mb-8 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white py-8 px-4 rounded-xl shadow-2xl">
             <h2 className="text-2xl md:text-3xl font-bold leading-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
               Complete Your Payment
             </h2>
