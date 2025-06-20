@@ -59,6 +59,7 @@ const Chat = () => {
         isLoading={isLoading}
         isDarkMode={isDarkMode}
         translations={t}
+        language={language}
         onInputChange={setInputText}
         onSendMessage={handleSendMessage}
         onToggleListening={toggleListening}
