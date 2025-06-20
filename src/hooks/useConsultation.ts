@@ -21,7 +21,7 @@ export const useConsultation = (consultationId?: string) => {
         .single();
 
       if (error) throw error;
-      setConsultation(data);
+      setConsultation(data as LegalConsultation);
     } catch (error) {
       console.error('Error fetching consultation:', error);
       toast({
@@ -44,7 +44,7 @@ export const useConsultation = (consultationId?: string) => {
         .order('created_at', { ascending: true });
 
       if (error) throw error;
-      setMessages(data || []);
+      setMessages((data || []) as ConsultationMessage[]);
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
@@ -96,7 +96,7 @@ export const useConsultation = (consultationId?: string) => {
         .single();
 
       if (error) throw error;
-      return data;
+      return data as LegalConsultation;
     } catch (error) {
       console.error('Error creating consultation:', error);
       toast({

@@ -23,7 +23,7 @@ export const useNotifications = () => {
 
       if (error) throw error;
       
-      setNotifications(data || []);
+      setNotifications((data || []) as UserNotification[]);
       setUnreadCount(data?.filter(n => !n.is_read).length || 0);
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -72,9 +72,8 @@ export const useNotifications = () => {
 
   // Set up real-time notifications
   useEffect(() => {
-    const { data: { user } } = supabase.auth.getUser();
-    
-    user.then(({ data: { user } }) => {
+    const setupRealtimeSubscription = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
       // Fetch initial notifications
@@ -108,7 +107,9 @@ export const useNotifications = () => {
       return () => {
         supabase.removeChannel(channel);
       };
-    });
+    };
+
+    setupRealtimeSubscription();
   }, []);
 
   return {
