@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +21,7 @@ interface Lawyer {
 
 const Marketplace = () => {
   const navigate = useNavigate();
+  const [selectedSpecialization, setSelectedSpecialization] = useState<string>('All');
   
   const lawyers: Lawyer[] = [
     {
@@ -76,8 +78,25 @@ const Marketplace = () => {
       experience: '20 years',
       initials: 'VR',
       profileImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
+    },
+    {
+      id: '6',
+      name: 'Adv. Meera Patel',
+      rating: 4.8,
+      fee: 329,
+      language: 'Telugu',
+      specialization: 'Family Law',
+      experience: '8 years',
+      initials: 'MP',
+      profileImage: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face'
     }
   ];
+
+  const specializations = ['All', ...Array.from(new Set(lawyers.map(lawyer => lawyer.specialization)))];
+
+  const filteredLawyers = selectedSpecialization === 'All' 
+    ? lawyers 
+    : lawyers.filter(lawyer => lawyer.specialization === selectedSpecialization);
 
   const handleBookNow = (lawyer: Lawyer) => {
     localStorage.setItem('selectedLawyer', JSON.stringify(lawyer));
@@ -112,8 +131,26 @@ const Marketplace = () => {
           </p>
         </div>
 
+        {/* Specialization Filter Buttons */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          {specializations.map((spec) => (
+            <Button
+              key={spec}
+              variant={selectedSpecialization === spec ? "default" : "outline"}
+              onClick={() => setSelectedSpecialization(spec)}
+              className={`${
+                selectedSpecialization === spec 
+                  ? 'bg-black text-white hover:bg-gray-800' 
+                  : 'bg-white text-black border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              {spec}
+            </Button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {lawyers.map((lawyer) => (
+          {filteredLawyers.map((lawyer) => (
             <Card key={lawyer.id} className="bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300">
               <CardHeader className="text-center">
                 <div className="flex flex-col items-center mb-4">
