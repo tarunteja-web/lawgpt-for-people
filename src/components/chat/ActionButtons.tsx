@@ -43,20 +43,33 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   ];
 
   return (
-    <div className={`flex justify-center items-center gap-2 px-4 py-6 ${isMobile ? 'flex-wrap' : ''}`}>
+    <div className={`flex justify-center items-center ${
+      isMobile 
+        ? 'gap-2 px-3 py-3 flex-wrap' 
+        : 'gap-3 px-6 py-4'
+    }`}>
       {buttons.map(button => (
         <Button
           key={button.key}
           variant={button.variant}
           onClick={button.onClick}
-          className={`flex items-center gap-2 rounded-full border ${
+          className={`flex items-center gap-1.5 rounded-full border ${
             isDarkMode 
               ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700' 
               : 'border-gray-300 bg-white text-black hover:bg-gray-50'
-          } ${isMobile ? 'px-3 py-2 text-xs' : 'px-6 py-2 text-sm'}`}
+          } ${
+            isMobile 
+              ? 'px-2.5 py-1.5 text-xs h-8 min-w-0' 
+              : 'px-4 py-2 text-sm h-10'
+          }`}
         >
-          <button.icon className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
-          <span className={isMobile ? 'text-xs' : 'text-sm'}>{button.text}</span>
+          <button.icon className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} flex-shrink-0`} />
+          <span className={`${isMobile ? 'text-xs' : 'text-sm'} whitespace-nowrap`}>
+            {isMobile && button.text.length > 8 
+              ? button.text.substring(0, 6) + '...' 
+              : button.text
+            }
+          </span>
         </Button>
       ))}
     </div>
