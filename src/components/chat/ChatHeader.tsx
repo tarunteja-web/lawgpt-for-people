@@ -3,7 +3,8 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Shield, Globe, User, Moon, Sun, LogIn, UserPlus } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Shield, Globe, User, Moon, Sun, LogIn, UserPlus, ChevronDown } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getTranslations } from '@/utils/translations';
 
@@ -49,15 +50,40 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
         <h1 className={`font-bold ${isMobile ? 'text-lg' : 'text-xl'} ${
           isDarkMode ? 'text-white' : 'text-black'
         }`}>LawGPT</h1>
-        {!isMobile && <span className={`text-sm ${
-          isDarkMode ? 'text-gray-400' : 'text-gray-500'
-        }`}>{t.legalAIAssistant}</span>}
         {isAnonymous && <Shield className={`h-5 w-5 ${
           isDarkMode ? 'text-gray-400' : 'text-gray-400'
         }`} />}
       </div>
       
       <div className={`flex items-center ${isMobile ? 'space-x-2' : 'space-x-4'}`}>
+        {/* Welcome Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className={`flex items-center space-x-1 ${
+              isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'
+            }`}>
+              <span>Welcome</span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className={`${
+            isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
+          } z-50`}>
+            <DropdownMenuItem className={isDarkMode ? 'text-white hover:bg-gray-700 focus:bg-gray-700' : 'hover:bg-gray-100 focus:bg-gray-100'}>
+              Getting Started Guide
+            </DropdownMenuItem>
+            <DropdownMenuItem className={isDarkMode ? 'text-white hover:bg-gray-700 focus:bg-gray-700' : 'hover:bg-gray-100 focus:bg-gray-100'}>
+              How to Use LawGPT
+            </DropdownMenuItem>
+            <DropdownMenuItem className={isDarkMode ? 'text-white hover:bg-gray-700 focus:bg-gray-700' : 'hover:bg-gray-100 focus:bg-gray-100'}>
+              Legal Resources
+            </DropdownMenuItem>
+            <DropdownMenuItem className={isDarkMode ? 'text-white hover:bg-gray-700 focus:bg-gray-700' : 'hover:bg-gray-100 focus:bg-gray-100'}>
+              FAQ
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <Select value={language} onValueChange={onLanguageChange}>
           <SelectTrigger className={`${isMobile ? 'w-16' : 'w-20'} ${
             isDarkMode ? 'border-gray-600 bg-gray-800 text-white' : 'border-gray-300'

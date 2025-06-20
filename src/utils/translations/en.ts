@@ -57,7 +57,7 @@ export const enTranslations = {
   emergency: 'Emergency',
   
   // Chat content
-  initialGreeting: "Hello! I'm here to help you with your {issue} case. I'll need to ask you a few questions to better understand your situation.",
+  initialGreeting: "Hello! How can I help you today?",
   divorceResponse: "I understand you're dealing with a divorce matter. Can you tell me if this is a mutual decision or if there are contested issues?",
   generalResponse: "Thank you for sharing that information. Let me help you understand your legal options better.",
   propertyDisputesResponse: "Property disputes can be complex. Can you tell me more about the nature of the dispute - is it about ownership, boundaries, or tenant issues?",
