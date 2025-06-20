@@ -50,6 +50,12 @@ export const translations = {
     caseStudy: 'Case Study',
     legalAIAssistant: 'Legal AI Assistant',
     
+    // Call options
+    callTeam: 'Call Our Team',
+    chatTeam: 'Chat with Our Team',
+    callPolice: 'Emergency: Call Police',
+    emergency: 'Emergency',
+    
     // Chat content
     initialGreeting: "Hello! I'm here to help you with your {issue} case. I'll need to ask you a few questions to better understand your situation.",
     divorceResponse: "I understand you're dealing with a divorce matter. Can you tell me if this is a mutual decision or if there are contested issues?",
@@ -112,6 +118,12 @@ export const translations = {
     caseStudy: 'केस स्टडी',
     legalAIAssistant: 'कानूनी AI सहायक',
     
+    // Call options
+    callTeam: 'हमारी टीम को कॉल करें',
+    chatTeam: 'हमारी टीम से चैट करें',
+    callPolice: 'आपातकाल: पुलिस को कॉल करें',
+    emergency: 'आपातकाल',
+    
     // Chat content
     initialGreeting: "नमस्ते! मैं आपके {issue} मामले में मदद करने के लिए यहाँ हूँ। आपकी स्थिति को बेहतर समझने के लिए मुझे कुछ प्रश्न पूछने होंगे।",
     divorceResponse: "मैं समझता हूँ कि आप तलाक के मामले से निपट रहे हैं। क्या आप बता सकते हैं कि यह आपसी सहमति से है या कोई विवादित मुद्दे हैं?",
@@ -173,6 +185,12 @@ export const translations = {
     exitingAnonymous: 'అజ్ఞాత మోడ్ నుండి నిష్క్రమిస్తున్నారు. మీ మునుపటి సెషన్‌కు తిరిగి వెళ్లుతున్నారు.',
     caseStudy: 'కేస్ స్టడీ',
     legalAIAssistant: 'న్యాయ AI సహాయకుడు',
+    
+    // Call options
+    callTeam: 'మా టీమ్‌కు కాల్ చేయండి',
+    chatTeam: 'మా టీమ్‌తో చాట్ చేయండి',
+    callPolice: 'అత్యవసరం: పోలీసులకు కాల్ చేయండి',
+    emergency: 'అత్యవసరం',
     
     // Chat content
     initialGreeting: "నమస్కారం! మీ {issue} కేసులో సహాయం చేయడానికి నేను ఇక్కడ ఉన్నాను. మీ పరిస్థితిని బాగా అర్థం చేసుకోవడానికి నేను కొన్ని ప్రశ్నలు అడగాలి.",
