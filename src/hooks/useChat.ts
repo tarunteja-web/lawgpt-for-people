@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Message } from '@/types/chat';
+import { getTranslations } from '@/utils/translations';
 
 export const useChat = () => {
   const navigate = useNavigate();
@@ -22,7 +24,8 @@ export const useChat = () => {
   }, [language]);
 
   useEffect(() => {
-    const greeting = `Hello! I'm here to help you with your ${selectedIssue} case. I'll need to ask you a few questions to better understand your situation.`;
+    const t = getTranslations(language);
+    const greeting = t.initialGreeting.replace('{issue}', selectedIssue);
     
     const initialMessage: Message = {
       id: '1',
@@ -32,13 +35,31 @@ export const useChat = () => {
     };
     
     setMessages([initialMessage]);
-  }, [selectedIssue]);
+  }, [selectedIssue, language]);
 
   const generateAIResponse = (userInput: string, issue: string) => {
-    if (issue === 'Divorce') {
-      return "I understand you're dealing with a divorce matter. Can you tell me if this is a mutual decision or if there are contested issues?";
+    const t = getTranslations(language);
+    
+    switch (issue) {
+      case 'Divorce':
+        return t.divorceResponse;
+      case 'Property Disputes':
+        return t.propertyDisputesResponse;
+      case 'Criminal Defense':
+        return t.criminalDefenseResponse;
+      case 'Business Law':
+        return t.businessLawResponse;
+      case 'Employment Issues':
+        return t.employmentIssuesResponse;
+      case 'Personal Injury':
+        return t.personalInjuryResponse;
+      case 'Family Law':
+        return t.familyLawResponse;
+      case 'Contract Disputes':
+        return t.contractDisputesResponse;
+      default:
+        return t.generalResponse;
     }
-    return "Thank you for sharing that information. Let me help you understand your legal options better.";
   };
 
   const handleSendMessage = () => {
@@ -66,11 +87,13 @@ export const useChat = () => {
   };
 
   const toggleAnonymous = () => {
+    const t = getTranslations(language);
+    
     if (!isAnonymous) {
       setSavedMessages(messages);
       setMessages([{
         id: 'anon-1',
-        text: 'You are now in Anonymous Mode. Your identity is hidden.',
+        text: t.anonymousMode,
         isUser: false,
         timestamp: new Date()
       }]);
