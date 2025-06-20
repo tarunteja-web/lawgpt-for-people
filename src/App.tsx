@@ -12,6 +12,8 @@ import Call from "./pages/Call";
 import Marketplace from "./pages/Marketplace";
 import Payment from "./pages/Payment";
 import LawyerChat from "./pages/LawyerChat";
+import LawyerCall from "./pages/LawyerCall";
+import LawyerVideoCall from "./pages/LawyerVideoCall";
 import DocumentPreview from "./pages/DocumentPreview";
 import CaseStudy from "./pages/CaseStudy";
 import Index from "./pages/Index";
@@ -34,6 +36,8 @@ const App = () => (
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/lawyer-chat" element={<LawyerChat />} />
+          <Route path="/lawyer-call" element={<LawyerCall />} />
+          <Route path="/lawyer-video-call" element={<LawyerVideoCall />} />
           <Route path="/document-preview" element={<DocumentPreview />} />
           <Route path="/case-study" element={<CaseStudy />} />
           <Route path="/original" element={<Index />} />

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Phone, MessageCircle, Shield, Video } from 'lucide-react';
@@ -20,6 +21,8 @@ const CallOptions: React.FC<CallOptionsProps> = ({
   translations,
   onClose
 }) => {
+  const navigate = useNavigate();
+
   const handleCallTeam = () => {
     console.log('Calling team...');
     // In a real app, this would initiate a call
@@ -29,8 +32,7 @@ const CallOptions: React.FC<CallOptionsProps> = ({
 
   const handleCallLawyers = () => {
     console.log('Calling lawyers...');
-    // In a real app, this would initiate a call to lawyers
-    alert('Calling lawyers...');
+    navigate('/lawyer-call');
     onClose();
   };
 
@@ -43,8 +45,7 @@ const CallOptions: React.FC<CallOptionsProps> = ({
 
   const handleVideoCallLawyers = () => {
     console.log('Starting video call with lawyers...');
-    // In a real app, this would start a video call with lawyers
-    alert('Starting video call with lawyers...');
+    navigate('/lawyer-video-call');
     onClose();
   };
 
