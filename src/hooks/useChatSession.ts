@@ -26,31 +26,11 @@ export const useChatSession = ({
   useEffect(() => {
     const initializeSession = async () => {
       const t = getTranslations(language);
-      
-      // Create the comprehensive initial message with greeting + questions
-      const initialGreeting = `${t.initialGreeting.replace('{issue}', selectedIssue)}
-
-📋 **Let me gather some details to help you better with your ${selectedIssue} case:**
-
-**Personal Information:**
-• What is your full name?
-• What is your age?
-• What is your current location/city?
-
-**Your ${selectedIssue} Case Details:**
-• What specific incident or situation occurred?
-• When did this happen (exact date/timeframe)?
-• Who are the other parties involved?
-• What documents do you have related to this matter?
-• Have you taken any legal action yet?
-• What outcome are you seeking?
-• What is your budget for legal assistance?
-
-Please provide these details so I can give you the most relevant legal guidance for your situation.`;
+      const greeting = t.initialGreeting.replace('{issue}', selectedIssue);
       
       const initialMessage: Message = {
         id: '1',
-        text: initialGreeting,
+        text: greeting,
         isUser: false,
         timestamp: new Date()
       };
@@ -78,13 +58,13 @@ Please provide these details so I can give you the most relevant legal guidance 
           setCurrentSessionId(data.id);
           console.log('Chat session created:', data.id);
 
-          // Store the initial AI greeting message with questions
+          // Store the initial AI greeting message
           await supabase
             .from('chat_messages')
             .insert({
               session_id: data.id,
               sender: 'ai',
-              content: initialGreeting
+              content: greeting
             });
         }
       } catch (error) {
