@@ -12,7 +12,7 @@ interface PaymentMethodsProps {
 }
 
 const PaymentMethods = ({ onPaymentSuccess }: PaymentMethodsProps) => {
-  const [paymentMethod, setPaymentMethod] = useState<'upi' | 'card' | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'upi' | 'card' | null>('upi');
   const [selectedBank, setSelectedBank] = useState('');
   const [cardDetails, setCardDetails] = useState({
     number: '',
