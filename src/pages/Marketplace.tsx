@@ -61,33 +61,33 @@ const Marketplace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800">
+    <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6">
         <MarketplaceHeader selectedLegalIssue={selectedLegalIssue} />
 
         {/* Results Header */}
-        <Card className="mb-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black border border-gray-700 shadow-2xl">
+        <Card className="mb-6 bg-white border border-gray-200 shadow-sm">
           <CardContent className="p-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-2">
-                <Users size={16} className="text-gray-300" />
-                <span className="text-sm text-gray-300">
-                  Showing <span className="font-semibold text-white">{sortedLawyers.length}</span> {selectedLegalIssue ? `${selectedLegalIssue.toLowerCase()}` : ''} lawyer{sortedLawyers.length !== 1 ? 's' : ''} available
+                <Users size={16} className="text-gray-600" />
+                <span className="text-sm text-gray-700">
+                  Showing <span className="font-semibold text-gray-900">{sortedLawyers.length}</span> {selectedLegalIssue ? `${selectedLegalIssue.toLowerCase()}` : ''} lawyer{sortedLawyers.length !== 1 ? 's' : ''} available
                 </span>
               </div>
               
               <div className="flex items-center gap-2">
-                <SortAsc size={16} className="text-gray-300" />
-                <span className="text-sm text-gray-300">Sort by:</span>
+                <SortAsc size={16} className="text-gray-600" />
+                <span className="text-sm text-gray-700">Sort by:</span>
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-40 bg-gradient-to-r from-gray-700 to-gray-800 border-gray-600 text-white">
+                  <SelectTrigger className="w-40 bg-white border-gray-300 text-gray-900">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gradient-to-b from-gray-800 to-gray-900 border-gray-700">
-                    <SelectItem value="rating" className="text-white hover:bg-gray-700">Highest Rated</SelectItem>
-                    <SelectItem value="experience" className="text-white hover:bg-gray-700">Most Experienced</SelectItem>
-                    <SelectItem value="fee_low" className="text-white hover:bg-gray-700">Fee: Low to High</SelectItem>
-                    <SelectItem value="fee_high" className="text-white hover:bg-gray-700">Fee: High to Low</SelectItem>
+                  <SelectContent className="bg-white border-gray-200">
+                    <SelectItem value="rating" className="text-gray-900 hover:bg-gray-100">Highest Rated</SelectItem>
+                    <SelectItem value="experience" className="text-gray-900 hover:bg-gray-100">Most Experienced</SelectItem>
+                    <SelectItem value="fee_low" className="text-gray-900 hover:bg-gray-100">Fee: Low to High</SelectItem>
+                    <SelectItem value="fee_high" className="text-gray-900 hover:bg-gray-100">Fee: High to Low</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -97,13 +97,13 @@ const Marketplace = () => {
 
         {/* No lawyers found message */}
         {sortedLawyers.length === 0 && (
-          <Card className="mb-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black border border-gray-700 shadow-2xl">
+          <Card className="mb-6 bg-white border border-gray-200 shadow-sm">
             <CardContent className="p-8 text-center">
               <Search size={48} className="text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 No {selectedLegalIssue} lawyers found
               </h3>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 We don't have any lawyers specializing in {selectedLegalIssue} at the moment. Please try again later or contact support.
               </p>
             </CardContent>
