@@ -49,7 +49,7 @@ const PaymentSuccess = ({
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center shadow-sm bg-zinc-950">
-                  <MessageSquare className="h-4 w-4 text-blue-600" />
+                  <MessageSquare className="h-4 w-4 text-blue-600 bg-zinc-200" />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Start Your Consultation</h3>
