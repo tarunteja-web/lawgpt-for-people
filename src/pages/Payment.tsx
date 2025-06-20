@@ -1,13 +1,12 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -27,6 +26,10 @@ const Payment = () => {
   const selectedIssue = localStorage.getItem('selectedLegalIssue') || 'General';
 
   const banks = ['SBI', 'HDFC', 'ICICI', 'Axis Bank', 'Kotak Mahindra'];
+
+  const handleBackToMarketplace = () => {
+    navigate('/marketplace');
+  };
 
   const handleUPIPayment = () => {
     setShowQR(true);
@@ -75,6 +78,16 @@ const Payment = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-4">
       <div className="container mx-auto max-w-2xl">
         <div className="text-center mb-8">
+          <div className="flex items-center justify-center mb-4">
+            <Button
+              variant="outline"
+              onClick={handleBackToMarketplace}
+              className="absolute left-4 flex items-center gap-2"
+            >
+              <ArrowLeft size={16} />
+              Back to Marketplace
+            </Button>
+          </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             Complete Your Payment
           </h1>
