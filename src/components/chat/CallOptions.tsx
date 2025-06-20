@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Phone, MessageCircle, Shield } from 'lucide-react';
+import { Phone, MessageCircle, Shield, Video } from 'lucide-react';
 
 interface CallOptionsProps {
   isDarkMode: boolean;
@@ -27,10 +27,24 @@ const CallOptions: React.FC<CallOptionsProps> = ({
     onClose();
   };
 
+  const handleCallLawyers = () => {
+    console.log('Calling lawyers...');
+    // In a real app, this would initiate a call to lawyers
+    alert('Calling lawyers...');
+    onClose();
+  };
+
   const handleChatTeam = () => {
     console.log('Opening chat with team...');
     // In a real app, this would open a chat interface
     alert('Opening chat with our team...');
+    onClose();
+  };
+
+  const handleVideoCallLawyers = () => {
+    console.log('Starting video call with lawyers...');
+    // In a real app, this would start a video call with lawyers
+    alert('Starting video call with lawyers...');
     onClose();
   };
 
@@ -63,11 +77,27 @@ const CallOptions: React.FC<CallOptionsProps> = ({
             </Button>
 
             <Button
+              onClick={handleCallLawyers}
+              className="w-full bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-3 justify-start py-3"
+            >
+              <Phone className="h-5 w-5" />
+              <span>Call Lawyers</span>
+            </Button>
+
+            <Button
               onClick={handleChatTeam}
               className="w-full bg-black text-white hover:bg-gray-800 flex items-center gap-3 justify-start py-3"
             >
               <MessageCircle className="h-5 w-5" />
               <span>{translations.chatTeam || 'Chat with Our Team'}</span>
+            </Button>
+
+            <Button
+              onClick={handleVideoCallLawyers}
+              className="w-full bg-green-600 text-white hover:bg-green-700 flex items-center gap-3 justify-start py-3"
+            >
+              <Video className="h-5 w-5" />
+              <span>Video Call Lawyers</span>
             </Button>
 
             <Button
