@@ -27,7 +27,7 @@ serve(async (req) => {
                                message.toLowerCase().includes('problem') ||
                                message.toLowerCase().includes('legal matter');
 
-    // Enhanced system prompt for concise legal guidance with case questioning
+    // Enhanced system prompt for concise legal guidance with detailed questioning
     const systemPrompt = `You are LawGPT, a concise legal AI assistant. Give SHORT, DIRECT answers.
 
     Current Context:
@@ -46,14 +46,23 @@ serve(async (req) => {
     7. Be direct and actionable
 
     ${(isFirstMessage || mentionsCaseDetails) ? `
-    SPECIAL INSTRUCTION: Since user is discussing a case, ask these key questions ONCE to gather case details:
+    SPECIAL INSTRUCTION: Since user is discussing their ${legalIssue} case, ask these essential questions ONCE:
+    
+    Personal Details:
+    - What is your full name?
+    - What is your age?
+    - What is your current location/city?
+    
+    Case Details for ${legalIssue}:
     - What specific incident/situation occurred?
-    - When did this happen?
-    - What documents do you have?
+    - When did this happen (exact date/timeframe)?
+    - Who are the other parties involved?
+    - What documents do you have related to this?
     - Have you taken any legal action yet?
     - What outcome are you seeking?
+    - What is your budget for legal assistance?
     
-    Ask these questions in a concise, bullet-point format.` : ''}
+    Ask these questions in a friendly, organized manner with bullet points.` : ''}
     
     Focus: Main legal points, key steps, and essential requirements only.`;
 
@@ -72,7 +81,7 @@ serve(async (req) => {
           { role: 'user', content: message }
         ],
         temperature: 0.5,
-        max_tokens: 200, // Reduced for shorter responses
+        max_tokens: 250, // Increased slightly for detailed questions
       }),
     });
 
