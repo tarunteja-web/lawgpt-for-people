@@ -2,9 +2,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
-import { Mic, MicOff, Send, ArrowLeft } from 'lucide-react';
+import { Mic, MicOff, Send, ArrowLeft, Globe, User, Moon, Sun, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Message {
   id: string;
@@ -16,10 +17,14 @@ interface Message {
 const LawyerChat = () => {
   const navigate = useNavigate();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isListening, setIsListening] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [language, setLanguage] = useState('en');
+  const [isDarkMode, setIsDarkMode] = useState(false);
   
   const lawyer = JSON.parse(localStorage.getItem('selectedLawyer') || '{}');
 
@@ -44,7 +49,7 @@ const LawyerChat = () => {
   };
 
   const handleSendMessage = () => {
-    if (!inputText.trim()) return;
+    if (!inputText.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -55,6 +60,7 @@ const LawyerChat = () => {
 
     setMessages(prev => [...prev, userMessage]);
     setInputText('');
+    setIsLoading(true);
 
     // Simulate lawyer response
     setTimeout(() => {
@@ -65,6 +71,7 @@ const LawyerChat = () => {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, lawyerResponse]);
+      setIsLoading(false);
     }, 2000);
   };
 
@@ -81,71 +88,174 @@ const LawyerChat = () => {
   };
 
   const toggleListening = () => {
-    setIsListening(!isListening);
-    if (!isListening) {
-      setTimeout(() => {
-        setIsListening(false);
-      }, 3000);
+    if (!isLoading) {
+      setIsListening(!isListening);
+      if (!isListening) {
+        setTimeout(() => {
+          setIsListening(false);
+        }, 3000);
+      }
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !isLoading) {
+      handleSendMessage();
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className={`min-h-screen flex flex-col ${
+      isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
+    }`}>
       {/* Header */}
-      <header className="bg-white border-b p-4 flex items-center space-x-4">
-        <Button variant="ghost" size="sm" onClick={() => navigate('/marketplace')}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <div>
-          <h1 className="text-xl font-bold">{lawyer.name}</h1>
-          <p className="text-sm text-gray-600">{lawyer.specialization} • {lawyer.language}</p>
+      <header className={`border-b p-4 flex items-center justify-between ${isMobile ? 'px-2' : ''} ${
+        isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+      }`}>
+        <div className="flex items-center space-x-4">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/marketplace')} className={
+            isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'
+          }>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div>
+            <h1 className={`font-bold ${isMobile ? 'text-lg' : 'text-xl'} ${
+              isDarkMode ? 'text-white' : 'text-black'
+            }`}>{lawyer.name}</h1>
+            <p className={`text-sm ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>{lawyer.specialization} • {lawyer.language}</p>
+          </div>
+        </div>
+        
+        <div className={`flex items-center ${isMobile ? 'space-x-2' : 'space-x-4'}`}>
+          <Select value={language} onValueChange={setLanguage}>
+            <SelectTrigger className={`${isMobile ? 'w-16' : 'w-20'} ${
+              isDarkMode ? 'border-gray-600 bg-gray-800 text-white' : 'border-gray-300'
+            }`}>
+              <div className="flex items-center space-x-2">
+                <Globe className="h-4 w-4" />
+                <SelectValue />
+              </div>
+            </SelectTrigger>
+            <SelectContent className={isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'}>
+              <SelectItem value="en" className={isDarkMode ? 'text-white hover:bg-gray-700' : ''}>EN</SelectItem>
+              <SelectItem value="hi" className={isDarkMode ? 'text-white hover:bg-gray-700' : ''}>हि</SelectItem>
+              <SelectItem value="te" className={isDarkMode ? 'text-white hover:bg-gray-700' : ''}>తె</SelectItem>
+            </SelectContent>
+          </Select>
+          
+          <Button variant="ghost" size="sm" onClick={() => setIsDarkMode(!isDarkMode)} className={
+            isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'
+          }>
+            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
+          
+          <Button variant="ghost" size="sm" className={`flex items-center space-x-2 ${
+            isDarkMode ? 'text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'
+          }`}>
+            <User className="h-4 w-4" />
+          </Button>
         </div>
       </header>
 
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* Messages */}
+      <div className={`flex-1 overflow-y-auto max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'}`}>
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+            className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
           >
-            <Card className={`max-w-md p-4 ${
-              message.isUser 
-                ? 'bg-blue-600 text-white ml-auto' 
-                : 'bg-white'
-            }`}>
-              <p className="text-sm">{message.text}</p>
-              <span className="text-xs opacity-70 mt-2 block">
-                {message.timestamp.toLocaleTimeString()}
-              </span>
-            </Card>
+            {!message.isUser && (
+              <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
+                isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
+              }`}>
+                <p className={`text-sm leading-relaxed ${
+                  isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                }`}>{message.text}</p>
+              </div>
+            )}
+            {message.isUser && (
+              <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
+                isDarkMode ? 'bg-blue-600' : 'bg-black'
+              }`}>
+                <p className="text-sm text-white leading-relaxed">{message.text}</p>
+              </div>
+            )}
           </div>
         ))}
+        
+        {isLoading && (
+          <div className="flex justify-start mb-6">
+            <div className={`rounded-2xl p-4 max-w-md ${
+              isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
+            }`}>
+              <div className="flex items-center space-x-2">
+                <div className="flex space-x-1">
+                  <div className={`w-2 h-2 rounded-full animate-bounce ${
+                    isDarkMode ? 'bg-gray-400' : 'bg-gray-500'
+                  }`} style={{ animationDelay: '0ms' }}></div>
+                  <div className={`w-2 h-2 rounded-full animate-bounce ${
+                    isDarkMode ? 'bg-gray-400' : 'bg-gray-500'
+                  }`} style={{ animationDelay: '150ms' }}></div>
+                  <div className={`w-2 h-2 rounded-full animate-bounce ${
+                    isDarkMode ? 'bg-gray-400' : 'bg-gray-500'
+                  }`} style={{ animationDelay: '300ms' }}></div>
+                </div>
+                <span className={`text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
+                  Lawyer is typing...
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input Area */}
-      <div className="bg-white border-t p-4">
-        <div className="flex items-center space-x-2">
+      <div className={`border-t max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'} ${
+        isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+      }`}>
+        <div className={`flex items-center rounded-full ${isMobile ? 'px-3 py-2 space-x-2' : 'px-4 py-3 space-x-3'} ${
+          isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
+        }`}>
+          <Input
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder={isListening ? "Listening..." : "Type your message to the lawyer..."}
+            disabled={isLoading || isListening}
+            className={`flex-1 border-0 bg-transparent focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ${
+              isDarkMode ? 'text-white placeholder-gray-400' : 'text-black placeholder-gray-500'
+            } ${isListening ? 'placeholder-red-500' : ''}`}
+          />
+          
           <Button
             variant="ghost"
             size="sm"
             onClick={toggleListening}
-            className={isListening ? 'text-red-500' : ''}
+            disabled={isLoading}
+            className={`${isListening ? 'text-red-500' : isDarkMode ? 'text-gray-400' : 'text-gray-500'} hover:bg-transparent`}
           >
-            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
           </Button>
           
-          <Input
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Type your message to the lawyer..."
-            className="flex-1"
-          />
-          
-          <Button onClick={handleSendMessage} size="sm">
-            <Send className="h-4 w-4" />
+          <Button 
+            onClick={handleSendMessage} 
+            size="sm"
+            disabled={isLoading || !inputText.trim() || isListening}
+            className={`rounded-full text-white ${
+              isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-black hover:bg-gray-800'
+            } ${isMobile ? 'p-1.5' : 'p-2'} disabled:opacity-50`}
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Send className="h-4 w-4" />
+            )}
           </Button>
         </div>
         
