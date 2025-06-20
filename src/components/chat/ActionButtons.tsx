@@ -43,22 +43,24 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   ];
 
   return (
-    <div className={`flex justify-center items-center gap-2 px-4 py-6 ${isMobile ? 'flex-wrap' : ''}`}>
-      {buttons.map(button => (
-        <Button
-          key={button.key}
-          variant={button.variant}
-          onClick={button.onClick}
-          className={`flex items-center gap-2 rounded-full border ${
-            isDarkMode 
-              ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700' 
-              : 'border-gray-300 bg-white text-black hover:bg-gray-50'
-          } ${isMobile ? 'px-3 py-2 text-xs' : 'px-6 py-2 text-sm'}`}
-        >
-          <button.icon className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
-          <span className={isMobile ? 'text-xs' : 'text-sm'}>{button.text}</span>
-        </Button>
-      ))}
+    <div className="flex justify-center items-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 sm:py-6 overflow-x-auto">
+      <div className="flex gap-1 sm:gap-2 min-w-max">
+        {buttons.map(button => (
+          <Button
+            key={button.key}
+            variant={button.variant}
+            onClick={button.onClick}
+            className={`flex items-center gap-1 sm:gap-2 rounded-full border whitespace-nowrap ${
+              isDarkMode 
+                ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700' 
+                : 'border-gray-300 bg-white text-black hover:bg-gray-50'
+            } px-2 sm:px-4 md:px-6 py-1 sm:py-2 text-xs sm:text-sm`}
+          >
+            <button.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+            <span className="hidden xs:inline sm:inline">{button.text}</span>
+          </Button>
+        ))}
+      </div>
     </div>
   );
 };

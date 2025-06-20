@@ -19,34 +19,36 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isDarkMode, isLoadi
   }, [messages, isLoading]);
 
   return (
-    <div className={`flex-1 overflow-y-auto max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'}`}>
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
-        >
-          {!message.isUser && (
-            <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
-              isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
-            }`}>
-              <p className={`text-sm leading-relaxed ${
-                isDarkMode ? 'text-gray-200' : 'text-gray-700'
-              }`}>{message.text}</p>
-            </div>
-          )}
-          {message.isUser && (
-            <div className={`rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'} ${
-              isDarkMode ? 'bg-blue-600' : 'bg-black'
-            }`}>
-              <p className="text-sm text-white leading-relaxed">{message.text}</p>
-            </div>
-          )}
-        </div>
-      ))}
-      
-      {isLoading && <TypingIndicator isDarkMode={isDarkMode} />}
-      
-      <div ref={messagesEndRef} />
+    <div className="flex-1 overflow-y-auto">
+      <div className={`max-w-4xl mx-auto w-full px-2 sm:px-4 py-2 sm:py-4`}>
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex mb-4 sm:mb-6 ${message.isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
+          >
+            {!message.isUser && (
+              <div className={`rounded-2xl p-3 sm:p-4 max-w-[90%] sm:max-w-[85%] md:max-w-md ${
+                isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
+              }`}>
+                <p className={`text-sm leading-relaxed ${
+                  isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                }`}>{message.text}</p>
+              </div>
+            )}
+            {message.isUser && (
+              <div className={`rounded-2xl p-3 sm:p-4 max-w-[90%] sm:max-w-[85%] md:max-w-md ${
+                isDarkMode ? 'bg-blue-600' : 'bg-black'
+              }`}>
+                <p className="text-sm text-white leading-relaxed">{message.text}</p>
+              </div>
+            )}
+          </div>
+        ))}
+        
+        {isLoading && <TypingIndicator isDarkMode={isDarkMode} />}
+        
+        <div ref={messagesEndRef} />
+      </div>
     </div>
   );
 };

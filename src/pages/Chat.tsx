@@ -48,31 +48,35 @@ const Chat = () => {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
 
-      <MessageList 
-        messages={messages} 
-        isDarkMode={isDarkMode} 
-        isLoading={isLoading}
-      />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <MessageList 
+          messages={messages} 
+          isDarkMode={isDarkMode} 
+          isLoading={isLoading}
+        />
 
-      <ActionButtons
-        isAnonymous={isAnonymous}
-        isDarkMode={isDarkMode}
-        translations={t}
-        onToggleAnonymous={toggleAnonymous}
-        onActionClick={handleActionClick}
-      />
+        <div className="mt-auto">
+          <ActionButtons
+            isAnonymous={isAnonymous}
+            isDarkMode={isDarkMode}
+            translations={t}
+            onToggleAnonymous={toggleAnonymous}
+            onActionClick={handleActionClick}
+          />
 
-      <ChatInput
-        inputText={inputText}
-        isListening={isListening}
-        isLoading={isLoading}
-        isDarkMode={isDarkMode}
-        translations={t}
-        language={language}
-        onInputChange={setInputText}
-        onSendMessage={handleSendMessage}
-        onToggleListening={toggleListening}
-      />
+          <ChatInput
+            inputText={inputText}
+            isListening={isListening}
+            isLoading={isLoading}
+            isDarkMode={isDarkMode}
+            translations={t}
+            language={language}
+            onInputChange={setInputText}
+            onSendMessage={handleSendMessage}
+            onToggleListening={toggleListening}
+          />
+        </div>
+      </div>
     </div>
   );
 };
