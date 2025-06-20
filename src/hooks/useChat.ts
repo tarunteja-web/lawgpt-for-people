@@ -17,6 +17,7 @@ export const useChat = () => {
   });
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [savedMessages, setSavedMessages] = useState<Message[]>([]);
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   
   const userName = localStorage.getItem('userName') || 'User';
   const selectedIssue = localStorage.getItem('selectedLegalIssue') || 'General';
@@ -26,18 +27,71 @@ export const useChat = () => {
   }, [language]);
 
   useEffect(() => {
-    const t = getTranslations(language);
-    const greeting = t.initialGreeting.replace('{issue}', selectedIssue);
-    
-    const initialMessage: Message = {
-      id: '1',
-      text: greeting,
-      isUser: false,
-      timestamp: new Date()
+    const initializeSession = async () => {
+      const t = getTranslations(language);
+      const greeting = t.initialGreeting.replace('{issue}', selectedIssue);
+      
+      const initialMessage: Message = {
+        id: '1',
+        text: greeting,
+        isUser: false,
+        timestamp: new Date()
+      };
+      
+      setMessages([initialMessage]);
+
+      // Create a new chat session in Supabase
+      try {
+        const { data: session, error: sessionError } = await supabase.auth.getSession();
+        const userId = session?.session?.user?.id || null;
+
+        const { data, error } = await supabase
+          .from('chat_sessions')
+          .insert({
+            user_id: userId,
+            legal_issue: selectedIssue,
+            language: language,
+            is_anonymous: isAnonymous
+          })
+          .select()
+          .single();
+
+        if (error) {
+          console.error('Error creating chat session:', error);
+        } else {
+          setCurrentSessionId(data.id);
+          console.log('Chat session created:', data.id);
+
+          // Store the initial AI greeting message
+          await supabase
+            .from('chat_messages')
+            .insert({
+              session_id: data.id,
+              sender: 'ai',
+              content: greeting
+            });
+        }
+      } catch (error) {
+        console.error('Error initializing chat session:', error);
+      }
     };
-    
-    setMessages([initialMessage]);
-  }, [selectedIssue, language]);
+
+    initializeSession();
+  }, [selectedIssue, language, isAnonymous]);
+
+  const storeMessage = async (message: Message, sessionId: string) => {
+    try {
+      await supabase
+        .from('chat_messages')
+        .insert({
+          session_id: sessionId,
+          sender: message.isUser ? 'user' : 'ai',
+          content: message.text
+        });
+    } catch (error) {
+      console.error('Error storing message:', error);
+    }
+  };
 
   const generateAIResponse = async (userInput: string) => {
     try {
@@ -76,6 +130,12 @@ export const useChat = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    
+    // Store user message in Supabase
+    if (currentSessionId) {
+      await storeMessage(userMessage, currentSessionId);
+    }
+
     setInputText('');
     setIsLoading(true);
 
@@ -90,6 +150,11 @@ export const useChat = () => {
       };
       
       setMessages(prev => [...prev, aiMessage]);
+
+      // Store AI response in Supabase
+      if (currentSessionId) {
+        await storeMessage(aiMessage, currentSessionId);
+      }
     } catch (error) {
       console.error('Error generating AI response:', error);
       const errorMessage: Message = {
@@ -99,6 +164,11 @@ export const useChat = () => {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
+
+      // Store error message in Supabase
+      if (currentSessionId) {
+        await storeMessage(errorMessage, currentSessionId);
+      }
     } finally {
       setIsLoading(false);
     }
