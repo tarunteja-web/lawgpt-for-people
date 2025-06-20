@@ -1,3 +1,3 @@
 
 // Re-export everything from the new modular structure
-export * from './lawyers';
+export * from './lawyers/index';
