@@ -17,7 +17,7 @@ const Launch = () => {
       <div className="text-center z-10 animate-fade-in">
         <div className="mb-8">
           <h1 className="text-6xl md:text-8xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-            LawGPT
+            Legal AI Assistant
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-12">
             Your private AI legal assistant
