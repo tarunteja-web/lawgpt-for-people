@@ -20,23 +20,46 @@ const Payment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col">
+    <div className="min-h-screen bg-gray-50">
       <PaymentHeader />
 
       {/* Main content */}
-      <div className="flex-1 p-4">
-        <div className="container mx-auto max-w-2xl">
-          <div className="text-center mb-8 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white py-8 px-4 rounded-xl">
-            <h2 className="text-2xl md:text-3xl font-bold leading-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
-              Complete Your Payment
-            </h2>
-            <p className="text-sm md:text-lg text-gray-300 max-w-xl mx-auto">
-              Secure payment for your legal consultation
+      <div className="flex-1 p-4 sm:p-6">
+        <div className="container mx-auto max-w-4xl">
+          {/* Header Section */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+              Complete Payment
+            </h1>
+            <p className="text-gray-600 text-lg">
+              Secure checkout for your legal consultation
             </p>
           </div>
 
-          <OrderSummary lawyer={lawyer} selectedIssue={selectedIssue} />
-          <PaymentMethods onPaymentSuccess={handlePaymentSuccess} />
+          {/* Payment Layout */}
+          <div className="grid lg:grid-cols-5 gap-8">
+            {/* Payment Methods - Left Side */}
+            <div className="lg:col-span-3">
+              <PaymentMethods onPaymentSuccess={handlePaymentSuccess} />
+            </div>
+
+            {/* Order Summary - Right Side */}
+            <div className="lg:col-span-2">
+              <div className="sticky top-6">
+                <OrderSummary lawyer={lawyer} selectedIssue={selectedIssue} />
+              </div>
+            </div>
+          </div>
+
+          {/* Security Notice */}
+          <div className="mt-8 text-center">
+            <div className="inline-flex items-center gap-2 text-sm text-gray-500 bg-white px-4 py-2 rounded-full border">
+              <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+              </svg>
+              <span>Your payment information is secure and encrypted</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
