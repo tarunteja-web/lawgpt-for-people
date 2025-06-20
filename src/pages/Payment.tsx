@@ -25,7 +25,7 @@ const Payment = () => {
 
       {/* Main content */}
       <div className="flex-1 p-4 sm:p-6">
-        <div className="container mx-auto max-w-6xl">
+        <div className="container mx-auto max-w-4xl">
           {/* Header Section */}
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
@@ -37,14 +37,14 @@ const Payment = () => {
           </div>
 
           {/* Payment Layout */}
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-5 gap-8">
             {/* Payment Methods - Left Side */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-3">
               <PaymentMethods onPaymentSuccess={handlePaymentSuccess} />
             </div>
 
             {/* Order Summary - Right Side */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-2">
               <div className="sticky top-6">
                 <OrderSummary lawyer={lawyer} selectedIssue={selectedIssue} />
               </div>
