@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -185,36 +184,38 @@ const Chat = () => {
 
     if (isMobile) {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-full">
-              {t.options}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-full">
-            {buttons.map(button => (
-              <DropdownMenuItem 
-                key={button.key} 
-                onClick={button.onClick}
-                className="flex items-center space-x-2"
-              >
-                <button.icon className="h-4 w-4" />
-                <span>{button.text}</span>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="rounded-full">
+                {t.options}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-full">
+              {buttons.map(button => (
+                <DropdownMenuItem 
+                  key={button.key} 
+                  onClick={button.onClick}
+                  className="flex items-center space-x-2"
+                >
+                  <button.icon className="h-4 w-4" />
+                  <span>{button.text}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       );
     }
 
     return (
-      <div className="flex space-x-2 flex-wrap">
+      <div className="flex justify-center space-x-2 flex-wrap">
         {buttons.map(button => (
           <Button
             key={button.key}
             variant={button.variant}
             onClick={button.onClick}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 rounded-full"
           >
             <button.icon className="h-4 w-4" />
             <span>{button.text}</span>
