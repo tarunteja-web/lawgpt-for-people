@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Message } from '@/types/chat';
 import { getTranslations } from '@/utils/translations';
 import { supabase } from '@/integrations/supabase/client';
@@ -11,6 +11,19 @@ interface UseChatSessionProps {
   setCurrentSessionId: (id: string | null) => void;
 }
 
+const INITIAL_QUESTIONS = [
+  "What is your full name?",
+  "What is your age?", 
+  "What is your current location/city?",
+  "What specific incident or situation occurred?",
+  "When did this happen (exact date/timeframe)?",
+  "Who are the other parties involved?",
+  "What documents do you have related to this matter?",
+  "Have you taken any legal action yet?",
+  "What outcome are you seeking?",
+  "What is your budget for legal assistance?"
+];
+
 export const useChatSession = ({ 
   language, 
   isAnonymous, 
@@ -18,6 +31,7 @@ export const useChatSession = ({
   setCurrentSessionId 
 }: UseChatSessionProps) => {
   const selectedIssue = localStorage.getItem('selectedLegalIssue') || 'General';
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   useEffect(() => {
     localStorage.setItem('selectedLanguage', language);
@@ -26,11 +40,14 @@ export const useChatSession = ({
   useEffect(() => {
     const initializeSession = async () => {
       const t = getTranslations(language);
+      
+      // Start with greeting and first question
       const greeting = t.initialGreeting.replace('{issue}', selectedIssue);
+      const firstQuestion = `${greeting}\n\nTo help you better with your ${selectedIssue} case, I need to gather some information. Let's start:\n\n${INITIAL_QUESTIONS[0]}`;
       
       const initialMessage: Message = {
         id: '1',
-        text: greeting,
+        text: firstQuestion,
         isUser: false,
         timestamp: new Date()
       };
@@ -64,7 +81,7 @@ export const useChatSession = ({
             .insert({
               session_id: data.id,
               sender: 'ai',
-              content: greeting
+              content: firstQuestion
             });
         }
       } catch (error) {
@@ -75,5 +92,24 @@ export const useChatSession = ({
     initializeSession();
   }, [selectedIssue, language, isAnonymous, setMessages, setCurrentSessionId]);
 
-  return { selectedIssue };
+  const getNextQuestion = () => {
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex < INITIAL_QUESTIONS.length) {
+      setCurrentQuestionIndex(nextIndex);
+      return INITIAL_QUESTIONS[nextIndex];
+    }
+    return null;
+  };
+
+  const isInQuestioningPhase = () => {
+    return currentQuestionIndex < INITIAL_QUESTIONS.length;
+  };
+
+  return { 
+    selectedIssue, 
+    getNextQuestion, 
+    isInQuestioningPhase,
+    currentQuestionIndex,
+    totalQuestions: INITIAL_QUESTIONS.length
+  };
 };
