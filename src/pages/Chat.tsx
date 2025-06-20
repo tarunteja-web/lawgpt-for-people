@@ -1,12 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, ShieldOff, FileText, Phone, CheckCircle, Mic, MicOff, Send, Globe, User, Moon, Sun } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
+import ChatHeader from '@/components/chat/ChatHeader';
+import MessageList from '@/components/chat/MessageList';
+import ActionButtons from '@/components/chat/ActionButtons';
+import ChatInput from '@/components/chat/ChatInput';
 
 interface Message {
   id: string;
@@ -17,8 +15,6 @@ interface Message {
 
 const Chat = () => {
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
@@ -73,7 +69,6 @@ const Chat = () => {
   const t = translations[language as keyof typeof translations];
 
   useEffect(() => {
-    // Initial AI greeting based on selected issue
     const greeting = `Hello! I'm here to help you with your ${selectedIssue} case. I'll need to ask you a few questions to better understand your situation.`;
     
     const initialMessage: Message = {
@@ -85,14 +80,6 @@ const Chat = () => {
     
     setMessages([initialMessage]);
   }, [selectedIssue]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
@@ -107,7 +94,6 @@ const Chat = () => {
     setMessages(prev => [...prev, userMessage]);
     setInputText('');
 
-    // Simulate AI response
     setTimeout(() => {
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
@@ -120,7 +106,6 @@ const Chat = () => {
   };
 
   const generateAIResponse = (userInput: string, issue: string) => {
-    // Simple AI response logic based on issue type
     if (issue === 'Divorce') {
       return "I understand you're dealing with a divorce matter. Can you tell me if this is a mutual decision or if there are contested issues?";
     }
@@ -129,7 +114,6 @@ const Chat = () => {
 
   const toggleAnonymous = () => {
     if (!isAnonymous) {
-      // Entering anonymous mode
       setSavedMessages(messages);
       setMessages([{
         id: 'anon-1',
@@ -138,7 +122,6 @@ const Chat = () => {
         timestamp: new Date()
       }]);
     } else {
-      // Exiting anonymous mode
       setMessages(savedMessages);
     }
     setIsAnonymous(!isAnonymous);
@@ -146,7 +129,6 @@ const Chat = () => {
 
   const toggleListening = () => {
     setIsListening(!isListening);
-    // Simulate voice recognition
     if (!isListening) {
       setTimeout(() => {
         setIsListening(false);
@@ -168,136 +150,33 @@ const Chat = () => {
     }
   };
 
-  const ActionButtons = () => {
-    const buttons = [
-      { 
-        key: 'anonymous', 
-        icon: isAnonymous ? ShieldOff : Shield, 
-        text: isAnonymous ? t.exitAnonymous : t.anonymous,
-        onClick: toggleAnonymous,
-        variant: isAnonymous ? 'destructive' as const : 'outline' as const
-      },
-      { key: 'document', icon: FileText, text: t.document, onClick: () => handleActionClick('document'), variant: 'outline' as const },
-      { key: 'call', icon: Phone, text: t.call, onClick: () => handleActionClick('call'), variant: 'outline' as const },
-      { key: 'allset', icon: CheckCircle, text: t.allSet, onClick: () => handleActionClick('allset'), variant: 'outline' as const }
-    ];
-
-    return (
-      <div className={`flex justify-center items-center gap-2 px-4 py-6 ${isMobile ? 'flex-wrap' : ''}`}>
-        {buttons.map(button => (
-          <Button
-            key={button.key}
-            variant={button.variant}
-            onClick={button.onClick}
-            className={`flex items-center gap-2 rounded-full border border-gray-300 bg-white text-black hover:bg-gray-50 ${
-              isMobile ? 'px-3 py-2 text-xs' : 'px-6 py-2 text-sm'
-            }`}
-          >
-            <button.icon className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
-            <span className={isMobile ? 'text-xs' : 'text-sm'}>{button.text}</span>
-          </Button>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-white text-black flex flex-col">
-      {/* Header */}
-      <header className={`bg-white border-b border-gray-200 p-4 flex items-center justify-between ${isMobile ? 'px-2' : ''}`}>
-        <div className="flex items-center space-x-4">
-          <h1 className={`font-bold text-black ${isMobile ? 'text-lg' : 'text-xl'}`}>LawGPT</h1>
-          {!isMobile && <span className="text-sm text-gray-500">Legal AI Assistant</span>}
-          {isAnonymous && <Shield className="h-5 w-5 text-gray-400" />}
-        </div>
-        
-        <div className={`flex items-center ${isMobile ? 'space-x-2' : 'space-x-4'}`}>
-          <Select value={language} onValueChange={setLanguage}>
-            <SelectTrigger className={`border-gray-300 ${isMobile ? 'w-16' : 'w-20'}`}>
-              <div className="flex items-center space-x-2">
-                <Globe className="h-4 w-4" />
-                <SelectValue />
-              </div>
-            </SelectTrigger>
-            <SelectContent className="bg-white border border-gray-300">
-              <SelectItem value="en">EN</SelectItem>
-              <SelectItem value="hi">हि</SelectItem>
-              <SelectItem value="te">తె</SelectItem>
-            </SelectContent>
-          </Select>
-          
-          <Button variant="ghost" size="sm" onClick={() => setIsDarkMode(!isDarkMode)} className="text-black hover:bg-gray-100">
-            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
-          
-          <Button variant="ghost" size="sm" className="flex items-center space-x-2 text-black hover:bg-gray-100">
-            <User className="h-4 w-4" />
-          </Button>
-        </div>
-      </header>
+      <ChatHeader
+        isAnonymous={isAnonymous}
+        language={language}
+        isDarkMode={isDarkMode}
+        onLanguageChange={setLanguage}
+        onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
+      />
 
-      {/* Chat Messages */}
-      <div className={`flex-1 overflow-y-auto max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'}`}>
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex mb-6 ${message.isUser ? 'justify-end' : 'justify-start'}`}
-          >
-            {!message.isUser && (
-              <div className={`bg-gray-100 rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'}`}>
-                <p className="text-sm text-gray-700 leading-relaxed">{message.text}</p>
-              </div>
-            )}
-            {message.isUser && (
-              <div className={`bg-black rounded-2xl p-4 ${isMobile ? 'max-w-[85%]' : 'max-w-md'}`}>
-                <p className="text-sm text-white leading-relaxed">{message.text}</p>
-              </div>
-            )}
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
+      <MessageList messages={messages} />
 
-      {/* Action Buttons */}
-      <ActionButtons />
+      <ActionButtons
+        isAnonymous={isAnonymous}
+        translations={t}
+        onToggleAnonymous={toggleAnonymous}
+        onActionClick={handleActionClick}
+      />
 
-      {/* Input Area */}
-      <div className={`bg-white border-t border-gray-200 max-w-4xl mx-auto w-full ${isMobile ? 'p-2' : 'p-4'}`}>
-        <div className={`flex items-center bg-gray-50 rounded-full ${isMobile ? 'px-3 py-2 space-x-2' : 'px-4 py-3 space-x-3'}`}>
-          <Input
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder={t.typeMessage}
-            className="flex-1 border-0 bg-transparent focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-black placeholder-gray-500"
-          />
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleListening}
-            className={`${isListening ? 'text-red-500' : 'text-gray-500'} hover:bg-transparent`}
-          >
-            {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
-          </Button>
-          
-          <Button 
-            onClick={handleSendMessage} 
-            size="sm"
-            className={`bg-black text-white rounded-full hover:bg-gray-800 ${isMobile ? 'p-1.5' : 'p-2'}`}
-          >
-            <Send className="h-4 w-4" />
-          </Button>
-        </div>
-        
-        {isListening && (
-          <div className="mt-2 text-center">
-            <div className="animate-pulse text-red-500 font-medium">
-              🎙 {t.listening}
-            </div>
-          </div>
-        )}
-      </div>
+      <ChatInput
+        inputText={inputText}
+        isListening={isListening}
+        translations={t}
+        onInputChange={setInputText}
+        onSendMessage={handleSendMessage}
+        onToggleListening={toggleListening}
+      />
     </div>
   );
 };
