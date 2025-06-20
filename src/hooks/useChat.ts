@@ -101,7 +101,8 @@ export const useChat = () => {
         body: {
           message: userInput,
           legalIssue: selectedIssue,
-          language: language
+          language: language,
+          messageHistory: messages
         }
       });
 

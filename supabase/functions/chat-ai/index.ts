@@ -16,16 +16,25 @@ serve(async (req) => {
   }
 
   try {
-    const { message, legalIssue, language } = await req.json();
+    const { message, legalIssue, language, messageHistory } = await req.json();
 
     console.log('Received chat request:', { message, legalIssue, language });
 
-    // Enhanced system prompt for concise legal guidance
+    // Check if this is the first message or if user mentions case details
+    const isFirstMessage = !messageHistory || messageHistory.length <= 1;
+    const mentionsCaseDetails = message.toLowerCase().includes('case') || 
+                               message.toLowerCase().includes('issue') || 
+                               message.toLowerCase().includes('problem') ||
+                               message.toLowerCase().includes('legal matter');
+
+    // Enhanced system prompt for concise legal guidance with case questioning
     const systemPrompt = `You are LawGPT, a concise legal AI assistant. Give SHORT, DIRECT answers.
 
     Current Context:
     - Legal Issue: ${legalIssue}
     - Language: ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
+    - First interaction: ${isFirstMessage}
+    - User mentions case: ${mentionsCaseDetails}
     
     Instructions:
     1. Keep responses under 150 words
@@ -35,6 +44,16 @@ serve(async (req) => {
     5. Respond in ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
     6. Include brief disclaimer: "Consult a qualified attorney for specific advice"
     7. Be direct and actionable
+
+    ${(isFirstMessage || mentionsCaseDetails) ? `
+    SPECIAL INSTRUCTION: Since user is discussing a case, ask these key questions ONCE to gather case details:
+    - What specific incident/situation occurred?
+    - When did this happen?
+    - What documents do you have?
+    - Have you taken any legal action yet?
+    - What outcome are you seeking?
+    
+    Ask these questions in a concise, bullet-point format.` : ''}
     
     Focus: Main legal points, key steps, and essential requirements only.`;
 
