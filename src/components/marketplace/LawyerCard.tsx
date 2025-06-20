@@ -142,12 +142,12 @@ const LawyerCard = ({ lawyer, onBookNow }: LawyerCardProps) => {
           )}
 
           {/* Fee Section */}
-          <div className="bg-gray-900 text-white rounded-lg p-3 shadow-sm">
+          <div className="bg-gray-100 border border-gray-200 text-gray-900 rounded-lg p-3 shadow-sm">
             <div className="text-center">
-              <p className="text-xs text-gray-300 mb-1">Consultation Fee</p>
+              <p className="text-xs text-gray-600 mb-1">Consultation Fee</p>
               <div className="flex items-baseline justify-center gap-1">
-                <span className="text-2xl font-bold text-white">₹{lawyer.fee}</span>
-                <span className="text-xs text-gray-300">per session</span>
+                <span className="text-2xl font-bold text-gray-900">₹{lawyer.fee}</span>
+                <span className="text-xs text-gray-600">per session</span>
               </div>
             </div>
           </div>
