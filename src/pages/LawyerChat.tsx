@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Message } from '@/types/chat';
@@ -52,6 +51,13 @@ const LawyerChat = () => {
     
     setMessages([greeting]);
   }, [lawyer.name]);
+
+  // Close sidebar on mobile when route changes or component mounts
+  useEffect(() => {
+    if (isMobile) {
+      setIsSidebarOpen(false);
+    }
+  }, [isMobile]);
 
   const handleSendMessage = () => {
     if (!inputText.trim() || isLoading) return;
@@ -107,43 +113,49 @@ const LawyerChat = () => {
     if (action === 'call') {
       setShowCallOptions(true);
     } else if (action === 'videocall') {
-      // Handle video call action - could navigate to video call page or show video call options
       console.log('Starting video call...');
-      // For now, just log - you could navigate to a video call page or show a video call modal
       alert('Starting video call with ' + lawyer.name);
     } else {
       handleActionClick(action);
     }
   };
 
+  const handleSidebarToggle = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className={`min-h-screen w-full flex ${
+    <div className={`min-h-screen w-full flex overflow-hidden ${
       isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
     }`}>
-      {/* Sidebar - positioned absolutely to not affect main layout */}
-      <div className={`fixed top-0 left-0 h-full z-30 transition-transform duration-300 ${
-        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      {/* Sidebar - responsive positioning */}
+      <div className={`${
+        isMobile 
+          ? `fixed top-0 left-0 h-full z-40 transition-transform duration-300 ${
+              isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+            }`
+          : `transition-all duration-300 ${
+              isSidebarOpen ? 'w-80 flex-shrink-0' : 'w-0'
+            }`
       }`}>
         <LawyerSidebar
           lawyer={lawyer}
           isSidebarOpen={isSidebarOpen}
           isDarkMode={isDarkMode}
-          onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          onToggleSidebar={handleSidebarToggle}
         />
       </div>
 
-      {/* Overlay for mobile when sidebar is open */}
+      {/* Mobile overlay */}
       {isMobile && isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-20"
+          className="fixed inset-0 bg-black bg-opacity-50 z-30"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
-      {/* Main Chat Area - always takes full width */}
-      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
-        !isMobile && isSidebarOpen ? 'ml-80' : 'ml-0'
-      }`}>
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Header */}
         <LawyerChatHeader
           lawyer={lawyer}
@@ -152,11 +164,11 @@ const LawyerChat = () => {
           isSidebarOpen={isSidebarOpen}
           onLanguageChange={setLanguage}
           onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
-          onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          onToggleSidebar={handleSidebarToggle}
         />
 
-        {/* Messages - flex-1 to take available space */}
-        <div className="flex-1">
+        {/* Messages Area - takes remaining space */}
+        <div className="flex-1 overflow-hidden">
           <MessageList
             messages={messages}
             isDarkMode={isDarkMode}
@@ -164,30 +176,34 @@ const LawyerChat = () => {
           />
         </div>
 
-        {/* Action Buttons - fixed position */}
-        <ActionButtons
-          isAnonymous={isAnonymous}
-          isDarkMode={isDarkMode}
-          translations={translations}
-          onToggleAnonymous={toggleAnonymous}
-          onActionClick={handleLawyerActionClick}
-        />
+        {/* Action Buttons - mobile optimized */}
+        <div className={`${isMobile ? 'px-2' : 'px-4'}`}>
+          <ActionButtons
+            isAnonymous={isAnonymous}
+            isDarkMode={isDarkMode}
+            translations={translations}
+            onToggleAnonymous={toggleAnonymous}
+            onActionClick={handleLawyerActionClick}
+          />
+        </div>
 
-        {/* Input Area - fixed at bottom */}
-        <ChatInput
-          inputText={inputText}
-          isListening={isListening}
-          isLoading={isLoading}
-          isDarkMode={isDarkMode}
-          translations={{
-            typeMessage: translations.typeMessage,
-            listening: translations.listening
-          }}
-          language={language}
-          onInputChange={setInputText}
-          onSendMessage={handleSendMessage}
-          onToggleListening={toggleListening}
-        />
+        {/* Input Area - mobile optimized */}
+        <div className={`${isMobile ? 'px-2 pb-2' : 'px-4 pb-4'}`}>
+          <ChatInput
+            inputText={inputText}
+            isListening={isListening}
+            isLoading={isLoading}
+            isDarkMode={isDarkMode}
+            translations={{
+              typeMessage: translations.typeMessage,
+              listening: translations.listening
+            }}
+            language={language}
+            onInputChange={setInputText}
+            onSendMessage={handleSendMessage}
+            onToggleListening={toggleListening}
+          />
+        </div>
       </div>
 
       {/* Call Options Modal */}
