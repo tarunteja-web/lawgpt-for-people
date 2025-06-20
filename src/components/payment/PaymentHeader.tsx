@@ -17,7 +17,7 @@ const PaymentHeader = () => {
         <Button
           variant="outline"
           onClick={handleBackToMarketplace}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-black text-white border-black hover:bg-gray-800 hover:text-white"
         >
           <ArrowLeft size={16} />
           Back to Marketplace

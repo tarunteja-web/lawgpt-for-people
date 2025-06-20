@@ -51,13 +51,17 @@ const PaymentMethods = ({ onPaymentSuccess }: PaymentMethodsProps) => {
           <Button
             onClick={() => setPaymentMethod('upi')}
             variant={paymentMethod === 'upi' ? 'default' : 'outline'}
-            className="w-full text-left justify-start"
+            className={`w-full text-left justify-start ${
+              paymentMethod === 'upi' 
+                ? 'bg-black text-white hover:bg-gray-800' 
+                : 'bg-white text-black border-black hover:bg-black hover:text-white'
+            }`}
           >
             🟢 Pay with UPI
           </Button>
           
           {paymentMethod === 'upi' && !showQR && (
-            <Button onClick={handleUPIPayment} className="w-full">
+            <Button onClick={handleUPIPayment} className="w-full bg-black text-white hover:bg-gray-800">
               Generate QR Code
             </Button>
           )}
@@ -78,7 +82,11 @@ const PaymentMethods = ({ onPaymentSuccess }: PaymentMethodsProps) => {
           <Button
             onClick={() => setPaymentMethod('card')}
             variant={paymentMethod === 'card' ? 'default' : 'outline'}
-            className="w-full text-left justify-start"
+            className={`w-full text-left justify-start ${
+              paymentMethod === 'card' 
+                ? 'bg-black text-white hover:bg-gray-800' 
+                : 'bg-white text-black border-black hover:bg-black hover:text-white'
+            }`}
           >
             🔵 Pay with Card
           </Button>
@@ -131,7 +139,7 @@ const PaymentMethods = ({ onPaymentSuccess }: PaymentMethodsProps) => {
                     </div>
                   </div>
                   
-                  <Button onClick={handleCardPayment} className="w-full">
+                  <Button onClick={handleCardPayment} className="w-full bg-black text-white hover:bg-gray-800">
                     Continue
                   </Button>
                 </div>
@@ -150,7 +158,7 @@ const PaymentMethods = ({ onPaymentSuccess }: PaymentMethodsProps) => {
                     />
                   </div>
                   
-                  <Button onClick={handlePinSubmit} className="w-full">
+                  <Button onClick={handlePinSubmit} className="w-full bg-black text-white hover:bg-gray-800">
                     Complete Payment
                   </Button>
                 </div>

@@ -30,7 +30,7 @@ const PaymentSuccess = ({ lawyer }: PaymentSuccessProps) => {
           
           <Button 
             onClick={proceedToLawyerChat}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full bg-black text-white hover:bg-gray-800"
           >
             Chat with Your Lawyer
           </Button>
