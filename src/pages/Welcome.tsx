@@ -28,10 +28,10 @@ const Welcome = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="text-center max-w-md w-full space-y-8 animate-fade-in">
         <div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-black mb-4">
             Welcome to LawGPT, {userName}!
           </h1>
           <p className="text-gray-600 text-lg">
@@ -40,16 +40,16 @@ const Welcome = () => {
         </div>
         
         <div className="space-y-4">
-          <label className="block text-left text-gray-700 font-medium">
+          <label className="block text-left text-black font-medium">
             Select your legal issue:
           </label>
           <Select value={selectedIssue} onValueChange={setSelectedIssue}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full bg-white border-gray-300 text-black focus:border-gray-400">
               <SelectValue placeholder="Choose a legal area..." />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border-gray-300">
               {legalIssues.map((issue) => (
-                <SelectItem key={issue} value={issue}>
+                <SelectItem key={issue} value={issue} className="text-black hover:bg-gray-50">
                   {issue}
                 </SelectItem>
               ))}
@@ -60,7 +60,7 @@ const Welcome = () => {
         <Button
           onClick={handleContinue}
           disabled={!selectedIssue}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg"
+          className="w-full bg-black hover:bg-gray-800 text-white py-3 text-lg disabled:bg-gray-300 disabled:text-gray-500"
         >
           Continue to Chat
         </Button>
