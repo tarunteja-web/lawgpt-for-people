@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import ChatHeader from '@/components/chat/ChatHeader';
 import MessageList from '@/components/chat/MessageList';
 import ActionButtons from '@/components/chat/ActionButtons';
 import ChatInput from '@/components/chat/ChatInput';
+import CallOptions from '@/components/chat/CallOptions';
 import { useChat } from '@/hooks/useChat';
 import { getTranslations } from '@/utils/translations';
 
@@ -24,7 +25,20 @@ const Chat = () => {
     handleActionClick
   } = useChat();
 
+  const [showCallOptions, setShowCallOptions] = useState(false);
   const t = getTranslations(language);
+
+  const handleCallAction = () => {
+    setShowCallOptions(true);
+  };
+
+  const modifiedHandleActionClick = (action: string) => {
+    if (action === 'call') {
+      handleCallAction();
+    } else {
+      handleActionClick(action);
+    }
+  };
 
   return (
     <div className={`min-h-screen flex flex-col ${
@@ -45,7 +59,7 @@ const Chat = () => {
         isDarkMode={isDarkMode}
         translations={t}
         onToggleAnonymous={toggleAnonymous}
-        onActionClick={handleActionClick}
+        onActionClick={modifiedHandleActionClick}
       />
 
       <ChatInput
@@ -57,6 +71,19 @@ const Chat = () => {
         onSendMessage={handleSendMessage}
         onToggleListening={toggleListening}
       />
+
+      {showCallOptions && (
+        <CallOptions
+          isDarkMode={isDarkMode}
+          translations={{
+            callTeam: t.callTeam || 'Call Our Team',
+            chatTeam: t.chatTeam || 'Chat with Our Team',
+            callPolice: t.callPolice || 'Emergency: Call Police',
+            emergency: t.emergency || 'Emergency'
+          }}
+          onClose={() => setShowCallOptions(false)}
+        />
+      )}
     </div>
   );
 };
