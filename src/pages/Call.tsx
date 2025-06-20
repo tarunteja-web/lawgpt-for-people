@@ -76,7 +76,9 @@ const Call = () => {
             {/* Stats */}
             <div className="flex justify-center gap-8 mb-8">
               <div className="text-center">
-                <div className="flex items-center justify-center gap-1 text-blue-500 mb-1">
+                <div className={`flex items-center justify-center gap-1 mb-1 ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <Clock className="h-4 w-4" />
                   <span className="font-semibold">24/7</span>
                 </div>
@@ -85,7 +87,9 @@ const Call = () => {
                 }`}>Available</p>
               </div>
               <div className="text-center">
-                <div className="flex items-center justify-center gap-1 text-green-500 mb-1">
+                <div className={`flex items-center justify-center gap-1 mb-1 ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <Users className="h-4 w-4" />
                   <span className="font-semibold">500+</span>
                 </div>
@@ -94,7 +98,9 @@ const Call = () => {
                 }`}>Legal Experts</p>
               </div>
               <div className="text-center">
-                <div className="flex items-center justify-center gap-1 text-yellow-500 mb-1">
+                <div className={`flex items-center justify-center gap-1 mb-1 ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <Star className="h-4 w-4" />
                   <span className="font-semibold">4.9/5</span>
                 </div>
@@ -108,12 +114,16 @@ const Call = () => {
           {/* Contact Options */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             {/* Call Team Card */}
-            <Card className={`shadow-lg hover:shadow-xl transition-all duration-300 border-0 ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white'
+            <Card className={`shadow-lg hover:shadow-xl transition-all duration-300 border ${
+              isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
             }`}>
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="h-8 w-8 text-blue-600" />
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
+                  isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                }`}>
+                  <Phone className={`h-8 w-8 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`} />
                 </div>
                 <CardTitle className={`text-2xl font-bold ${
                   isDarkMode ? 'text-white' : 'text-gray-900'
@@ -134,7 +144,11 @@ const Call = () => {
                 </ul>
                 <Button
                   onClick={handleCallTeam}
-                  className="w-full bg-blue-600 text-white hover:bg-blue-700 py-6 text-lg font-semibold"
+                  className={`w-full py-6 text-lg font-semibold ${
+                    isDarkMode 
+                      ? 'bg-white text-black hover:bg-gray-100' 
+                      : 'bg-black text-white hover:bg-gray-800'
+                  }`}
                 >
                   <Phone className="h-5 w-5 mr-2" />
                   Call Now - Free Consultation
@@ -143,12 +157,16 @@ const Call = () => {
             </Card>
 
             {/* Chat Team Card */}
-            <Card className={`shadow-lg hover:shadow-xl transition-all duration-300 border-0 ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white'
+            <Card className={`shadow-lg hover:shadow-xl transition-all duration-300 border ${
+              isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
             }`}>
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MessageCircle className="h-8 w-8 text-green-600" />
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
+                  isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                }`}>
+                  <MessageCircle className={`h-8 w-8 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`} />
                 </div>
                 <CardTitle className={`text-2xl font-bold ${
                   isDarkMode ? 'text-white' : 'text-gray-900'
@@ -169,7 +187,11 @@ const Call = () => {
                 </ul>
                 <Button
                   onClick={handleChatTeam}
-                  className="w-full bg-green-600 text-white hover:bg-green-700 py-6 text-lg font-semibold"
+                  className={`w-full py-6 text-lg font-semibold ${
+                    isDarkMode 
+                      ? 'bg-white text-black hover:bg-gray-100' 
+                      : 'bg-black text-white hover:bg-gray-800'
+                  }`}
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
                   Start Live Chat
@@ -179,22 +201,34 @@ const Call = () => {
           </div>
 
           {/* Emergency Section */}
-          <Card className={`border-2 border-red-500 shadow-lg ${
-            isDarkMode ? 'bg-gray-800' : 'bg-red-50'
+          <Card className={`border-2 shadow-lg ${
+            isDarkMode 
+              ? 'bg-gray-800 border-gray-600' 
+              : 'bg-gray-50 border-gray-400'
           }`}>
             <CardContent className="p-8 text-center">
-              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Shield className="h-10 w-10 text-red-600" />
+              <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 ${
+                isDarkMode ? 'bg-gray-700' : 'bg-gray-200'
+              }`}>
+                <Shield className={`h-10 w-10 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`} />
               </div>
-              <h3 className="text-2xl font-bold text-red-600 mb-4">Emergency Legal Assistance</h3>
+              <h3 className={`text-2xl font-bold mb-4 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>Emergency Legal Assistance</h3>
               <p className={`text-lg mb-6 ${
-                isDarkMode ? 'text-gray-300' : 'text-red-700'
+                isDarkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 If you're facing an immediate legal emergency or safety concern, contact emergency services right away.
               </p>
               <Button
                 onClick={handleCallPolice}
-                className="bg-red-600 text-white hover:bg-red-700 py-6 px-8 text-lg font-semibold"
+                className={`py-6 px-8 text-lg font-semibold ${
+                  isDarkMode 
+                    ? 'bg-white text-black hover:bg-gray-100' 
+                    : 'bg-black text-white hover:bg-gray-800'
+                }`}
               >
                 <Shield className="h-6 w-6 mr-3" />
                 Call Emergency Services (100)
