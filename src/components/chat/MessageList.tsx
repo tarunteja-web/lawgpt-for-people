@@ -1,13 +1,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
-
-interface Message {
-  id: string;
-  text: string;
-  isUser: boolean;
-  timestamp: Date;
-}
+import { Message } from '@/types/chat';
 
 interface MessageListProps {
   messages: Message[];
