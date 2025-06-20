@@ -20,16 +20,12 @@ serve(async (req) => {
 
     console.log('Received chat request:', { message, legalIssue, language });
 
-    // Check if this is the first user message (after the initial AI greeting)
-    const isFirstUserMessage = !messageHistory || messageHistory.length <= 2;
-    
-    // Enhanced system prompt for concise legal guidance with automatic questioning
+    // Enhanced system prompt for concise legal guidance
     const systemPrompt = `You are LawGPT, a concise legal AI assistant. Give SHORT, DIRECT answers.
 
     Current Context:
     - Legal Issue: ${legalIssue}
     - Language: ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
-    - First user interaction: ${isFirstUserMessage}
     
     Instructions:
     1. Keep responses under 150 words
@@ -39,28 +35,7 @@ serve(async (req) => {
     5. Respond in ${language === 'hi' ? 'Hindi' : language === 'te' ? 'Telugu' : 'English'}
     6. Include brief disclaimer: "Consult a qualified attorney for specific advice"
     7. Be direct and actionable
-
-    ${isFirstUserMessage ? `
-    SPECIAL INSTRUCTION: This is the user's first message. Before answering their question, ask these essential questions to help with their ${legalIssue} case:
-    
-    📋 **Let me gather some details to help you better:**
-    
-    **Personal Information:**
-    • What is your full name?
-    • What is your age?
-    • What is your current location/city?
-    
-    **Your ${legalIssue} Case Details:**
-    • What specific incident or situation occurred?
-    • When did this happen (exact date/timeframe)?
-    • Who are the other parties involved?
-    • What documents do you have related to this matter?
-    • Have you taken any legal action yet?
-    • What outcome are you seeking?
-    • What is your budget for legal assistance?
-    
-    After asking these questions, provide a brief answer to their current question.
-    ` : ''}
+    8. If user provides personal details, acknowledge them and provide tailored advice
     
     Focus: Main legal points, key steps, and essential requirements only.`;
 
@@ -79,7 +54,7 @@ serve(async (req) => {
           { role: 'user', content: message }
         ],
         temperature: 0.5,
-        max_tokens: 300, // Increased for questions + brief answer
+        max_tokens: 200,
       }),
     });
 
