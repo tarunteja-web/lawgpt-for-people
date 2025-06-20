@@ -134,7 +134,7 @@ const LawyerSidebar: React.FC<LawyerSidebarProps> = ({
             }`}>Chat History</h3>
           </div>
           
-          <div className="max-h-64 overflow-y-auto">
+          <div>
             {chatHistory.map((chat) => (
               <div
                 key={chat.id}
